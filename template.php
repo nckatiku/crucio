@@ -2,7 +2,6 @@
 <html ng-app="crucioApp" id="ng-app">
 	<head>
 		<?php include 'parts/header.php'; ?>
-
 		<title ng-controller="titleCtrl" ng-bind="Page.title()"></title>
 	</head>
 
@@ -13,6 +12,6 @@
 			<div ng-view class="external-ctrl"></div>
 		</div>
 
-		<?php include 'parts/footer.html'; ?>
+		<?php include 'parts/footer.php'; ?>
 	</body>
 </html>

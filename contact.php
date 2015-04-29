@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html ng-app="crucioApp" id="ng-app">
 	<head>
-		<title>Kontakt | Crucio </title>
 		<?php include 'parts/header.php'; ?>
+		<title>Kontakt | Crucio</title>
 
 		<script type="text/ng-template" id="myModalContent.html">
 		    <div class="modal-header">
@@ -87,6 +87,6 @@
 			</div>
 		</div>
 
-		<?php require_once('parts/footer.html'); ?>
+		<?php require_once('parts/footer.php'); ?>
 	</body>
 </html>

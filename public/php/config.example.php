@@ -4,7 +4,10 @@ return array(
     'host' => '',
     'dbname' => '',
     'user' => '',
-    'password' => ''
+    'password' => '',
+    
+    'location' => '',
+    'representationname' => ''
 );
 
 ?>

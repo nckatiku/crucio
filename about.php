@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html ng-app="crucioApp" id="ng-app">
 	<head>
-		<title>Impressum | Crucio </title>
 		<?php include 'parts/header.php'; ?>
+		<title>Impressum | Crucio</title>
 	</head>
 
 	<body class="body-padding" ng-controller="aboutCtrl">
@@ -63,6 +63,6 @@
 			</div>
 		</div>
 
-		<?php require_once('parts/footer.html'); ?>
+		<?php require_once('parts/footer.php'); ?>
 	</body>
 </html>

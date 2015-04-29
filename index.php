@@ -2,8 +2,8 @@
 <!-- ID NG-App for Internet Explorer Support -->
 <html ng-app="crucioApp" id="ng-app">
 	<head>
-	    <title>Crucio | Fachschaft Medizin Leipzig</title>
 		<?php include 'parts/header.php'; ?>
+		<title>Crucio | Fachschaft Medizin <?php echo $config['location'] ?></title>
 		
 		<!-- Smooth Scrollling-->
 		<script>
@@ -61,7 +61,7 @@
 					    <h1><i class="fa fa-check-square-o"></i> Crucio<span ng-show="is_dev">Dev</span></h1>
 					    
 					    <p>
-						    ... hilft dir bei der Vorbereitung für Medizinklausuren an der Universität Leipzig.
+						    ... hilft dir bei der Vorbereitung für Medizinklausuren an der Universität <?php echo $config['location'] ?>.
 							Hier werden Übungsfragen aus dem Studium gesammelt, gekreuzt und erklärt.
 						</p>
 						
@@ -121,7 +121,7 @@
 				    <div class="col-sm-4 info-block-crucio">
 				    	<i class="fa fa-car"></i>
 				    	<h2>Überall</h2>
-				    	<p>Du kannst Klausuren und deren Lösungszettel seperat ausdrucken. Außerdem ist Crucio für Smartphones und Tablets angepasst. So kannst du überall entfallende Antworten nachschauen oder unterwegs weiterlernen. Füge doch Crucio zu deinem Startbildschirm als hinzu!</p>
+				    	<p>Du kannst Klausuren und deren Lösungszettel separat ausdrucken. Außerdem ist Crucio für Smartphones und Tablets angepasst. So kannst du überall entfallende Antworten nachschauen oder unterwegs weiterlernen. Füge doch Crucio zu deinem Startbildschirm als hinzu!</p>
 				    </div>
 
 				    <div class="col-sm-4 info-block-crucio">
@@ -137,12 +137,12 @@
 					<i class="fa fa-magic fa-5x"></i>
 					<h4>Noch nicht registriert?</h4>
 					<p>
-						Auf gehts, Crucio ist seit kurzem freigeschaltet! Wenn du gar nicht in Leipzig studierst, dann kannst du uns gerne mal anschreiben, vielleicht können wir dir helfen...
+						Auf gehts, Crucio ist seit kurzem freigeschaltet! Wenn du gar nicht in <?php echo $config['location'] ?> studierst, dann kannst du uns gerne mal anschreiben, vielleicht können wir dir helfen...
 					</p>
 				</div>
 			</div>
 	    </div>
 
-	    <?php include 'parts/footer.html'; ?>
+	    <?php include 'parts/footer.php'; ?>
 	</body>
 </html>

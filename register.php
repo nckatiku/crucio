@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html ng-app="crucioApp" id="ng-app">
 	<head>
-		<title>Registrieren | Crucio </title>
 		<?php include 'parts/header.php'; ?>
+		<title>Registrieren | Crucio</title>
 	</head>
 
 	<body class="body" ng-controller="registerCtrl">
@@ -126,6 +126,6 @@
 			</div>
 		</div>
 
-		<?php include 'parts/footer.html'; ?>
+		<?php include 'parts/footer.php'; ?>
 	</body>
 </html>

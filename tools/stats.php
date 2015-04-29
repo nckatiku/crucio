@@ -534,6 +534,6 @@
 			</div>
 		</div>
 
-		<?php require_once('parts/footer.html'); ?>
+		<?php require_once('parts/footer.php'); ?>
 	</body>
 </html>
