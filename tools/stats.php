@@ -224,7 +224,7 @@
 	    		</div>
     		</div>
 
-			<div class="container-back-image" style="margin-top:2px;">
+			<div class="container-back-image container-padding-4">
 				<div class="container container-text container-text-light">
     				<i class="fa fa-bar-chart fa-5x"></i>
     				<h4>Live Statistik</h4>
@@ -383,8 +383,6 @@
 									<h5>Nutzer</h5>
 									<canvas linechart data="::chart_time_user" width="600" height="300"></canvas>
 								</center>
-
-								<br><br><br>
 							</div>
 
 				    		<div class="tab-pane" id="questions">
@@ -531,6 +529,6 @@
 			</div>
 		</div>
 
-		<?php require_once('parts/footer.php'); ?>
+		<?php require_once('../parts/footer.php'); ?>
 	</body>
 </html>
