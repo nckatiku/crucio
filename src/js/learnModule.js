@@ -132,7 +132,7 @@ angular.module('learnModule', [])
 
 		$http.get('api/v1/comments/' + $scope.user.user_id).success(function(data) {
 			$scope.comments = data.comments;
-
+			
 			$scope.questions_by_comment = {};
 		    $scope.comments.forEach(function(c) {
 			    $scope.questions_by_comment[c.question] = [];
@@ -167,7 +167,7 @@ angular.module('learnModule', [])
 			var exam_id = $scope.exams[index].exam_id;
 			$scope.exams[index].answered_questions = 0;
 			var post_data = {};
-			$http.delete('api/v1/results/' + $scope.user.user_id + '/' + exam_id, post_data).success(function(data) { console.log(data); });
+			$http.delete('api/v1/results/' + $scope.user.user_id + '/' + exam_id, post_data).success(function(data) { });
 		}
 
 		$scope.reset_abstract_results = function(index) {
@@ -235,8 +235,6 @@ angular.module('learnModule', [])
 				$http.get('api/v1/questions/search/' + $scope.question_search_query + '/' + $scope.user.user_id).success(function(data) {
 				    spinner.stop();
 
-				    console.log(data);
-
 		    	    if (data.result.length == 0) {
 			    	    $scope.question_field_message = 'Nichts gefunden ;(';
 
@@ -299,14 +297,11 @@ angular.module('learnModule', [])
 		}
 
 		$scope.hand_exam = function() {
-			console.log('questionList Abgabe');
-			console.log($scope.questionList);
 			sessionStorage.currentQuestionList = angular.toJson($scope.questionList);
 			$location.path('/analysis').search('id', null);
 		}
 
 		$scope.open_image_model = function (file_name) {
-			console.log('Current Index', $scope.current_index);
 			var modalInstance = $modal.open({
 		    	templateUrl: 'imageModalContent.html',
 		    	controller: 'ModalInstanceCtrl',
@@ -330,9 +325,9 @@ angular.module('learnModule', [])
 
 		$scope.question_id = $routeParams['id'];
 		$scope.reset_session = $routeParams['reset_session'];
-
-		if (!$scope.question_id)
-			window.location.replace('/questions');
+		
+		// If Question does not exists, pass forward to the questions page
+		if (!$scope.question_id) { window.location.replace('/questions'); }
 
 		$scope.show_explanation = 0;
 		$scope.given_result = 0;
@@ -375,11 +370,14 @@ angular.module('learnModule', [])
 					$scope.question.question_image_url = '/public/files/' + $scope.question.question_image_url;
 				}
 			}
-
-			for (var i = 0; i < $scope.question.comments.length; i++) {
-				$scope.question.comments[i].voting = ( parseInt($scope.question.comments[i].voting) || 0 );
-				$scope.question.comments[i].user_voting = ( parseInt($scope.question.comments[i].user_voting) || 0 );
+			
+			if ($scope.question.comments) {
+				for (var i = 0; i < $scope.question.comments.length; i++) {
+					$scope.question.comments[i].voting = ( parseInt($scope.question.comments[i].voting) || 0 );
+					$scope.question.comments[i].user_voting = ( parseInt($scope.question.comments[i].user_voting) || 0 );
+				}
 			}
+			
 
 			function image_exist(url) {
 			   var img = new Image();
@@ -411,7 +409,6 @@ angular.module('learnModule', [])
 			});
 
 			if ($scope.given_result) {
-				console.log('question get given_result', $scope.given_result);
 				$scope.check_answer($scope.given_result);
 			}
 
@@ -432,9 +429,7 @@ angular.module('learnModule', [])
 	    	if($scope.question.type == 1) { correct = -1; }
 
 	    	var post_data = {'correct': correct, 'question_id': $scope.question_id, 'user_id': $scope.user.user_id, 'given_result': $scope.given_result};
-	    	$http.post('api/v1/results', post_data).success(function(data) {
-		    	console.log(data);
-	    	});
+	    	$http.post('api/v1/results', post_data).success(function(data) { });
 
 
 			if ($scope.questionList) {
@@ -449,7 +444,6 @@ angular.module('learnModule', [])
 
 		// -- Saves the Answer
 		$scope.save_answer = function(given_answer) {
-			// console.log(given_answer);
 			$scope.given_result = given_answer;
 
 			if ($scope.questionList) {

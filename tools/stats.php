@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html ng-app="crucioApp2">
 	<head>
-		<title>Stats | Crucio </title>
 		<?php include '../parts/header.php'; ?>
+		<title>Stats | Crucio </title>
 
 		<script>
 			var crucioApp2 = angular.module('crucioApp2', ['ui.bootstrap', 'angles']);
@@ -209,28 +209,25 @@
 	</head>
 
 	<body class="body">
-
 		<div class="wrap">
-			<div class="container-white">
-    			<div class="container container-top-bar">
-	    			<div class="row">
-			    		<div class="col-md-9 col-md-offset-1 col-sm-7 col-sm-offset-1">
-							<h1><a href="/" target="_self"><i class="fa fa-check-square-o"></i> Crucio</a></h1>
-			    		</div>
+    		<div class="container container-top-bar">
+	    		<div class="row">
+					<div class="col-md-9 col-md-offset-1 col-sm-7 col-sm-offset-1">
+						<h1><a href="/" target="_self"><i class="fa fa-check-square-o"></i> Crucio</a></h1>
+					</div>
 
-			    		<div class="col-xs-6 col-md-2 col-sm-3">
-				    		<a class="btn btn-block btn-index-top" href="admin">
-					        	<i class="fa fa-sign-in fa-fw hidden-xs"></i> Admin
-							</a>
-			    		</div>
-	    			</div>
-    			</div>
+					<div class="col-xs-6 col-md-2 col-sm-3">
+			    		<a class="btn btn-block btn-index-top" href="admin">
+				        	<i class="fa fa-sign-in fa-fw hidden-xs"></i> Admin
+						</a>
+					</div>
+	    		</div>
     		</div>
 
-			<div class="top-bottom-padding container-back-image" style="margin-top:2px;">
-				<div class="container container-center-text-light">
+			<div class="container-back-image" style="margin-top:2px;">
+				<div class="container container-text container-text-light">
     				<i class="fa fa-bar-chart fa-5x"></i>
-    				<h3>Live Statistik</h3>
+    				<h4>Live Statistik</h4>
     			</div>
 			</div>
 

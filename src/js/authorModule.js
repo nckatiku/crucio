@@ -308,7 +308,6 @@ angular.module('authorModule', [])
 		    			if(!question.question_id) {
 		    				$http.post('api/v1/questions', post_question_data).success(function(data) {
 		    					question.question_id = data.question_id;
-		    					console.log(data);
 							});
 
 		    			} else {

@@ -78,7 +78,6 @@ angular.module('userModule', ['ipCookie'])
 		} else {
 			var post_data = {'token': $scope.token};
 			$http.post('api/v1/users/action/activate', post_data).success(function(data) {
-				console.log(data);
 			    if (data.status == 'error_unknown') {
 					$scope.success = 0;
 					$scope.error_no_token = 0;
@@ -200,7 +199,6 @@ angular.module('userModule', ['ipCookie'])
 				$scope.email += '@studserv.uni-leipzig.de';
 
 			var post_data = {email: $scope.email.replace('@','(@)'), remember_me: $scope.remember_me, password: $scope.password};
-
 			$http.post('api/v1/users/action/login', post_data).success(function(data) {
 				if (data['login'] == 'success') {
 				    if ($scope.remember_me == 1)
@@ -284,8 +282,6 @@ angular.module('userModule', ['ipCookie'])
 				var post_data = {'email': $scope.user.email.replace('@','(@)'), 'course_id': $scope.user.course_id, 'semester': $scope.user.semester, 'current_password': $scope.old_password, 'password': $scope.new_password};
 
 				$http.put('api/v1/users/' + $scope.user.user_id + '/account', post_data).success(function(data, status, headers) {
-					console.log(data);
-
 					if(data.status == 'success') {
 				    	sessionStorage.user = angular.toJson($scope.user);
 				    	$scope.submit_button_title = 'Gespeichert';

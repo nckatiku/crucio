@@ -14,31 +14,33 @@ angular.module('adminModule', [])
 
 		$scope.$watch("comment_search", function( newValue, oldValue ) {
 			$scope.questions_by_comment_display = [];
-			$scope.questions_by_comment.forEach(function(comments) {
-				for (var i = 0; i < comments.length; i++) {
-					var comment = comments[i];
-					
-					// Check if Comment satisfies search query
-					if (Selection.is_element_included(comment, newValue)) {
-						var found_idx = -1;
-						for (var j = 0; j < $scope.questions_by_comment_display.length; j++) {
-						    if ($scope.questions_by_comment_display[j][0].question == comment.question) {
-						        found_idx = j;
-						        break;
-						    }
-						}
+			if ($scope.questions_by_comment) {
+				$scope.questions_by_comment.forEach(function(comments) {
+					for (var i = 0; i < comments.length; i++) {
+						var comment = comments[i];
 						
-						// Add to Array at Found Index
-						if (found_idx > -1) {
-							$scope.questions_by_comment_display[found_idx].push(comment);
+						// Check if Comment satisfies search query
+						if (Selection.is_element_included(comment, newValue)) {
+							var found_idx = -1;
+							for (var j = 0; j < $scope.questions_by_comment_display.length; j++) {
+							    if ($scope.questions_by_comment_display[j][0].question == comment.question) {
+							        found_idx = j;
+							        break;
+							    }
+							}
 							
-						// Create New Array
-						} else {
-							$scope.questions_by_comment_display.push([comment]);
+							// Add to Array at Found Index
+							if (found_idx > -1) {
+								$scope.questions_by_comment_display[found_idx].push(comment);
+								
+							// Create New Array
+							} else {
+								$scope.questions_by_comment_display.push([comment]);
+							}
 						}
 					}
-				}
-		    });
+		    	});
+			}
 		    $scope.questions_by_comment_display.sort(function(a, b) {return b[0].date - a[0].date});
 		}, true);
 

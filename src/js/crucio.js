@@ -106,10 +106,8 @@ crucioApp.run(function (ipCookie, $rootScope, $location) {
 	var routesForAdmin = ['/admin']; // + Author Routes
 
 	$rootScope.user = angular.fromJson(sessionStorage.user);
-	
 	$rootScope.is_dev = is_dev;
-	// console.log('Is Dev Version?', is_dev);
-	
+
 	var cookieUser = ipCookie('CrucioUser');
 
 	if(!$rootScope.user) {
