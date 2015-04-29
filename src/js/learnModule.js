@@ -396,7 +396,7 @@ angular.module('learnModule', [])
 			    output: null,
 			    tagsContainer: null,
 			    tagCloseIcon: '&times;',
-			    tagClass: 'tm-tag-error',
+			    tagClass: 'tm-tag-danger',
 			    onlyTagList: false,
 			    createHandler: function(tagManager, tags) {
 			    	var post_data = {'tags': tags, 'question_id': $scope.question_id, 'user_id': $scope.user.user_id};
