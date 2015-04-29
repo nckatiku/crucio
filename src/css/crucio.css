@@ -13,18 +13,14 @@ html {
   margin: 0 auto -61px;
   padding: 0 0 60px;
 }
-.text-right {
-  text-align: right;
-}
-.top-bottom-padding {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
 .row-slider {
   margin: 8px;
 }
 .row-slider .ui-slider {
   margin-top: 5px;
+}
+.row-slider .text-right {
+  text-align: right;
 }
 .question-answer {
   padding: 6px;
@@ -399,17 +395,6 @@ html {
   font-size: 192px;
   color: #ddd;
   margin: 20px;
-}
-.learn-subjects {
-  margin-top: 20px;
-  margin-bottom: 30px;
-}
-.learn-subjects center {
-  margin: 10px;
-}
-.learn-subjects span {
-  margin-left: 10px;
-  margin-right: 10px;
 }
 .spinner {
   position: absolute;
