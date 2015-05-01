@@ -16,8 +16,8 @@ gulp.task('less', function() {
 });
 
 gulp.task('css', ['less'], function() {
-	return gulp.src('src/css/**/*.css')
-		.pipe(order(['src/css/**/*.css', 'src/css/crucio.css']))
+	return gulp.src('src/css/*.css')
+		.pipe(order(['src/css/*.css', 'src/css/crucio.css']))
     	.pipe(concat('crucio.css'))
     	.pipe(minifyCss())
     	.pipe(rename({ suffix: '.min' }))
@@ -26,7 +26,7 @@ gulp.task('css', ['less'], function() {
 
 // Compile JS
 gulp.task('js', function() {
-	return gulp.src('src/js/**/*.js')
+	return gulp.src('src/js/*.js')
     	.pipe(concat('crucio.js'))
     	.pipe(uglify({ mangle: false }))
     	.pipe(rename({ suffix: '.min' }))
@@ -36,16 +36,16 @@ gulp.task('js', function() {
 
 // Compile Mail Templates
 gulp.task('mail', function() {
-	return gulp.src('src/mail-templates/**/*.php')
+	return gulp.src('src/mail-templates/*.php')
     	.pipe(inlineCss())
 		.pipe(gulp.dest('public/mail-templates/'));
 })
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-	gulp.watch('src/less/**/*.less', ['less', 'css']);
-	gulp.watch('src/js/**/*.js', ['js']);
-	gulp.watch('src/mail-templates/**/*.php', ['mail']);
+	gulp.watch('src/less/*.less', ['less', 'css']);
+	gulp.watch('src/js/*.js', ['js']);
+	gulp.watch('src/mail-templates/*.php', ['mail']);
 });
 
 // Default Task
