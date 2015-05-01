@@ -41,16 +41,13 @@ angular.module('learnModule', [])
 
 		$scope.$watch("number_questions_in_choosen_subjects", function( newValue, oldValue ) {
 			var max = $scope.number_questions_in_choosen_subjects;
-			if (max > 200)
-				max = 200;
+			if (max > 200) { max = 200; }
+				
 
 			var step = 10;
-			if (max < 100)
-				step = 10;
-			if (max < 40)
-				step = 4;
-			if (max < 20)
-				step = 1;
+			if (max < 40) { step = 4; }
+			if (max < 20) { step = 1; }
+				
 
 			if (max < 200)
 				if (max % step != 0)
@@ -68,19 +65,21 @@ angular.module('learnModule', [])
 		    $scope.exams.forEach(function(entry) {
 		    	var select = true;
 
-		    	if (entry.semester != $scope.user.semester) select = false;
-		    	if (entry.date == 'unbekannt') select = false;
+		    	if (entry.semester != $scope.user.semester) { select = false; }
+		    	if (entry.date == 'unbekannt') { select = false; }
 
 		    	if ($scope.exams.length > 10)
-			    	if (entry.question_count < 30) select = false;
+			    	if (entry.question_count < 30) { select = false; }
 
-		    	if (entry.answered_questions > 0) select = true;
+		    	if (entry.answered_questions > 0) { select = true; }
 
 		    	if (select) {
-		    		if (entry.answered_questions > 0)
+		    		if (entry.answered_questions > 0) {
 			    		$scope.abstract_exams.unshift(entry);
-		    		else
+		    		
+		    		} else {
 			    		$scope.abstract_exams.push(entry);
+		    		}
 		    	}
 		    });
 
@@ -182,8 +181,7 @@ angular.module('learnModule', [])
 			var selection = $scope.selection_subject_list;
 			var subjects = $scope.subject_list;
 
-			if (!checked)
-				checked = false;
+			if (!checked) { checked = false; }
 
 			if (Object.keys(selection).indexOf(subject) > -1) { // If Subject in Selection Keys
 				if (selection[subject].length == 0) { // If Subject in Selection has Empty Array
@@ -380,15 +378,17 @@ angular.module('learnModule', [])
 			
 
 			function image_exist(url) {
-			   var img = new Image();
-			   img.src = url;
-			   return img.height != 0;
+				var img = new Image();
+				img.src = url;
+				return img.height != 0;
 			}
 
 			// Tag Functions
 			var tags = [];
-			if ($scope.question.tags)
+			if ($scope.question.tags) {
 				tags = $scope.question.tags.split(',');
+			}
+				
 			$('#tagInput').tagsManager({
 			    prefilled: tags,
 			    maxTags: 5,
@@ -412,8 +412,9 @@ angular.module('learnModule', [])
 				$scope.check_answer($scope.given_result);
 			}
 
-			if ($scope.show_answer)
+			if ($scope.show_answer) {
 				$scope.mark_answer($scope.given_result);
+			}
 
 			// User has seen the Question
 			// $scope.save_answer(-1);

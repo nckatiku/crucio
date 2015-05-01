@@ -1,10 +1,16 @@
 <?php
+	
+// Umlaute beachten...
 
 return array(
-    'location' => 'Leipzig',
+	'representation-name' => 'StuRaMed',
+    'representation-website' => 'www.sturamed-leipzig.de',
+    
     'website' => 'www.crucio-leipzig.de',
-    'representation-name' => 'Sturamed',
-    'representation-website' => 'www.sturamed-leipzig.de'
+    
+	'address' => 'Liebigstra&szlig;e 27',
+	'postcode' => '04103',
+    'city' => 'Leipzig'
 );
 
 ?>

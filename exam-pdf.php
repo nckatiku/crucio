@@ -3,6 +3,8 @@
 require_once('public/php/tcpdf/tcpdf.php');
 require_once('api/v1/funcs.general.php');
 
+$config = include('public/php/config.php');
+
 $exam_id = $_GET['id'];
 
 $mysql = start_mysql();
@@ -32,6 +34,8 @@ class crucioPDF extends TCPDF {
 	}
 
     function Footer() {
+	    global $config;
+	    
         $this->SetY(-30);
         $this->SetFont('dejavusans', 'I', 10);
         $this->Ln(5);
@@ -42,7 +46,7 @@ class crucioPDF extends TCPDF {
             $txt = sprintf($txt, $this->getGroupPageNo(), $this->getPageGroupAlias());
         }
         $this->MultiCell(0, 0, $txt, 0, 'C', false, 1, PDF_MARGIN_LEFT, $this->y);
-        $this->MultiCell(0, 0, 'www.crucio-leipzig.de', 0, 'C', false, 1, PDF_MARGIN_LEFT, $this->y, 'http://www.crucio-leipzig.de');
+        $this->MultiCell(0, 0, 'Crucio | StuRaMed | '.$config['website'], 0, 'C', false, 1, PDF_MARGIN_LEFT, $this->y, 'http://'.$config['website']);
     }
 }
 
@@ -104,7 +108,6 @@ for ($i = 0; $i < count($questions); $i++) {
 
 	$pdf->Ln(8);
 }
-
 
 $pdf->Output('crucio-klausur-'.$exam_id.'.pdf', 'I');
 

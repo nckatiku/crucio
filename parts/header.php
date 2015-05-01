@@ -33,6 +33,7 @@
 <script src="public/js/spinjs/spin.js"></script>
 <script src="public/js/angles/angles.js"></script>
 <script src="public/js/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="public/js/smooth-scroll.min.js"></script>
 
 <!--script src="public/js/dep.min.js"></script-->
 <script src="public/js/crucio.min.js"></script>

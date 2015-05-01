@@ -43,52 +43,30 @@ crucioApp.config(function($routeProvider, $locationProvider) {
 
     $routeProvider
     	.when('', { templateUrl: 'index.php', controller: 'loginCtrl' })
-
     	.when('/', { templateUrl: 'index.php', controller: 'loginCtrl' })
-
     	.when('/forgot-password', { templateUrl: 'forgot-password.php', controller: 'forgotPasswordCtrl' })
-
     	.when('/register', { templateUrl: 'register.php', controller: 'registerCtrl' })
-
     	.when('/activate-account', { templateUrl: 'activate-account.php', controller: 'activateCtrl' })
-
     	.when('/contact', { templateUrl: 'contact.php', controller: 'contactCtrl' })
-
     	.when('/about', { templateUrl: 'about.php', controller: 'aboutCtrl' })
-
     	.when('/blog', { templateUrl: 'blog.php', controller: 'blogCtrl' })
-
     	.when('/stats', { templateUrl: 'stats.php', controller: 'blogCtrl' })
 
 
 		.when('/questions', { templateUrl : 'views/questions.html', controller: 'questionsCtrl' })
-
     	.when('/author', { templateUrl : 'views/author.html', controller: 'authorCtrl' })
-
     	.when('/admin', { templateUrl : 'views/admin.html', controller: 'adminCtrl' })
-
     	.when('/account', { templateUrl : 'views/account.html', controller: 'accountCtrl' })
-
     	.when('/settings', { templateUrl : 'views/settings.html', controller: 'settingsCtrl' })
-
     	.when('/edit-exam', { templateUrl : 'views/edit-exam.html', controller: 'editCtrl' })
-
     	.when('/question', { templateUrl : 'views/question.html', controller: 'questionCtrl' })
-
     	.when('/exam', { templateUrl : 'views/exam.html', controller: 'examCtrl' })
-
     	.when('/statistics', { templateUrl : 'views/statistics.html', controller: 'statisticsCtrl' })
-
     	.when('/exam-pdf', { templateUrl : 'exam-pdf.php', controller: 'examCtrl' })
-
     	.when('/exam-solution-pdf', { templateUrl : 'exam-solution-pdf.php', controller: 'examCtrl' })
-
     	.when('/analysis', { templateUrl : 'views/analysis.html', controller: 'analysisCtrl' })
-
 		.when('/403', { templateUrl : 'views/403.html', controller: 'errorCtrl' })
-
     	.when('/404', { templateUrl : 'views/404.html', controller: 'errorCtrl' })
-
     	.when('/500', { templateUrl : 'views/500.html', controller: 'errorCtrl' })
 
     	.otherwise({ redirectTo: '/404' });
@@ -98,9 +76,9 @@ crucioApp.config(function($routeProvider, $locationProvider) {
 });
 
 crucioApp.run(function (ipCookie, $rootScope, $location) {
-
+	
 	// enumerate routes that don't need authentication
-	var routesThatDontRequireAuth = ['/', '/contact', '/about', '/blog', '/register', '/activate-account', '/forgot-password'];
+	var routesThatDontRequireAuth = ['/', '/contact', '/about', '/register', '/activate-account', '/forgot-password'];
 	var routesThatLogin = ['/', '/register', '/forgot-password'];
 	var routesForAuthor = ['/author', '/edit-exam'];
 	var routesForAdmin = ['/admin']; // + Author Routes
@@ -116,40 +94,18 @@ crucioApp.run(function (ipCookie, $rootScope, $location) {
 			sessionStorage.user = angular.toJson(cookieUser);
 		}
 	}
-
-
-	var routeClean = function (route) {
+	
+	var routeInArray = function (route, array) {
 		var route_c = route;
 		if(route.indexOf('?') > -1)
 			route_c = route.substr(0, route.indexOf('?'));
-		return ( routesThatDontRequireAuth.indexOf(route_c) > -1) ? 1:0;
-	};
-
-	var routeLogin = function (route) {
-		var route_c = route;
-		if(route.indexOf('?') > -1)
-			route_c = route.substr(0, route.indexOf('?'));
-		return ( routesThatLogin.indexOf(route_c) > -1) ? 1:0;
-	};
-
-	var routeAuthor = function (route) {
-		var route_c = route;
-		if(route.indexOf('?') > -1)
-			route_c = route.substr(0, route.indexOf('?'));
-		return ( routesForAuthor.indexOf(route_c) > -1) ? 1:0;
-	};
-
-	var routeAdmin = function (route) {
-		var route_c = route;
-		if(route.indexOf('?') > -1)
-			route_c = route.substr(0, route.indexOf('?'));
-		return ( routesForAdmin.indexOf(route_c) > -1) ? 1:0;
+		return ( array.indexOf(route_c) > -1) ? 1 : 0;
 	};
 
 	if($rootScope.user) {
-	    var isLoggedIn = ($rootScope.user.group_id) ? 1:0;
-	    var isAuthor = ($rootScope.user.group_id == 3) ? 1:0;
-	    var isAdmin = ($rootScope.user.group_id == 2) ? 1:0;
+	    var isLoggedIn = ($rootScope.user.group_id) ? 1 : 0;
+	    var isAuthor = ($rootScope.user.group_id == 3) ? 1 : 0;
+	    var isAdmin = ($rootScope.user.group_id == 2) ? 1 : 0;
 
 	} else {
 	    var isLoggedIn = 0;
@@ -157,16 +113,16 @@ crucioApp.run(function (ipCookie, $rootScope, $location) {
 	    var isAdmin = 0;
 	}
 
-	if (!routeClean($location.url()) && !isLoggedIn) {
-		// window.location.replace('');
+	if (!routeInArray($location.url(), routesThatDontRequireAuth) && !isLoggedIn) {
+		// $location.path('');
 	}
-	if (routeLogin($location.url()) && isLoggedIn) {
+	if (routeInArray($location.url(), routesThatLogin) && isLoggedIn) {
+		$location.path('/questions');
+	}
+	if (routeInArray($location.url(), routesForAuthor) && !(isAuthor || isAdmin)) {
 		$location.path('/403');
 	}
-	if (routeAuthor($location.url()) && !(isAuthor || isAdmin)) {
-		$location.path('/403');
-	}
-	if (routeAdmin($location.url()) && !isAdmin) {
+	if (routeInArray($location.url(), routesForAdmin) && !isAdmin) {
 		$location.path('/403');
 	}
 });
@@ -197,13 +153,14 @@ crucioApp.service('Selection', function() {
 				var substring_array = search_dictionary.query.toLowerCase().split(' ');
 				for (var i = 0, len = substring_array.length; i < len; ++i) {
 					var substring = substring_array[i];
-					if (query_string.toLowerCase().indexOf(substring) < 0 && substring) return false;
+					if (query_string.toLowerCase().indexOf(substring) < 0 && substring) { return false; }
 				}
 
 			} else if (key == 'group') {
-				if (search_dictionary.group != element.group_name && search_dictionary.group) return false;
+				if (search_dictionary.group != element.group_name && search_dictionary.group) { return false; }
+				
 			} else if (key != 'query_keys') {
-				if (search_dictionary[key] != element[key] && search_dictionary[key]) return false;
+				if (search_dictionary[key] != element[key] && search_dictionary[key]) { return false; }
 			}
 		}
 		return true;
@@ -213,8 +170,9 @@ crucioApp.service('Selection', function() {
 		if(!list) { return 0; }
 
 		var counter = 0;
-		for (var i = 0; i < list.length; i++)
-			if (this.is_element_included(list[i], search_dictionary)) counter++;
+		for (var i = 0; i < list.length; i++) {
+			if (this.is_element_included(list[i], search_dictionary)) { counter++; }
+		}
 
 		return counter;
 	}
@@ -222,8 +180,9 @@ crucioApp.service('Selection', function() {
 	this.find_distinct = function(list, search_key) {
 		var result = [];
 		list.forEach(function(entry) {
-			if (result.indexOf(entry[search_key]) == -1)
+			if (result.indexOf(entry[search_key]) == -1) {
 				result.push(entry[search_key]);
+			}
 		});
 		result.sort();
 		return result;
@@ -232,11 +191,11 @@ crucioApp.service('Selection', function() {
 
 crucioApp.filter('cut', function () {
     return function (value, wordwise, max, tail) {
-        if (!value) return '';
+        if (!value) { return ''; };
 
         max = parseInt(max, 10);
-        if (!max) return value;
-        if (value.length <= max) return value;
+        if (!max) { return value };
+        if (value.length <= max) { return value; };
 
         value = value.substr(0, max);
         if (wordwise) {

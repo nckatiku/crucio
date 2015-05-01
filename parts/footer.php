@@ -1,7 +1,7 @@
 <div class="footer">
 	<div class="container">
 		<p class="left hidden-xs">
-			<a href="http://www.sturamed-leipzig.de">StuRaMed</a>
+			<a href="<?php echo $config['representation-website']; ?>"><?php echo $config['representation-name']; ?></a>
 		</p>
 
 		<p class="right">

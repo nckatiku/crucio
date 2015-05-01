@@ -25,9 +25,9 @@
 					    <dt>Inhaber</dt>
 					    <dd>
 					    	<address>
-					    		<strong>StuRaMed Leipzig</strong><br>
-								Liebigstraße 27<br>
-								04103 Leipzig<br>
+					    		<strong><?php echo $config['representation-name']; ?> <?php echo $config['city']; ?></strong><br>
+								<?php echo $config['address']; ?><br>
+								<?php echo $config['postcode']; ?> <?php echo $config['city']; ?><br>
 					    	</address>
 					    </dd>
 					

@@ -269,7 +269,7 @@ $app->group('/contact', function () use ($app) {
 
 		$hooks = ["searchStrs" => ["#MESSAGE#", "#MAIL#", "#USERNAME#"],
 			"subjectStrs" => [$text, $email, $name]];
-		$response = send_template_mail('contact.html', $destination, 'Allgemeine Anfrage', $hooks, $sender_name, $sender_email);
+		$response = send_template_mail('contact.php', $destination, 'Allgemeine Anfrage', $hooks, $sender_name, $sender_email);
 
 		print_response($app, $response);
 	});
@@ -295,7 +295,7 @@ $app->group('/contact', function () use ($app) {
 
 		$hooks = ["searchStrs" => ["#MESSAGE#", "#MAIL#", "#USERNAME#", "#AUTHOR#", "#QUESTION#", "#QUESTION_ID#", "#SUBJECT#", "#DATE2#", "#EXAM_ID#", "#MAIL_SUBJECT#"],
 			"subjectStrs" => [trim($data->text), $email, $name, $data->author, $data->question, $data->question_id, $data->subject, $data->date, $data->exam_id, $mail_subject_html]];
-		$response = send_template_mail('contact-question.html', $destination, $subject, $hooks, $sender_name, $sender_email);
+		$response = send_template_mail('contact-question.php', $destination, $subject, $hooks, $sender_name, $sender_email);
 
 		print_response($app, $response);
 	});
@@ -375,7 +375,7 @@ $app->group('/users', function () use ($app) {
 			$activation_message = $website_url.'activate-account?token='.$activation_token;
 			$hooks = ["searchStrs" => ["#ACTIVATION-MESSAGE", "#ACTIVATION-KEY", "#USERNAME#"],
 			    "subjectStrs" => [$activation_message, $activation_token, $username]];
-			send_template_mail('new-registration.html', $clean_email, 'Willkommen bei Crucio', $hooks);
+			send_template_mail('new-registration.php', $clean_email, 'Willkommen bei Crucio', $hooks);
 
 			$response = execute_mysql($mysql, "INSERT INTO users (username, username_clean, password, email, activationtoken, last_activation_request, sign_up_date, course_id, semester) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [$username, $clean_username, $secure_pass, $clean_email, $activation_token, time(), time(), $course_id, $semester]);
 
@@ -542,7 +542,7 @@ $app->group('/users', function () use ($app) {
 			        //Setup our custom hooks
 			        $hooks = ["searchStrs" => ["#CONFIRM-URL#", "#DENY-URL#", "#USERNAME#"], "subjectStrs" => [$confirm_url, $deny_url, $userdetails['username']]];
 
-			        send_template_mail('lost-password-request.html', $email, 'Neues Passwort I', $hooks);
+			        send_template_mail('lost-password-request.php', $email, 'Neues Passwort I', $hooks);
 
 			        flag_lostpassword_request($mysql, $userdetails['username'], 1);
 			        $response['status'] = 'success';
@@ -567,7 +567,7 @@ $app->group('/users', function () use ($app) {
 				//Setup our custom hooks
 				$hooks = ["searchStrs" => ["#GENERATED-PASS#","#USERNAME#"], "subjectStrs" => [$rand_pass, $userdetails['username']]];
 
-				send_template_mail('your-lost-password.html', $userdetails['email'], 'Neues Passwort II', $hooks);
+				send_template_mail('your-lost-password.php', $userdetails['email'], 'Neues Passwort II', $hooks);
 
 				$new_activation_token = generate_activation_token($mysql);
 				$response = execute_mysql($mysql, "UPDATE users SET password = ?, activationtoken = ? WHERE activationtoken = ?", [$secure_pass, $new_activation_token, sanitize($data->token)]);

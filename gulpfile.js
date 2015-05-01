@@ -36,7 +36,7 @@ gulp.task('js', function() {
 
 // Compile Mail Templates
 gulp.task('mail', function() {
-	return gulp.src('src/mail-templates/**/*.html')
+	return gulp.src('src/mail-templates/**/*.php')
     	.pipe(inlineCss())
 		.pipe(gulp.dest('public/mail-templates/'));
 })
@@ -45,7 +45,7 @@ gulp.task('mail', function() {
 gulp.task('watch', function() {
 	gulp.watch('src/less/**/*.less', ['less', 'css']);
 	gulp.watch('src/js/**/*.js', ['js']);
-	gulp.watch('src/mail-templates/**/*.html', ['mail']);
+	gulp.watch('src/mail-templates/**/*.php', ['mail']);
 });
 
 // Default Task

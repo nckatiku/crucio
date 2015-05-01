@@ -1,29 +1,29 @@
+<?php $config = include('../php/config.php'); ?>
+
 <html>
 	<head>
 		<link rel="stylesheet" href="../../public/css/crucio.min.css"/>
 	</head>
 
 	<body>
-		<div class="wrap">
-			<div class="container container-top-bar">
+		<div class="wrap" style="margin-bottom: -57px;">
+			<div class="container container-top-bar" style="height: 64px;">
 	    		<div class="row">
 					<div class="col-xs-7 col-sm-8 col-md-10">
 						<h1>
-							<a href="http://www.crucio-leipzig.de">
+							<a href="http://<?php echo $config['website']; ?>">
 								<i class="fa fa-check-square-o"></i> Crucio
 							</a>
 						</h1>
 					</div>
 
 					<div class="col-xs-5 col-sm-4 col-md-2">
-			    		<a class="btn btn-block btn-index-top" href="http://www.crucio-leipzig.de">
+			    		<a class="btn btn-block btn-index-top" href="http://<?php echo $config['website']; ?>">
 				        	<i class="fa fa-sign-in fa-fw hidden-xs"></i> Anmelden
 						</a>
 					</div>
 	    		</div>
     		</div>
-    		    		
-    		<br><br><br>
 
 			<div class="container-dark-orange container-padding-4">
 				<div class="container container-text container-text-light">
@@ -78,14 +78,14 @@
 
 				<hr>
 
-				<div class="row" style="margin:15px;">
+				<div class="row mtop">
 					<div class="col-xs-6 col-sm-4">
-						<a class="btn btn-default btn-block" href="http://www.crucio-leipzig.de/question?id=#QUESTION_ID#&reset_session=1">
+						<a class="btn btn-default btn-block" href="http://<?php echo $config['website']; ?>/question?id=#QUESTION_ID#&reset_session=1">
 							Frage ansehen
 						</a>
 					</div>
 					<div class="col-xs-6 col-sm-4">
-						<a class="btn btn-default btn-block" href="http://www.crucio-leipzig.de/edit-exam?id=#EXAM_ID#&question_id=#QUESTION_ID#">
+						<a class="btn btn-default btn-block" href="http://<?php echo $config['website']; ?>/edit-exam?id=#EXAM_ID#&question_id=#QUESTION_ID#">
 							Frage bearbeiten
 						</a>
 					</div>
@@ -93,14 +93,12 @@
 			</div>
 		</div>
 
-		<div id="footer">
+		<div class="footer">
 			<div class="container">
 				<p class="center">
-					<a href="http://www.crucio-leipzig.de">Crucio</a> |
-					<a href="http://www.sturamed-leipzig.de">StuRaMed</a>
+					<a href="http://<?php echo $config['website']; ?>">Crucio</a> |
+					<a href="http://<?php echo $config['representation-website']; ?>"><?php echo $config['representation-name']; ?></a>
 				</p>
-
-				<p class="right"></p>
 			</div>
 		</div>
 	</body>

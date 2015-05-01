@@ -3,18 +3,9 @@
 <html ng-app="crucioApp" id="ng-app">
 	<head>
 		<?php include 'parts/header.php'; ?>
-		<title>Crucio | Fachschaft Medizin <?php echo $config['location'] ?></title>
+		<title>Crucio | Fachschaft Medizin <?php echo $config['city'] ?></title>
 		
-		<!-- Smooth Scrollling-->
-		<script>
-		$(function() { $('a[href*=#]:not([href=#])').click(function() {
-			if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-				var target = $(this.hash);
-				target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-				if (target.length) { $('html,body').animate({ scrollTop: target.offset().top }, 400); return false; }
-			}
-		}); });
-		</script>
+		<script> smoothScroll.init(); </script>
 	</head>
 
 	<body class="body">
@@ -60,13 +51,11 @@
 	    			<div class="brand">
 					    <h1><i class="fa fa-check-square-o"></i> Crucio<span ng-show="is_dev">Dev</span></h1>
 					    
-					    <p>
-						    ... hilft dir bei der Vorbereitung für Medizinklausuren an der Universität <?php echo $config['location'] ?>.
-							Hier werden Übungsfragen aus dem Studium gesammelt, gekreuzt und erklärt.
-						</p>
+					    <p>... hilft dir bei der Vorbereitung für Medizinklausuren an der Universität <?php echo $config['city'] ?>.
+							Hier werden Übungsfragen aus dem Studium gesammelt, gekreuzt und erklärt.</p>
 						
 						<a class="btn btn-lg" href="register" target="_self">Registrieren</a>
-				        <a class="btn btn-lg" href="#more" target="_self">Mehr Infos</a>
+				        <a class="btn btn-lg" data-scroll href="#more" target="_self">Mehr Infos</a>
 					</div>
 				</div>
 
@@ -76,23 +65,23 @@
 	    	<div class="container-light-grey container-padding-2">
 				<div class="sturamed">
 				    <p>Crucio - Ein Projekt eures</p>
-				    <a href="http://www.sturamed-leipzig.de"><img src="public/images/sturamed.svg" width="245px"></a>
+				    <a href="http://<?php echo $config['representation-website']; ?>"><img src="public/images/sturamed.svg" width="245px"></a>
 				</div>
 			</div>
 
-			<a name="more"></a>
+			<span id="more"></span>
 	    	<div class="container container-padding-6">
 				<div class="row">
 				    <div class="col-sm-4 info-block-crucio">
 				    	<i class="fa fa-book"></i>
 				    	<h2>Lernen</h2>
-				    	<p>Mit Crucio kannst du Fragen & Übungsklausuren anschauen, lernen, wiederholen und erklären lassen. Hier sind alle Fragen, die bisher an der Uni Leipzig gesammelt wurden, vereint. Damit sind die Fragen mit dem Studium in Leipzig abgestimmt, sodass du perfekt für die nächsten Klausuren vorbereitet bist.</p>
+				    	<p>Mit Crucio kannst du Fragen & Übungsklausuren anschauen, lernen, wiederholen und erklären lassen. Hier sind alle Fragen, die bisher an der Uni <?php echo $config['city'] ?> gesammelt wurden, vereint. Damit sind die Fragen mit dem Studium in <?php echo $config['city'] ?> abgestimmt, sodass du perfekt für die nächsten Klausuren vorbereitet bist.</p>
 				    </div>
 
 				    <div class="col-sm-4 info-block-crucio">
 				    	<i class="fa fa-inbox"></i>
 				    	<h2>Übersicht</h2>
-				    	<p>Crucio ist ein zentraler Ort für Fragen und Übungsklausuren an & von der Universität Leipzig. Die Übungsklausuren sind automatisch nach deinem Semester sortiert, du kannst aber natürlich nach Fachbereich oder einzelnen Fragen suchen. So kannst du dir deine Zeit und Nerven für Inhalte aufheben.</p>
+				    	<p>Crucio ist ein zentraler Ort für Fragen und Übungsklausuren an & von der Universität <?php echo $config['city'] ?>. Die Übungsklausuren sind automatisch nach deinem Semester sortiert, du kannst aber natürlich nach Fachbereich oder einzelnen Fragen suchen. So kannst du dir deine Zeit und Nerven für Inhalte aufheben.</p>
 				    </div>
 
 				    <div class="col-sm-4 info-block-crucio">
@@ -136,9 +125,7 @@
 				<div class="container container-text container-text-light">
 					<i class="fa fa-magic fa-5x"></i>
 					<h4>Noch nicht registriert?</h4>
-					<p>
-						Auf gehts, Crucio ist seit kurzem freigeschaltet! Wenn du gar nicht in <?php echo $config['location'] ?> studierst, dann kannst du uns gerne mal anschreiben, vielleicht können wir dir helfen...
-					</p>
+					<p>Auf gehts, Crucio ist seit kurzem freigeschaltet! Wenn du gar nicht in <?php echo $config['city'] ?> studierst, dann kannst du uns gerne mal anschreiben, vielleicht können wir dir helfen...</p>
 				</div>
 			</div>
 	    </div>
