@@ -477,74 +477,55 @@ body, html {
 	width:200px;
 }
 
-/* Flat UI Slider Element for Account Settings */
 
-.ui-slider {
-	background: @light-grey;
-	border-radius: 32px;
-	height: 12px;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-	margin-bottom: 20px;
+slider, [slider] {
+	display: inline-block;
 	position: relative;
-	cursor: pointer;
-}
-
-.ui-slider-handle {
-	background-color: @accent-color-2;
-	border-radius: 50%;
-	cursor: pointer;
-	height: 18px;
-	position: absolute;
-	width: 18px;
-	z-index: 2;
-	.transition();
-
-	&:focus, &:hover {
-		background-color: @light-accent-color-2;
-		outline: none;
-    }
-
-    &:active {
-	    background-color: @accent-color-2;
-    }
-}
-
-.ui-slider-range {
-    background-color: @light-accent-color-2;
-    display: block;
-    height: 100%;
-    position: absolute;
-    z-index: 1;
-}
-
-.ui-slider-segment {
-	background-color: #dadcde;
-	border-radius: 50%;
-	height: 6px;
-	width: 6px;
-}
-
-.ui-slider-horizontal {
-	.ui-slider-handle {
-		margin-left: -9px;
-		top: -3px;
-	}
-
-	.ui-slider-handle[style*="100"] {
-		margin-left: -15px;
-	}
-
-	.ui-slider-range {
-		border-radius: 30px 0 0 30px;
-	}
-
-	.ui-slider-segment {
-		float: left;
-		margin: 3px -6px 0 0;
+	height: 12px;
+	width: 100%;
+	margin: 0px 5px 5px 0px;
+	vertical-align: middle;
+	
+	div {
+		white-space: nowrap;
+		position: absolute;
+		
+		&.bar {
+			width: 100%;
+			height: 100%;
+			border-radius: 6px;
+			background: @light-grey;
+			overflow: hidden;
+			
+			.selection {
+				width: 0%;
+				height: 100%;
+				background: #13b6ff;
+			}
+		}
+		
+		&.handle {
+			cursor: pointer;
+			width: 18px;
+			height: 18px;
+			top: -2px;
+			background-color: @accent-color-2;
+			z-index: 2;
+			border-radius: 50%;
+		
+			
+			
+			&:hover {
+				background-color: @light-accent-color-2;
+				outline: none;
+			}
+		}
+		
+		&.bubble {
+			display: none;
+		}
 	}
 }
-
 
 
 /* Validation Error for all Forms: Registration, Account... */

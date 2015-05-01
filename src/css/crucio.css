@@ -411,65 +411,52 @@ html {
   text-align: center;
   width: 200px;
 }
-/* Flat UI Slider Element for Account Settings */
-.ui-slider {
-  background: #eef0f1;
-  border-radius: 32px;
-  height: 12px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  margin-bottom: 20px;
+slider,
+[slider] {
+  display: inline-block;
   position: relative;
-  cursor: pointer;
+  height: 12px;
+  width: 100%;
+  margin: 0px 5px 5px 0px;
+  vertical-align: middle;
 }
-.ui-slider-handle {
-  background-color: #d35400;
-  border-radius: 50%;
-  cursor: pointer;
-  height: 18px;
+slider div,
+[slider] div {
+  white-space: nowrap;
   position: absolute;
-  width: 18px;
-  z-index: 2;
-  -o-transition: all .2s;
-  -moz-transition: all .2s;
-  -webkit-transition: all .2s;
-  -ms-transition: all .2s;
-  transition: all .2s;
 }
-.ui-slider-handle:focus,
-.ui-slider-handle:hover {
+slider div.bar,
+[slider] div.bar {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  background: #eef0f1;
+  overflow: hidden;
+}
+slider div.bar .selection,
+[slider] div.bar .selection {
+  width: 0%;
+  height: 100%;
+  background: #13b6ff;
+}
+slider div.handle,
+[slider] div.handle {
+  cursor: pointer;
+  width: 18px;
+  height: 18px;
+  top: -2px;
+  background-color: #d35400;
+  z-index: 2;
+  border-radius: 50%;
+}
+slider div.handle:hover,
+[slider] div.handle:hover {
   background-color: #e67e22;
   outline: none;
 }
-.ui-slider-handle:active {
-  background-color: #d35400;
-}
-.ui-slider-range {
-  background-color: #e67e22;
-  display: block;
-  height: 100%;
-  position: absolute;
-  z-index: 1;
-}
-.ui-slider-segment {
-  background-color: #dadcde;
-  border-radius: 50%;
-  height: 6px;
-  width: 6px;
-}
-.ui-slider-horizontal .ui-slider-handle {
-  margin-left: -9px;
-  top: -3px;
-}
-.ui-slider-horizontal .ui-slider-handle[style*="100"] {
-  margin-left: -15px;
-}
-.ui-slider-horizontal .ui-slider-range {
-  border-radius: 30px 0 0 30px;
-}
-.ui-slider-horizontal .ui-slider-segment {
-  float: left;
-  margin: 3px -6px 0 0;
+slider div.bubble,
+[slider] div.bubble {
+  display: none;
 }
 /* Validation Error for all Forms: Registration, Account... */
 .validation-error {

@@ -25,7 +25,9 @@
 	        <div class="col-sm-8">
 	        	<div class="row row-slider">
 	    			<div class="col-sm-3 text-right">Viele neue Fragen</div>
-	    			<div id="repetitionSlider" class="ui-slider col-sm-6"></div>
+	    			<div class="col-sm-6">
+	    				<slider floor="0" ceiling="100" step="1" ng-model="user.repetitionValue"></slider>
+	    			</div>
 	    			<div class="col-sm-3">Viel Wiederholung</div>
 	        	</div>
 	        </div>

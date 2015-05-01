@@ -1,4 +1,4 @@
-angular.module('userModule', ['ipCookie'])
+angular.module('userModule', ['ipCookie', 'ui.slider'])
 
 	.controller('registerCtrl', function($scope, Page, $route, $http, Validate) {
 		$scope.user = angular.fromJson(sessionStorage.user);
@@ -309,26 +309,21 @@ angular.module('userModule', ['ipCookie'])
 
 		$scope.user = angular.fromJson(sessionStorage.user);
 
-		$('#repetitionSlider').slider({ value: $scope.user.repetitionValue});
-
 		$scope.submit_button_title = 'Speichern';
 
 	    $scope.update_user = function() {
 		    $scope.submit_button_title = 'Speichern...';
-
-		    var repetition = $('#repetitionSlider').slider('option', 'value');
-		    $scope.user.repetitionValue = repetition;
-
-		    var post_data = {'highlightExams': $scope.user.highlightExams, 'showComments': $scope.user.showComments, 'repetitionValue': repetition, 'useAnswers': $scope.user.useAnswers, 'useTags': $scope.user.useTags};
+		    
+		    var post_data = {'highlightExams': $scope.user.highlightExams, 'showComments': $scope.user.showComments, 'repetitionValue': $scope.user.repetitionValue, 'useAnswers': $scope.user.useAnswers, 'useTags': $scope.user.useTags};
 		    $http.put('api/v1/users/' + $scope.user.user_id + '/settings', post_data).success(function(data) {
-		      	if (data.status=='success') {
-			      	sessionStorage.user = angular.toJson($scope.user);
-			      	$scope.submit_button_title = 'Gespeichert';
+		    	if (data.status == 'success') {
+			    	sessionStorage.user = angular.toJson($scope.user);
+			    	$scope.submit_button_title = 'Gespeichert';
 
-		      	} else {
-		      		$scope.user = angular.fromJson(sessionStorage.user);
-		      		$scope.submit_button_title = 'Speichern nicht m\u00F6glich...';
-		      	}
+		    	} else {
+		    		$scope.user = angular.fromJson(sessionStorage.user);
+		    		$scope.submit_button_title = 'Speichern nicht möglich...';
+		    	}
 		    });
 		}
 

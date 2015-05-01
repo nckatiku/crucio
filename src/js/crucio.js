@@ -34,8 +34,7 @@ var subject_list = {
 };
 
 
-var crucioApp = angular.module('crucioApp', ['ngRoute', 'ngSanitize', 'angular-loading-bar', 'ui.bootstrap', 'angularFileUpload', 'textAngular', 'angles', 'ipCookie',
-	'crucioModule', 'userModule', 'learnModule', 'authorModule', 'adminModule']);
+var crucioApp = angular.module('crucioApp', ['ngRoute', 'ngSanitize', 'angular-loading-bar', 'ui.bootstrap', 'angularFileUpload', 'textAngular', 'angles', 'ipCookie', 'crucioModule', 'userModule', 'learnModule', 'authorModule', 'adminModule']);
 
 
 
