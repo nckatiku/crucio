@@ -19,6 +19,8 @@ angular.module('learnModule', ['ui.slider'])
 		$scope.selection_number_questions = 0;
 		$scope.number_questions_in_choosen_subjects = 0;
 		$scope.conditions = 1;
+		
+		$scope.tab_active = 'abstract';
 
 
 		var spinner = new Spinner({length: 0, radius: 18, color: '#333', shadow: false});

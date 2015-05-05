@@ -2,11 +2,11 @@
 	<div class="row mtop-navbar-row">
 	    <div class="col-md-3 sidebar">
 	    	<ul class="nav nav-pills nav-stacked mbottom-2x">
-	    		<li class="active"><a data-target="#exams" data-toggle="tab"><i class="fa fa-list fa-fw"></i>  Klausuren</a></li>
-	    		<li><a data-target="#comments" data-toggle="tab"><i class="fa fa-comments fa-fw"></i>  Kommentare</a></li>
-	    		<li><a data-target="#subjects" data-toggle="tab"><i class="fa fa-flask fa-fw"></i>  Fächer</a></li>
+	    		<li ng-class="{active: tab_active == 'exams'}"><a ng-click="tab_active = 'exams'"><i class="fa fa-list fa-fw"></i>  Klausuren</a></li>
+	    		<li ng-class="{active: tab_active == 'comments'}"><a ng-click="tab_active = 'comments'"><i class="fa fa-comments fa-fw"></i>  Kommentare</a></li>
+	    		<li ng-class="{active: tab_active == 'subjects'}"><a ng-click="tab_active = 'subjects'"><i class="fa fa-flask fa-fw"></i>  Fächer</a></li>
 	    		<hr>
-	    		<li><a data-target="#advices" data-toggle="tab">
+	    		<li ng-class="{active: tab_active == 'advices'}"><a ng-click="tab_active = 'advices'">
 		    		<i class="fa fa-rocket fa-fw"></i>  Hinweise <span class="label label-danger" style="margin-left: 15px;">Aufpassen!</span>
 		    	</a></li>
 			</ul>
@@ -15,7 +15,7 @@
 
 	    <div class="col-md-9">
 	    	<div class="tab-content">
-	    		<div class="tab-pane active" id="exams" ng-show="exams.length > 0">
+	    		<div ng-show="tab_active == 'exams'">
 	    			<h4 class="mbottom-2x">Von dir eingetragene Klausuren</h4>
 
     				<div class="row mmtop">
@@ -110,7 +110,7 @@
     			</div>
 
 
-	    		<div class="tab-pane" id="comments">
+	    		<div ng-show="tab_active == 'comments'">
 					<h4 class="mbottom-2x">Kommentare zu deinen Klausuren <small>Vielleicht kannst du ja helfen...</small></h4>
 
 					<div class="row mmtop">
@@ -181,7 +181,7 @@
 				</div>
 
 
-	    		<div class="tab-pane" id="subjects">
+	    		<div ng-show="tab_active == 'subjects'">
 					<h4>Fächer & Kategorien</h4>
 					Ihr könnt folgende Fächer schon eintragen, den Fragen könnt ihr dabei eine Kategorie zuordnen. Falls welche fehlen, meldet euch...
 					<br><br>
@@ -196,7 +196,7 @@
 				</div>
 
 
-	    		<div class="tab-pane mbottom-3x" id="advices">
+	    		<div ng-show="tab_active == 'advices'" class="mbottom-3x">
 					<h4>Hinweise</h4>
 					Zu einer Klausur gehören verschiedene Infos und eine Sammlung an Fragen. Es wäre schön, wenn diese möglichst einheitlich eingetragen werden. Unter anderem dafür folgende Anmerkungen:
 					<br><br>

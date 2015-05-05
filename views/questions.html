@@ -2,13 +2,13 @@
 	<div class="row mtop-navbar-row">
 	    <div class="col-md-3 sidebar">
 	    	<ul class="nav nav-pills nav-stacked mbottom-2x">
-	    		<li class="active"><a data-target="#abstract" data-toggle="tab"><i class="fa fa-inbox fa-fw"></i>  Übersicht</a></li>
+	    		<li ng-class="{active: tab_active == 'abstract'}"><a ng-click="tab_active = 'abstract'"><i class="fa fa-inbox fa-fw"></i>  Übersicht</a></li>
 	    		<hr>
-	    		<li><a data-target="#subjects" data-toggle="tab"><i class="fa fa-flask fa-fw"></i>  Fächer</a></li>
-	    		<li><a data-target="#exams" data-toggle="tab"><i class="fa fa-list fa-fw"></i>  Klausuren</a></li>
-				<li><a data-target="#questions" data-toggle="tab"><i class="fa fa-question fa-fw"></i>  Fragen</a></li>
-	    		<li><a data-target="#comments" data-toggle="tab"><i class="fa fa-comments fa-fw"></i>  Kommentare</a></li>
-	    		<li><a data-target="#tags" data-toggle="tab"><i class="fa fa-tags fa-fw"></i>  Markierungen</a></li>
+	    		<li ng-class="{active: tab_active == 'subjects'}"><a ng-click="tab_active = 'subjects'"><i class="fa fa-flask fa-fw"></i>  Fächer</a></li>
+	    		<li ng-class="{active: tab_active == 'exams'}"><a ng-click="tab_active = 'exams'"><i class="fa fa-list fa-fw"></i>  Klausuren</a></li>
+				<li ng-class="{active: tab_active == 'questions'}"><a ng-click="tab_active = 'questions'"><i class="fa fa-question fa-fw"></i>  Fragen</a></li>
+	    		<li ng-class="{active: tab_active == 'comments'}"><a ng-click="tab_active = 'comments'"><i class="fa fa-comments fa-fw"></i>  Kommentare</a></li>
+	    		<li ng-class="{active: tab_active == 'tags'}"><a ng-click="tab_active = 'tags'"><i class="fa fa-tags fa-fw"></i>  Markierungen</a></li>
 			</ul>
 			<hr class="visible-xs visible-sm">
 	    </div>
@@ -16,7 +16,7 @@
 	    <div class="col-md-9">
 	    	<div class="tab-content">
 
-	    		<div class="tab-pane active" id="abstract" ng-show="abstract_exams.length > 0">
+	    		<div ng-show="tab_active == 'abstract'" ng-show="abstract_exams.length > 0">
 		    		<h4 class="mbottom-2x">Klausuren</h4>
 
     				<div ng-if="!abstract_exams" class="container-center-align-sm">
@@ -98,7 +98,7 @@
     			</div>
 
 
-	    		<div class="tab-pane" id="subjects">
+	    		<div ng-show="tab_active == 'subjects'">
 		    		<h4 class="mbottom-2x">Fächer & Kategorien <small>Hier kannst du dir deine eigene Klausur zusammenstellen.</small></h4>
 
 					<div class="form-horizontal" style="margin-bottom: 30px;">
@@ -213,7 +213,7 @@
 	    		</div>
 
 
-	    		<div class="tab-pane" id="exams">
+	    		<div ng-show="tab_active == 'exams'">
 		    		<h4 class="mbottom">Alle Klausuren</h4>
 
     				<div class="row mmtop">
@@ -326,12 +326,12 @@
     			</div>
 
 
-	    		<div class="tab-pane" id="questions">
+	    		<div ng-show="tab_active == 'questions'">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 					    	<h3 class="panel-title">
 						    	<i class="fa fa-search"></i> 
-						    	<span ng-if="search_results.length == 0">Suche</span>
+						    	<span ng-if="search_results.length == 0 || !search_results">Suche</span>
 						    	<span ng-if="search_results.length == 1">1. Ergebnis</span>
 						    	<span ng-if="search_results.length > 1">{{ search_results.length }} Ergebnisse</span>
 						    </h3>
@@ -379,7 +379,7 @@
 				</div>
 
 
-	    		<div class="tab-pane" id="comments">
+	    		<div ng-show="tab_active == 'comments'">
 					<h4 class="mbottom">Deine Kommentare <small></small></h4>
 
 					<div ng-if="comments.length == 0" class="container-center-align-sm">
@@ -420,7 +420,7 @@
 				</div>
 
 
-	    		<div class="tab-pane" id="tags">
+	    		<div ng-show="tab_active == 'tags'">
 					<div ng-if="tags.length == 0" class="container-center-align-sm">
 					    <i class="fa fa-tags"></i>
 

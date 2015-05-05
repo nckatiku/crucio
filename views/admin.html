@@ -2,20 +2,18 @@
 	<div class="row mtop-navbar-row">
 	    <div class="col-md-3 sidebar">
 	    	<ul class="nav nav-pills nav-stacked mbottom-2x">
-				<li class="active"><a data-target="#users" data-toggle="tab"><i class="fa fa-users fa-fw"></i>  Benutzer</a></li>
-				<li><a showtab="" data-target="#whitelist" data-toggle="tab"><i class="fa fa-envelope fa-fw"></i>  E-Mail Whitelist</a></li>
-				<!--li><a showtab="" data-target="#tags" data-toggle="tab"><i class="fa fa-tags fa-fw"></i>  Markierungen</a></li-->
-				<li><a showtab="" data-target="#comments" data-toggle="tab"><i class="fa fa-comments fa-fw"></i>  Kommentare</a></li>
-				<li><a showtab="" data-target="#tools" data-toggle="tab"><i class="fa fa-wrench fa-fw"></i>  Tools</a></li>
-				<li><a showtab="" data-target="#stats" data-toggle="tab"><i class="fa fa-bar-chart fa-fw"></i>  Statistik</a></li>
+				<li ng-class="{active: tab_active == 'users'}"><a href ng-click="tab_active = 'users'"><i class="fa fa-users fa-fw"></i>  Benutzer</a></li>
+				<li ng-class="{active: tab_active == 'whitelist'}"><a href ng-click="tab_active = 'whitelist'"><i class="fa fa-envelope fa-fw"></i>  E-Mail Whitelist</a></li>
+				<li ng-class="{active: tab_active == 'comments'}"><a href ng-click="tab_active = 'comments'"><i class="fa fa-comments fa-fw"></i>  Kommentare</a></li>
+				<li ng-class="{active: tab_active == 'tools'}"><a href ng-click="tab_active = 'tools'"><i class="fa fa-wrench fa-fw"></i>  Tools</a></li>
+				<li ng-class="{active: tab_active == 'stats'}"><a href ng-click="tab_active = 'stats'"><i class="fa fa-bar-chart fa-fw"></i>  Statistik</a></li>
 			</ul>
 			<hr class="visible-xs visible-sm">
 	    </div>
 
 	    <div class="col-md-9">
 	    	<div class="tab-content">
-
-	    		<div class="tab-pane active" id="users" ng-show="ready">
+	    		<div ng-show="tab_active == 'users'">
     				<div class="row mmtop">
     					<div class="col-md-8 col-sm-8">
     						<div class="btn-toolbar" role="toolbar">
@@ -121,7 +119,7 @@
     			</div>
 
 
-	    		<div class="tab-pane" id="whitelist">
+	    		<div ng-show="tab_active == 'whitelist'">
 					<h4>Für fremde E-Mail-Adressen<small> die nicht ______@studserv.uni-leipzig.de entsprechen</small></h4>
 					<div class="row">
 						<center>
@@ -154,36 +152,7 @@
 				</div>
 
 
-	    		<!--div class="tab-pane" id="tags">
-		    		<h4 class="mbottom-2x">Alle Markierungen</h4>
-
-					<table class="table">
-						<thead>
-					        <th style="min-width:160px;"><i class="fa fa-fw fa-tag"></i> Markierung</th>
-					        <th><i class="fa fa-fw fa-user"></i> Name</th>
-					        <th><i class="fa fa-fw fa-flask"></i> Fach</th>
-					        <th>Frage</th>
-					        <th></th>
-					    </thead>
-
-					    <tbody ng-repeat="(tag, tag_array) in ::questions_by_tag">
-						    <tr ng-repeat="q in tag_array">
-							    <td rowspan="{{tag_array.length}}" style="min-width:140px;" ng-if="$index == 0">
-							    	<span class="tm-tag tm-tag-danger pull-right">
-										{{ ::tag }}
-									</span>
-						    	</td>
-							    <td>{{ ::q.username }}</td>
-						    	<td>{{ ::q.subject }}</td>
-								<td><span ng-bind-html="::q.question"></span></td>
-								<td><a href="question?id={{ ::q.question_id }}&reset_session=1"><i class="fa fa-chevron-right"></i></a></td>
-						    </tr>
-						</tbody>
-					</table>
-				</div-->
-
-
-	    		<div class="tab-pane" id="comments">
+	    		<div ng-show="tab_active == 'comments'">
 		    		<h4 class="mbottom-2x">Alle Kommentare</h4>
 
 					<div class="row mmtop">
@@ -227,7 +196,7 @@
 				</div>
 
 
-				<div class="tab-pane" id="tools">
+				<div ng-show="tab_active == 'tools'">
     				<h4 class="mbottom-2x">Bitte sehr vorsichtig sein!</h4>
     				<div class="btn-toolbar">
     					<div class="btn-group">
@@ -251,7 +220,7 @@
     			</div>
 
 
-	    		<div class="tab-pane" id="stats">
+	    		<div ng-show="tab_active == 'stats'">
 		    		<div class="btn-toolbar">
 			    		<a class="btn btn-default pull-right" href="https://www.google.com/analytics/web/#report/visitors-overview/a47836301w79202201p81910001/" target="_self"><i class="fa fa-fw fa-external-link"></i> Google Analytics</a>
 			    		<a class="btn btn-default pull-right" href="tools/stats" target="_self"><i class="fa fa-fw fa-external-link"></i> Live Statistik</a>

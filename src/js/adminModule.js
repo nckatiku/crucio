@@ -10,6 +10,8 @@ angular.module('adminModule', [])
 
 		$scope.update_activity = false;
 		$scope.show_activity = {search_query: !true, result: !true, login: !true, register: !true, comment: !true, exam_new: !true, exam_update: !true};
+		
+		$scope.tab_active = 'users';
 
 
 		$scope.$watch("comment_search", function( newValue, oldValue ) {

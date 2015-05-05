@@ -9,6 +9,8 @@ angular.module('authorModule', [])
 
 		$scope.exam_search = {'subject': '', 'semester': '', 'author': $scope.user.username, 'query': '', 'query_keys': ['subject', 'author', 'date']};
 		$scope.comment_search = {'username_added': '', 'username': '', 'query': '', 'query_keys': ['question', 'comment', 'username', 'question_id']};
+		
+		$scope.tab_active = 'exams';
 
 
 		$scope.$watch("comment_search", function( newValue ) {
