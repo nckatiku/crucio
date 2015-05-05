@@ -13,11 +13,7 @@
 	    	<div class="container-top-bar" ng-controller="loginCtrl" style="margin-bottom: 0px;">
 	    		<div class="container">
 		    		<form class="row" ng-submit="login()">
-			    		<div class="col-md-4 col-md-offset-1">
-							<h1><a href="/"><i class="fa fa-check-square-o"></i> Crucio </a></h1>
-			    		</div>
-
-			    		<div class="col-md-3">
+			    		<div class="col-sm-3 col-sm-offset-4">
 				    		<div class="form-group element has-feedback {{login_error ? 'has-error' : ''}}">
 	        		    	    <input class="form-control" ng-model="email" type="email" placeholder="E-Mail-Adresse" autofocus>
 	        		    	    <label class="checkbox">
@@ -27,7 +23,7 @@
 	        		    	</div>
 			    		</div>
 
-			    		<div class="col-md-2">
+			    		<div class="col-sm-3">
 				    		<div class="form-group element has-feedback {{login_error ? 'has-error' : ''}}">
 	        		    	    <input class="form-control" ng-model="password" type="password" placeholder="Passwort">
 	        		    	    <i class="fa fa-remove form-control-feedback" ng-show="login_error" style="margin-top:9px;"></i>
@@ -37,9 +33,9 @@
 	        		    	</div>
 			    		</div>
 
-			    		<div class="col-md-1">
+			    		<div class="col-sm-2">
 				    		<button class="btn btn-index-top">
-					        	<i class="fa fa-sign-in fa-fw hidden-xs"></i> Anmelden
+					        	<i class="fa fa-sign-in fa-fw"></i> Anmelden
 							</button>
 			    		</div>
 		    		</form>
@@ -49,10 +45,10 @@
 	    	<div class="container-back-image container-padding-6">
 	    		<div class="container">
 	    			<div class="brand">
-					    <h1><i class="fa fa-check-square-o"></i> Crucio<span ng-show="is_dev">Dev</span></h1>
+					    <h1><i class="fa fa-check-square-o"></i> Crucio</h1>
 					    
 					    <p>... hilft dir bei der Vorbereitung für Medizinklausuren an der Universität <?php echo $config['city'] ?>.
-							Hier werden Übungsfragen aus dem Studium gesammelt, gekreuzt und erklärt.</p>
+							Hier werden Übungsfragen aus dem Studium gesammelt, gekreuzt und erklärt. <span ng-show="is_dev">Hier ist die Dev-Version.</span></p>
 						
 						<a class="btn btn-lg" href="register" target="_self">Registrieren</a>
 				        <a class="btn btn-lg" data-scroll href="#more" target="_self">Mehr Infos</a>
@@ -118,14 +114,6 @@
 				    	<h2>Mitmachen</h2>
 				    	<p>Crucio lebt von deiner Anteilnahme! Wenn du dich engagieren willst, kannst du Fragen & Klausuren eintragen, Fehler korrigieren oder Erklärungen schreiben. Melde dich einfach digital unter 'Kontakt' oder bei uns in der Fachschaft Medizin.</p>
 				    </div>
-				</div>
-			</div>
-
-	    	<div class="container-dark-orange container-padding-6">
-				<div class="container container-text container-text-light">
-					<i class="fa fa-magic fa-5x"></i>
-					<h4>Noch nicht registriert?</h4>
-					<p>Auf gehts, Crucio ist seit kurzem freigeschaltet! Wenn du gar nicht in <?php echo $config['city'] ?> studierst, dann kannst du uns gerne mal anschreiben, vielleicht können wir dir helfen...</p>
 				</div>
 			</div>
 	    </div>

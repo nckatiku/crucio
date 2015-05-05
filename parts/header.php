@@ -15,8 +15,8 @@
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300,400,700" />
 
 <script src="public/js/jquery.min.js"></script>
-<script src="public/js/angular.min.js"></script>
 <script src="public/js/bootstrap.min.js"></script>
+<script src="public/js/angular.min.js"></script>
 
 <script src="public/js/angular-route.min.js"></script>
 <script src="public/js/angular-cookie.min.js"></script>
