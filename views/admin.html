@@ -23,8 +23,8 @@
     								<button class="btn btn-success" ng-click="send_mail()">Mail an Auswahl</button>
     							</div>
 
-    							<div class="btn-group mtop">
-    								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+    							<div class="btn-group mtop" dropdown>
+    								<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
     									{{ user_search.semester ? user_search.semester + '. Semester' : 'Alle Semester' }} <span class="caret"></span>
     								</button>
 
@@ -37,8 +37,9 @@
     							    	<li><a href ng-click="user_search.semester=''">Alle Semester</a></li>
 									</ul>
     							</div>
-    							<div class="btn-group mtop">
-    								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+    							
+    							<div class="btn-group mtop" dropdown>
+    								<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
     									{{ user_search.group ? user_search.group : 'Alle Gruppen' }} <span class="caret"></span>
     								</button>
 

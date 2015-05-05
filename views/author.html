@@ -25,8 +25,8 @@
     								<a class="btn btn-success" id="newfeedform" ng-click="new_exam()">Neue Klausur</a>
     							</div>
 
-    							<div class="btn-group mtop">
-    								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+    							<div class="btn-group mtop" dropdown>
+    								<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
     									{{ exam_search.subject ? exam_search.subject : 'Alle Fächer' }} <span class="caret"></span>
     								</button>
     								<ul class="dropdown-menu" role="menu">
@@ -116,8 +116,8 @@
 					<div class="row mmtop">
 						<div class="col-md-6 col-sm-6">
 							<div class="btn-toolbar" role="toolbar">
-								<div class="btn-group mtop">
-									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+								<div class="btn-group mtop" dropdown>
+									<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
 										{{ comment_search.username ? comment_search.username : 'Alle Benutzer' }} <span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
@@ -128,8 +128,8 @@
 								    	<li><a href ng-click="comment_search.username=''">Alle Benutzer</a></li>
 									 </ul>
 								</div>
-								<div class="btn-group mtop">
-									<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+								<div class="btn-group mtop" dropdown>
+									<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
 										{{ comment_search.username_added ? comment_search.username_added : 'Alle Autoren' }} <span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
