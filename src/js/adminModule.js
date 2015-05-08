@@ -1,6 +1,6 @@
 angular.module('adminModule', [])
 
-	.controller('adminCtrl', function($scope, Page, Auth, $http, Selection, $interval) {
+	.controller('adminCtrl', function($scope, Page, Auth, API, Selection, $interval) {
 		Page.setTitleNav('Verwaltung | Crucio', 'Admin');
 		$scope.user = Auth.user();
 
@@ -44,8 +44,8 @@ angular.module('adminModule', [])
 			}
 		    $scope.questions_by_comment_display.sort(function(a, b) {return b[0].date - a[0].date});
 		}, true);
-
-		$http.get('api/v1/users').success(function(data) {
+		
+		API.get('/users', function(data) {
 			$scope.users = data.users;
 			$scope.distinct_semesters = Selection.find_distinct($scope.users, 'semester');
 			$scope.distinct_semesters.sort(function(a, b) {return a-b});
@@ -53,8 +53,8 @@ angular.module('adminModule', [])
 
 			$scope.ready = 1;
 		});
-
-		$http.get('api/v1/comments').success(function(data) {
+		
+		API.get('/comments', function(data) {
 			$scope.comments = data.comments;
 			$scope.distinct_questions = Selection.find_distinct($scope.comments, 'question_id');
 			$scope.distinct_users = Selection.find_distinct($scope.comments, 'username');
@@ -78,12 +78,12 @@ angular.module('adminModule', [])
 		    });
 		    $scope.questions_by_comment_display = $scope.questions_by_comment;
 		});
-
-		$http.get('api/v1/whitelist').success(function(data) {
+		
+		API.get('/whitelist', function(data) {
 			$scope.whitelist = data.whitelist;
 		});
-
-		$http.get('api/v1/stats/general').success(function(data) {
+		
+		API.get('/stats/general', function(data) {
 			$scope.stats = data.stats;
 		});
 
@@ -93,8 +93,8 @@ angular.module('adminModule', [])
 			if (email.length) {
 				$scope.whitelist.push({username: '', mail_address: email});
 
-				var post_data = {'mail_address': email.replace('@','(@)')};
-				$http.post('api/v1/whitelist', post_data).success(function(data) { });
+				var postData = {mail_address: email.replace('@','(@)')};
+				API.post('/whitelist', postData, function(data) { });
 			}
 		}
 
@@ -102,7 +102,7 @@ angular.module('adminModule', [])
 			var email = $scope.whitelist[index].mail_address;
 			if (email.length) {
 				$scope.whitelist.splice(index, 1);
-				$http.delete('api/v1/whitelist/' + email).success(function(data) { });
+				API.delete('/whitelist/' + email, function(data) { });
 			}
 		}
 
@@ -134,9 +134,9 @@ angular.module('adminModule', [])
 				$scope.users[index].group_name = 'Autor';
 			}
 
-			var post_data = {'group_id': group_id};
 			$scope.users[index].group_id = group_id;
-			$http.put('api/v1/users/' + user_id + '/group', post_data).success(function(data) { });
+			var postData = {'group_id': group_id};
+			API.put('/users/' + user_id + '/group', postData, function(data) { });
 		}
 
 		$scope.is_today = function(date) {
@@ -178,21 +178,21 @@ angular.module('adminModule', [])
 		}
 
 		$scope.increase_semester = function() {
-			var post_data = {'number': '1'};
-	    	$http.post('api/v1/admin/change-semester/dFt(45i$hBmk*I', post_data).success(function(data) {
+			var postData = {'number': '1'};
+			API.post('/admin/change-semester/dFt(45i$hBmk*I', postData, function(data) {
 	    		alert(data.status);
 			});
 		}
 
 		$scope.decrease_semester = function() {
-			var post_data = {'number': '-1'};
-	    	$http.post('api/v1/admin/change-semester/dFt(45i$hBmk*I', post_data).success(function(data) {
+			var postData = {'number': '-1'};
+	    	API.post('/admin/change-semester/dFt(45i$hBmk*I', postData, function(data) {
 	    		alert(data.status);
 			});
 		}
 
 		$scope.remove_test_account = function(index) {
-			$http.delete('api/v1/users/test-account').success(function(data) {
+			API.delete('/users/test-account', function(data) {
 				alert(data.status);
 			});
 		}

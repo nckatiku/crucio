@@ -1,6 +1,6 @@
 angular.module('learnModule', ['ui.slider'])
 
-	.controller('questionsCtrl', function($scope, Page, Auth, $location, $http, Selection) {
+	.controller('questionsCtrl', function($scope, Page, Auth, API, $location, Selection) {
 		Page.setTitleNav('Lernen | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 
@@ -25,8 +25,8 @@ angular.module('learnModule', ['ui.slider'])
 		$scope.slider = { step: 10, min: 0, max: $scope.number_questions_in_choosen_subjects}
 		
 		$scope.$watch("selection_subject_list", function( newValue, oldValue ) {
-			var post_data = {ignoreLoadingBar: true, selection_subject_list: $scope.selection_subject_list};
-			$http.post('api/v1/learn/number-questions', post_data).success(function(data) {
+			var postData = {ignoreLoadingBar: true, selection_subject_list: $scope.selection_subject_list};
+			API.post('/learn/number-questions', postData, function(data) {
 				$scope.number_questions_in_choosen_subjects = data.number_questions;
 
 				if ($scope.selection_number_questions == 0) {
@@ -54,8 +54,8 @@ angular.module('learnModule', ['ui.slider'])
 					max += step;
 			$scope.slider = { step: step, min: 0, max: max}
 		}, true);
-
-		$http.get('api/v1/exams/user_id/' + $scope.user.user_id).success(function(data) {
+		
+		API.get('/exams/user_id/' + $scope.user.user_id, function(data) {
 			$scope.exams = data.exam;
 			$scope.distinct_semesters = Selection.find_distinct($scope.exams, 'semester');
 			$scope.distinct_subjects = Selection.find_distinct($scope.exams, 'subject');
@@ -68,8 +68,9 @@ angular.module('learnModule', ['ui.slider'])
 		    	if (entry.semester != $scope.user.semester) { select = false; }
 		    	if (entry.date == 'unbekannt') { select = false; }
 
-		    	if ($scope.exams.length > 10)
+		    	if ($scope.exams.length > 10) {
 			    	if (entry.question_count < 30) { select = false; }
+		    	}
 
 		    	if (entry.answered_questions > 0) { select = true; }
 
@@ -86,7 +87,7 @@ angular.module('learnModule', ['ui.slider'])
 		    $scope.ready = 1;
 		});
 
-		$http.get('api/v1/tags/' + $scope.user.user_id).success(function(data) {
+		API.get('/tags/' + $scope.user.user_id, function(data) {
 			$scope.tags = data.tags;
 
 			$scope.distinct_tags = [];
@@ -129,7 +130,7 @@ angular.module('learnModule', ['ui.slider'])
 		    });
 		});
 
-		$http.get('api/v1/comments/' + $scope.user.user_id).success(function(data) {
+		API.get('/comments/' + $scope.user.user_id, function(data) {
 			$scope.comments = data.comments;
 			
 			$scope.questions_by_comment = {};
@@ -144,7 +145,7 @@ angular.module('learnModule', ['ui.slider'])
 
 		$scope.learn_exam = function(exam_id) {
 	    	var random = 1;
-	    	$http.get('api/v1/exams/action/prepare/' + exam_id + '/' + random).success(function(data) {
+	    	API.get('/exams/action/prepare/' + exam_id + '/' + random, function(data) {
 		    	var questionList = {'list': data.list};
 	    		questionList['exam_id'] = exam_id;
 				localStorage.currentQuestionList = angular.toJson(questionList);
@@ -153,8 +154,8 @@ angular.module('learnModule', ['ui.slider'])
 		}
 
 		$scope.learn_subjects = function() {
-			var post_data = {selection_subject_list: $scope.selection_subject_list, selection_number_questions: $scope.selection_number_questions};
-	    	$http.post('api/v1/learn/prepare', post_data).success(function(data) {
+			var postData = {selection_subject_list: $scope.selection_subject_list, selection_number_questions: $scope.selection_number_questions};
+			API.post('/learn/prepare', postData, function(data) {
 		    	var questionList = {'list': data.list};
 	    		questionList['selection_subject_list'] = data.selection_subject_list;
 				localStorage.currentQuestionList = angular.toJson(questionList);
@@ -165,19 +166,16 @@ angular.module('learnModule', ['ui.slider'])
 		$scope.reset_results = function(index) {
 			var exam_id = $scope.exams[index].exam_id;
 			$scope.exams[index].answered_questions = 0;
-			var post_data = {};
-			$http.delete('api/v1/results/' + $scope.user.user_id + '/' + exam_id, post_data).success(function(data) { });
+			API.delete('/results/' + $scope.user.user_id + '/' + exam_id, function(data) { });
 		}
 
 		$scope.reset_abstract_results = function(index) {
 			var exam_id = $scope.abstract_exams[index].exam_id;
 			$scope.abstract_exams[index].answered_questions = 0;
-			var post_data = {};
-			$http.delete('api/v1/results/' + $scope.user.user_id + '/' + exam_id, post_data).success(function(data) { });
+			API.delete('/results/' + $scope.user.user_id + '/' + exam_id, function(data) { });
 		}
 
 		$scope.toggle_selection = function(subject, category, checked) {
-
 			var selection = $scope.selection_subject_list;
 			var subjects = $scope.subject_list;
 
@@ -229,8 +227,7 @@ angular.module('learnModule', ['ui.slider'])
 			if (query_question.length) {
 				spinner.spin(document.getElementById('spinner'));
 
-				var post_data = {'query': query_question, 'subject': $scope.question_search_subject, 'semester': $scope.question_search_semester};
-				$http.get('api/v1/questions/search/' + $scope.question_search_query + '/' + $scope.user.user_id).success(function(data) {
+				API.get('/questions/search/' + $scope.question_search_query + '/' + $scope.user.user_id, function(data) {
 				    spinner.stop();
 
 		    	    if (data.result.length == 0) {
@@ -264,18 +261,18 @@ angular.module('learnModule', ['ui.slider'])
 	})
 
 
-	.controller('examCtrl', function($scope, $routeParams, Page, Auth, $http, $location, $modal) {
+	.controller('examCtrl', function($scope, $routeParams, Page, Auth, API, $location, $modal) {
 		Page.setTitleNav('Klausur | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 		
-		$scope.exam_id = $routeParams['id'];
-		$scope.questionList = {'exam_id': $scope.exam_id, 'list': []};
+		$scope.exam_id = $routeParams.id;
+		$scope.questionList = {exam_id: $scope.exam_id, list: []};
 
 		$scope.Math = window.Math;
 
 		$scope.current_index = 0;
-
-		$http.get('api/v1/exams/' + $scope.exam_id).success(function(data) {
+		
+		API.get('/exams/' + $scope.exam_id, function(data) {
 			$scope.exam = data;
 
 			var questions =  $scope.exam.questions;
@@ -285,13 +282,8 @@ angular.module('learnModule', ['ui.slider'])
 			}
 		});
 
-
 		$scope.save_answer = function(question_i, given_answer) {
 			$scope.questionList.list[question_i].given_result = String(given_answer);
-		}
-
-		$scope.scroll_to_top = function() {
-			$(window).scrollTop(0);
 		}
 
 		$scope.hand_exam = function() {
@@ -311,7 +303,7 @@ angular.module('learnModule', ['ui.slider'])
 	})
 
 
-	.controller('questionCtrl', function($scope, Page, Auth, $routeParams, $http, $location, $modal) {
+	.controller('questionCtrl', function($scope, Page, Auth, API, $routeParams, $location, $modal) {
 		Page.setTitleNav('Frage | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 		
@@ -362,8 +354,8 @@ angular.module('learnModule', ['ui.slider'])
 				}
 			}
 		}, true);
-
-		$http.get('api/v1/questions/' + $scope.question_id + '/user/' + $scope.user.user_id).success(function(data) {
+		
+		API.get('/questions/' + $scope.question_id + '/user/' + $scope.user.user_id, function(data) {
 			$scope.question = data;
 
 			if ($scope.question.question_image_url) {
@@ -406,12 +398,12 @@ angular.module('learnModule', ['ui.slider'])
 			    tagClass: 'tm-tag-danger',
 			    onlyTagList: false,
 			    createHandler: function(tagManager, tags) {
-			    	var post_data = {'tags': tags, 'question_id': $scope.question_id, 'user_id': $scope.user.user_id};
-					$http.post('api/v1/tags', post_data).success(function(data) { });
+			    	var postData = {'tags': tags, 'question_id': $scope.question_id, 'user_id': $scope.user.user_id};
+			    	API.post('/tags', postData, function(data) { });
 			    },
 			    removeHandler: function(tagManager, tags) {
 			    	var post_data = {'tags': tags, 'question_id': $scope.question_id, 'user_id': $scope.user.user_id};
-					$http.post('api/v1/tags', post_data).success(function(data) { });
+			    	API.post('/tags', postData, function(data) { });
 			    }
 			});
 
@@ -436,9 +428,8 @@ angular.module('learnModule', ['ui.slider'])
 	    	if(correct_answer == 0) { correct = -1; }
 	    	if($scope.question.type == 1) { correct = -1; }
 
-	    	var post_data = {'correct': correct, 'question_id': $scope.question_id, 'user_id': $scope.user.user_id, 'given_result': $scope.given_result};
-	    	$http.post('api/v1/results', post_data).success(function(data) { });
-
+	    	var postData = {'correct': correct, 'question_id': $scope.question_id, 'user_id': $scope.user.user_id, 'given_result': $scope.given_result};
+	    	API.post('/results', postData, function(data) { });
 
 			if ($scope.questionList) {
 	    		if(Object.keys($scope.questionList).length) {
@@ -496,8 +487,8 @@ angular.module('learnModule', ['ui.slider'])
 
 		$scope.add_comment = function() {
 			var now = new Date() / 1000;
-			var post_data = {'comment': $scope.commentText, 'question_id': $scope.question_id, 'reply_to': 0, 'username': $scope.user.username, 'date': now};
-	    	$http.post('api/v1/comments/' + $scope.user.user_id, post_data).success(function(data) {
+			var postData = {'comment': $scope.commentText, 'question_id': $scope.question_id, 'reply_to': 0, 'username': $scope.user.username, 'date': now};
+			API.post('/comments/' + $scope.user.user_id, postData, function(data) {
 				post_data.voting = 0;
 	    		post_data.user_voting = 0;
 	    		post_data.comment_id = data.comment_id;
@@ -508,26 +499,26 @@ angular.module('learnModule', ['ui.slider'])
 
 		$scope.delete_comment = function(index) {
 			var comment_id = $scope.question.comments[index].comment_id;
-			$http.delete('api/v1/comments/' + comment_id).success(function(data) { });
+			API.delete('/comments/' + comment_id, function(data) { });
 			$scope.question.comments.splice(index, 1);
 		}
 
 		$scope.increase_user_voting = function(current_user_voting, comment_id) {
 			var result = current_user_voting == 1 ? 1 : current_user_voting + 1;
-			var post_data = {'user_voting': result};
-			$http.post('api/v1/comments/' + comment_id + '/user/' + $scope.user.user_id, post_data).success(function(data) { });
+			var postData = {'user_voting': result};
+			API.post('/comments/' + comment_id + '/user/' + $scope.user.user_id, postData, function(data) { });
 			return result;
 		}
 
 		$scope.decrease_user_voting = function(current_user_voting, comment_id) {
 			var result = current_user_voting == -1 ? -1 : current_user_voting - 1;
 			var post_data = {'user_voting': result};
-			$http.post('api/v1/comments/' + comment_id + '/user/' + $scope.user.user_id, post_data).success(function(data) { });
+			API.post('/comments/' + comment_id + '/user/' + $scope.user.user_id, postData, function(data) { });
 			return result;
 		}
 
 		$scope.open_image_model = function() {
-			var modalInstance = $modal.open({
+			$modal.open({
 		    	templateUrl: 'imageModalContent.html',
 		    	controller: 'ModalInstanceCtrl',
 				resolve: {
@@ -543,7 +534,7 @@ angular.module('learnModule', ['ui.slider'])
 	})
 
 
-	.controller('analysisCtrl', function($scope, Page, Auth, $http) {
+	.controller('analysisCtrl', function($scope, Page, Auth, API) {
 		Page.setTitleNav('Analyse | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 		
@@ -569,8 +560,8 @@ angular.module('learnModule', ['ui.slider'])
 						var correct = (question.correct_answer == question.given_result) ? 1 : 0;
 						if (question.correct_answer == 0) { correct = -1; }
 
-						var post_data = {'correct': correct, 'question_id': question.question_id, 'user_id': $scope.user.user_id, 'given_answer': question.given_result};
-						$http.post('api/v1/results', post_data).success(function(data) { });
+						var postData = {'correct': correct, 'question_id': question.question_id, 'user_id': $scope.user.user_id, 'given_answer': question.given_result};
+						API.post('/results', postData, function(data) { });
 					}
 				}
 				question.mark_answer = 'analysis';
@@ -578,7 +569,7 @@ angular.module('learnModule', ['ui.slider'])
 		}
 
 		$scope.workedQuestionList = $scope.questionList.list.getArrayByKey('given_result');
-		$scope.exam_id = $scope.questionList['exam_id'];
+		$scope.exam_id = $scope.questionList.exam_id;
 
 		$scope.all_question_count = $scope.questionList.list.length;
 		$scope.worked_question_count = $scope.workedQuestionList.length;
@@ -623,7 +614,7 @@ angular.module('learnModule', ['ui.slider'])
 		}
 
 		if ($scope.exam_id) {
-			$http.get('api/v1/exams/' + $scope.exam_id).success(function(data) {
+			API.get('/exams/' + $scope.exam_id, function(data) {
 				$scope.exam = data;
 			});
 		}

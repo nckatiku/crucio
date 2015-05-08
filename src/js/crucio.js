@@ -65,7 +65,7 @@ app.run(function ($location, Auth) {
 	
 	var routeInArray = function (route, array) {
 		var route_c = route;
-		if(route.indexOf('?') > -1) {
+		if (route.indexOf('?') > -1) {
 			route_c = route.substr(0, route.indexOf('?'));
 		}
 		return ( array.indexOf(route_c) > -1) ? true : false;
@@ -135,8 +135,34 @@ app.factory('Auth', function($window) {
 			sessionStorage.removeItem('user');
 			localStorage.removeItem('user');
 			$window.location.replace($window.location.origin);
+		},
+		setUser: function(newUser) { // Sets new user
+			if (angular.isDefined(sessionStorage.user)) {
+				sessionStorage.user = angular.toJson(newUser);
+			}
+			if (angular.isDefined(localStorage.user)) {
+				localStorage.user = angular.toJson(newUser);
+			}
 		}
 	};
+});
+
+app.factory('API', function($http) {
+	return {
+		get: function(path, successFunction) {
+			$http.get('api/v1' + path).success(function(data) { successFunction(data); });
+		},
+		post: function(path, postData, successFunction) {
+			$http.post('api/v1' + path, postData).success(function(data) { successFunction(data); });
+		},
+		put: function(path, postData, successFunction) {
+			$http.put('api/v1' + path, postData).success(function(data) { successFunction(data); });
+		},
+		delete: function(path, successFunction) {
+			var postData = {};
+			$http.delete('api/v1' + path, postData).success(function(data) { successFunction(data); });
+		}
+	}
 });
 
 

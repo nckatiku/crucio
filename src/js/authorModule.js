@@ -1,6 +1,6 @@
 angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 
-	.controller('authorCtrl', function($scope, Page, Auth, $location, $http, Selection) {
+	.controller('authorCtrl', function($scope, Page, Auth, API, $location, Selection) {
 		Page.setTitleNav('Autor | Crucio', 'Autor');
 		$scope.user = Auth.user();
 
@@ -41,8 +41,8 @@ angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 		    });
 		    $scope.questions_by_comment_display.sort(function(a, b) {return b[0].date - a[0].date});
 		}, true);
-
-		$http.get('api/v1/exams/all-visibility').success(function(data) {
+		
+		API.get('/exams/all-visibility', function(data) {
 		    $scope.exams = data.exams;
 
 		    // Find Distinct Semesters
@@ -74,8 +74,8 @@ angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 
 		    $scope.ready = 1;
 		});
-
-		$http.get('api/v1/comments/author/' + $scope.user.user_id).success(function(data) {
+		
+		API.get('/comments/author/' + $scope.user.user_id, function(data) {
 		    $scope.comments = data.comments;
 
 		    // Find Distinct Comments
@@ -95,10 +95,11 @@ angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 				    }
 				}
 
-			    if (found > 0)
+			    if (found > 0) {
 			    	$scope.questions_by_comment[found].push(c);
-			    else
+			    } else {
 			    	$scope.questions_by_comment.push([c]);
+			    }
 		    });
 		    $scope.questions_by_comment.sort(function(a, b) {return b[0].date - a[0].date});
 		    $scope.questions_by_comment_display = $scope.questions_by_comment;
@@ -108,8 +109,8 @@ angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 
 
 		$scope.new_exam = function() {
-			var post_data = {'subject': '', 'professor': '', 'semester': '', 'date': '', 'type': '', 'user_id_added': $scope.user.user_id, 'duration': '', 'notes': ''};
-		    $http.post('api/v1/exams', post_data).success(function(data, status, headers) {
+			var postData = {'subject': '', 'professor': '', 'semester': '', 'date': '', 'type': '', 'user_id_added': $scope.user.user_id, 'duration': '', 'notes': ''};
+			API.post('/exams', postData, function(data) {
 		    	$location.path('/edit-exam').search('id', data.exam_id);
 		    });
 		}
@@ -132,7 +133,7 @@ angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 	})
 
 
-	.controller('editCtrl', function($scope, $routeParams, Page, Auth, $location, $http, FileUploader) {
+	.controller('editCtrl', function($scope, $routeParams, Page, Auth, API, $location, FileUploader) {
 		Page.setTitleNav('Klausur | Crucio', 'Autor');
 		$scope.user = Auth.user();
 		
@@ -194,24 +195,26 @@ angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 		$scope.$on('$locationChangeStart', function (event, next, current) {
 			if ($scope.has_changed == 1) {
 				var confirmClose = confirm('Die Änderungen an deiner Klausur bleiben dann ungespeichert. Wirklich verlassen?');
-				if (!confirmClose)
+				if (!confirmClose) {
 					event.preventDefault();
+				}	
 			}
 		});
 
 		$(window).on('resize', function(){
 	    	resize_overscroll();
     	});
-
-		$http.get('api/v1/exams/' + $scope.exam_id).success(function(data) {
+		
+		API.get('/exams/' + $scope.exam_id, function(data) {
 			$scope.exam = data;
 
 			$scope.exam.semester = parseInt(data.semester);
 			$scope.exam.duration = parseInt(data.duration);
 
 			for (var i = 0; i < $scope.exam.questions.length; i++) {
-				if ($scope.exam.questions[i].topic.length == 0)
+				if ($scope.exam.questions[i].topic.length == 0) {
 					$scope.exam.questions[i].topic = 'Sonstiges';
+				}
 			}
 
 			remake_uploader_array();
@@ -260,8 +263,9 @@ angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 		$scope.delete_question = function(index) {
 			var question_id = $scope.exam.questions[index].question_id;
 
-			if (question_id)
-				$http.delete('api/v1/questions/' + question_id).success(function(data, status, headers) { });
+			if (question_id) {
+				API.delete('/questions/' + question_id, function(data) { });
+			}
 			$scope.exam.questions.splice(index, 1);
 
 			remake_uploader_array();
@@ -289,30 +293,32 @@ angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 			if (validate) {
 				$scope.is_saving = 1;
 
-				var post_data = $scope.exam;
-				$http.put('api/v1/exams/' + $scope.exam_id, post_data).success(function(data) { });
+				var postData = $scope.exam;
+				API.put('/exams/' + $scope.exam_id, postData, function(data) { });
 
 				$scope.exam.questions.forEach(function(question) {
 					var validate_question = true;
-					if(!question.question.length) { validate_question = false; }
-					if(question.question_id) { validate_question = true; }
+					if (!question.question.length) { validate_question = false; }
+					if (question.question_id) { validate_question = true; }
 
-		    		if(validate_question) {
-			    		if (!question.explanation) {}
+		    		if (validate_question) {
+			    		if (!question.explanation) {
 			    			question.explanation = '';
-			    		if (!question.question_image_url)
+			    		}
+			    		if (!question.question_image_url) {
 			    			question.question_image_url = '';
+			    		}
 
-		    			var post_question_data = {'question': question.question, 'topic': question.topic, 'type': question.type, 'answers': question.answers, 'correct_answer': question.correct_answer, 'exam_id': $scope.exam.exam_id, 'user_id_added': $scope.user.user_id, 'explanation': question.explanation, 'question_image_url': question.question_image_url};
+		    			var postQuestionData = {'question': question.question, 'topic': question.topic, 'type': question.type, 'answers': question.answers, 'correct_answer': question.correct_answer, 'exam_id': $scope.exam.exam_id, 'user_id_added': $scope.user.user_id, 'explanation': question.explanation, 'question_image_url': question.question_image_url};
 
 		    			// New Question
 		    			if(!question.question_id) {
-		    				$http.post('api/v1/questions', post_question_data).success(function(data) {
-		    					question.question_id = data.question_id;
-							});
+			    			API.post('/questions', postQuestionData, function(data) {
+				    			question.question_id = data.question_id;
+			    			});
 
 		    			} else {
-		    				$http.put('api/v1/questions/' + question.question_id, post_question_data).success(function(data) { });
+			    			API.put('/questions/' + question.question_id, postQuestionData, function(data) { });
 		    			}
 		    		}
 				});
@@ -325,7 +331,7 @@ angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 		}
 
 		$scope.delete_exam = function() {
-			$http.delete('api/v1/exams/'+$scope.exam.exam_id).success(function(data) {
+			API.delete('/exams/' + $scope.exam.exam_id, function(data) {
 				$location.url('/author');
 			});
 		}

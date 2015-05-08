@@ -17,39 +17,10 @@
 		<link rel="stylesheet" href="public/css/crucio.min.css" />
 		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300,400,700" />
 		
-		<script src="public/js/jquery.min.js"></script>
-		<script src="public/js/bootstrap.min.js"></script>
-		<script src="public/js/angular.min.js"></script>
-		
-		<script src="public/js/angular-route.min.js"></script>
-		<script src="public/js/angular-sanitize.min.js"></script>
-		<script src="public/js/angular-file-upload.min.js"></script>
-		
-		<script src="public/js/textAngular.min.js"></script>
-		<script src="public/js/textAngularSetup.js"></script>
-		<script src="public/js/loading-bar.min.js"></script>
-		<script src="public/js/Chart.min.js"></script>
-		<script src="public/js/tagmanager.js"></script>
-		<script src="public/js/spin.js"></script>
-		<script src="public/js/angles.js"></script>
-		<script src="public/js/ui-bootstrap-tpls.min.js"></script>
-		<script src="public/js/slider.js"></script>
-		
-		<script src="public/js/crucio.min.js"></script>
-		
-		<script>
-			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-			ga('create', 'UA-47836301-1', 'crucio-leipzig.de');
-			ga('send', 'pageview');
-		</script>
-		
 		<title ng-controller="titleCtrl" ng-bind="title()"></title>
 	</head>
 
-	<body class="body-padding">
+	<body class="body-padding" style="visibility: hidden;">
 		<div class="wrap">
 			<nav class="navbar navbar-crucio navbar-fixed-top" role="navigation" ng-controller="navCtrl">
 				<div class="container">
@@ -122,4 +93,40 @@
 			</div>
 		</div>
 	</body>
+	
+	<script>
+		var body = document.getElementsByTagName('body')[0];
+		body.style.visibility = 'visible';
+		if (sessionStorage.freshLogin) {
+			sessionStorage.removeItem('freshLogin');
+			body.className = body.className + ' body-animated';
+		}
+		
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-47836301-1', 'crucio-leipzig.de');
+		ga('send', 'pageview');
+	</script>
+	
+	<script src="public/js/jquery.min.js"></script>
+	<script src="public/js/bootstrap.min.js"></script>
+	<script src="public/js/angular.min.js"></script>
+	
+	<script src="public/js/angular-route.min.js"></script>
+	<script src="public/js/angular-sanitize.min.js"></script>
+	<script src="public/js/angular-file-upload.min.js"></script>
+	
+	<script src="public/js/textAngular.min.js"></script>
+	<script src="public/js/textAngularSetup.js"></script>
+	<script src="public/js/loading-bar.min.js"></script>
+	<script src="public/js/Chart.min.js"></script>
+	<script src="public/js/tagmanager.js"></script>
+	<script src="public/js/spin.js"></script>
+	<script src="public/js/angles.js"></script>
+	<script src="public/js/ui-bootstrap-tpls.min.js"></script>
+	<script src="public/js/slider.js"></script>
+	
+	<script src="public/js/crucio.min.js"></script>
 </html>

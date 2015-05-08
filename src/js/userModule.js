@@ -1,6 +1,6 @@
 angular.module('userModule', ['ui.slider'])
 
-	.controller('accountCtrl', function($scope, Page, Auth, Validate, $http) {
+	.controller('accountCtrl', function($scope, Page, Auth, API, Validate) {
 		Page.setTitleNav('Account | Crucio', 'Name');
 		$scope.user = Auth.user();
 		$scope.user.semester = parseInt($scope.user.semester);
@@ -36,14 +36,10 @@ angular.module('userModule', ['ui.slider'])
 			if (!Validate.email($scope.user.email)) {
 				validation = false;
 			}	
-			if ($scope.user.semester < 1) {
-				validation = false;
-			}	
-			if ($scope.user.semester > 30) {
+			if (!$scope.user.semester || $scope.user.semester <= 0) {
 				validation = false;
 			}
 				
-
 			// Assuming User Wants to Change Password
 			if ($scope.old_password.length > 0) {
 				if ($scope.new_password.length < 6) {
@@ -61,15 +57,14 @@ angular.module('userModule', ['ui.slider'])
 
 			$scope.submit_button_title = 'Speichern...';
 
-			var post_data = {'email': $scope.user.email.replace('@','(@)'), 'course_id': $scope.user.course_id, 'semester': $scope.user.semester, 'current_password': $scope.old_password, 'password': $scope.new_password};
-
-			$http.put('api/v1/users/' + $scope.user.user_id + '/account', post_data).success(function(data, status, headers) {
+			var postData = {'email': $scope.user.email.replace('@','(@)'), 'course_id': $scope.user.course_id, 'semester': $scope.user.semester, 'current_password': $scope.old_password, 'password': $scope.new_password};
+			API.put('/users/' + $scope.user.user_id + '/account', postData, function(data) {
 				if(data.status == 'success') {
-			    	localStorage.user = angular.toJson($scope.user);
+					Auth.setUser($scope.user);
 			    	$scope.submit_button_title = 'Gespeichert';
 
 				} else {
-					$scope.user = angular.fromJson(localStorage.user);
+					$scope.user = Auth.user();
 					$scope.user.semester = parseInt($scope.user.semester);
 
 					if (data.status == 'error_incorrect_password')
@@ -82,7 +77,7 @@ angular.module('userModule', ['ui.slider'])
 	})
 
 
-	.controller('settingsCtrl', function($scope, Page, Auth, $http) {
+	.controller('settingsCtrl', function($scope, Page, Auth, API) {
 		Page.setTitleNav('Einstellungen | Crucio', 'Name');
 		$scope.user = Auth.user();
 
@@ -91,29 +86,28 @@ angular.module('userModule', ['ui.slider'])
 	    $scope.update_user = function() {
 		    $scope.submit_button_title = 'Speichern...';
 		    
-		    var post_data = {'highlightExams': $scope.user.highlightExams, 'showComments': $scope.user.showComments, 'repetitionValue': $scope.user.repetitionValue, 'useAnswers': $scope.user.useAnswers, 'useTags': $scope.user.useTags};
-		    $http.put('api/v1/users/' + $scope.user.user_id + '/settings', post_data).success(function(data) {
+		    var postData = {'highlightExams': $scope.user.highlightExams, 'showComments': $scope.user.showComments, 'repetitionValue': $scope.user.repetitionValue, 'useAnswers': $scope.user.useAnswers, 'useTags': $scope.user.useTags};
+		    API.put('/users/' + $scope.user.user_id + '/settings', postData, function(data) {
 		    	if (data.status == 'success') {
-			    	localStorage.user = angular.toJson($scope.user);
+			    	Auth.setUser($scope.user);
 			    	$scope.submit_button_title = 'Gespeichert';
 
 		    	} else {
-		    		$scope.user = angular.fromJson(localStorage.user);
+		    		$scope.user = Auth.user();
 		    		$scope.submit_button_title = 'Speichern nicht möglich...';
 		    	}
 		    });
 		}
 
 		$scope.remove_all_results = function() {
-			var post_data = {};
-			$http.delete('api/v1/results/' + $scope.user.user_id, post_data).success(function(data) { });
+			API.delete('/results/' + $scope.user.user_id, function(data) { });
 		}
 	})
 
 
-	.service('Validate', function($http) {
+	.service('Validate', function(API) {
 		var whitelist = Array();
-		$http.get('api/v1/whitelist').success(function(data) {
+		API.get('/whitelist', function(data) {
 			whitelist = data.whitelist;
 		});
 

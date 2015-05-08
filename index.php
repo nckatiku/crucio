@@ -13,13 +13,11 @@
 			angularModule.controller('ctrl', function($scope, $http, $window) {
 				// Check if user is in session storage
 				if (angular.isDefined(localStorage.user)) {
-					sessionStorage.freshLogin = true;
 					$window.location.replace('/questions');
 				
 				// Check if user is in local storage (persistant)
 				} else if (angular.isDefined(sessionStorage.user)) {
 					localStorage.user = sessionStorage.user;
-					sessionStorage.freshLogin = true;
 					$window.location.replace('/questions');
 				}
 				
@@ -56,6 +54,7 @@
 							    localStorage.user = angular.toJson(data.logged_in_user);
 						    }	
 							sessionStorage.user = angular.toJson(data.logged_in_user);
+							sessionStorage.freshLogin = true;
 			    			$window.location.replace('/questions');
 						
 			    		} else {
