@@ -15,7 +15,7 @@ Falls du/ihr Crucio bei euch einführen möchtet, braucht ihr einen Server mit P
 1. Ladet dieses Repository z.B. unter `Download ZIP` auf der rechten Seite herunter.
 2. Ladet über euren FTP-Zugang die Dateien aus dem Repository auf euren Server hoch. (Den `src`-Ordner braucht ihr dabei nicht hochzuladen.)
 3. Tragt in die Datei `config.example.php` im Ordner `api` eure Zugangsdaten für die MySQL-Datenbank ein und ändert den Namen in `config.php`.
-4. Ladet die leere MySQL-Datenbank aus `src/mysql` in eure Datenbank hoch. 
+4. Ladet die leere MySQL-Datenbank `src/sql/database-structure.sql` in eure Datenbank hoch. 
 5. Ändert das Impressum in `about.php` auf euren Namen.
  
 Falls ihr Hilfe bei der Einrichtung und Wartung braucht, könnt ihr euch gerne melden.
