@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html ng-app="crucio.outside" id="ng-app">
+<html id="ng-app" lang="de" ng-app="crucio.outside">
 	<head>
 		<?php include 'parts/header.php'; ?>
 		
 		<title>Account Aktivierung | Crucio</title>
 		
 		<script src="public/js/ui-bootstrap-tpls.min.js"></script>
-		<script type="text/javascript">
+		<script>
 			var angularModule = angular.module('crucio.outside', []);
 			angularModule.controller('ctrl', function($scope, $http, $window, $location) {
 				// Check if user is in local storage
@@ -50,7 +50,7 @@
 			    		</div>
 
 			    		<div class="col-sm-2 col-xs-4">
-				    		<a href="/" class="btn btn-index-top">
+				    		<a class="btn btn-index-top" href="/">
 					        	<i class="fa fa-sign-in fa-fw"></i> Anmelden
 							</a>
 			    		</div>

@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html ng-app="crucio.outside" id="ng-app">
+<html id="ng-app" lang="de" ng-app="crucio.outside">
 	<head>
 		<?php include 'parts/header.php'; ?>
 		
 		<title>Impressum | Crucio</title>
 		
-		<script type="text/javascript">
+		<script>
 			var angularModule = angular.module('crucio.outside', []);
 			angularModule.controller('ctrl', function($scope) {
-				// Check if user is in local storage
-				if (angular.isDefined(localStorage.user)) {
-					$scope.user = angular.fromJson(localStorage.user);
+				// Check if user is in session storage
+				if (angular.isDefined(sessionStorage.user)) {
+					$scope.user = angular.fromJson(sessionStorage.user);
 				}
 			});
 		</script>
@@ -26,11 +26,11 @@
 			    		</div>
 
 			    		<div class="col-sm-2">
-				    		<a href="/" class="btn btn-index-top" ng-if="!user">
+				    		<a class="btn btn-index-top" href="/" ng-if="!user">
 					        	<i class="fa fa-sign-in fa-fw"></i> Anmelden
 							</a>
 							
-							<a href="/questions" class="btn btn-index-top" ng-if="user">
+							<a class="btn btn-index-top" href="/questions" ng-if="user">
 					        	<i class="fa fa-angle-left fa-fw"></i> Zurück
 							</a>
 			    		</div>

@@ -1,4 +1,4 @@
-angular.module('authorModule', ['angularFileUpload', 'textAngular'])
+angular.module('app.author', ['angularFileUpload', 'textAngular'])
 
 	.controller('authorCtrl', function($scope, Page, Auth, API, $location, Selection) {
 		Page.setTitleNav('Autor | Crucio', 'Autor');

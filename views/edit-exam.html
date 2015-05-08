@@ -8,7 +8,7 @@
 	spinner.spin(document.getElementById('spinner'));
 </script>
 
-<div class="container" ng-show="ready==0" style="padding-top: 200px;">
+<div class="container" style="padding-top: 200px;" ng-show="ready==0">
 	<div class="spinner" id="spinner" style="margin-top:-60px;"></div>
 	<div class="spinner-text"><p class="text-muted">Klausur laden</p></div>
 </div>
@@ -36,16 +36,16 @@
 
 	    	<div class="edit-exam-wrapper" >
 				<ul class="list-group exam-edit-list-group">
-					<a class="list-group-item" ng-class="{active: !open_question_id}" href="" data-target="#info" data-toggle="tab">
+					<a class="list-group-item" data-target="#info" data-toggle="tab" href="" ng-class="{active: !open_question_id}">
 						<h4 class="list-group-item-heading">Allgemeine Infos <i class="fa fa-chevron-right pull-right"></i></h4>
 						<p class="list-group-item-text">
 							<i class="fa fa-fw fa-flask"></i> {{ exam.subject }} <i class="fa fa-fw"></i><i class="fa fa-fw fa-calendar"></i> {{ exam.date }}
 						</p>
 					</a>
 
-					<a class="list-group-item question-item" href ng-class="{active: open_question_id==q.question_id && open_question_id}" ng-repeat="q in exam.questions" data-target="#{{ $index+1 }}" data-toggle="tab" id="{{ q.question_id }}">
-						<div ng-show="q.type==1" class="dot dot-info pull-left" style="margin-top:2px;margin-left:-4px;"></div>
-						<div ng-show="q.type>1 && q.correct_answer==0" class="dot dot-danger pull-left" style="margin-top:2px;margin-left:-4px;"></div>
+					<a class="list-group-item question-item" id="{{ q.question_id }}" data-target="#{{ $index+1 }}" data-toggle="tab" href ng-class="{active: open_question_id==q.question_id && open_question_id}" ng-repeat="q in exam.questions">
+						<div class="dot dot-info pull-left" style="margin-top:2px;margin-left:-4px;" ng-show="q.type==1"></div>
+						<div class="dot dot-danger pull-left" style="margin-top:2px;margin-left:-4px;" ng-show="q.type>1 && q.correct_answer==0"></div>
 						<!--span ng-show="(q.topic=='' || q.topic=='Sonstiges') && subject_list[exam.subject].length > 1" class="label label-danger">Kategorie</span-->
 						<i class="fa fa-chevron-right pull-right"></i>
 						<span ng-show="q.question.length == 0 || q.question == '<br/>'">Neue Frage...</span>
@@ -58,7 +58,7 @@
 
 	    <div class="col-sm-8">
 		    <div class="tab-content">
-				<div class="tab-pane" ng-class="{active: !open_question_id}" id="info">
+				<div class="tab-pane" id="info" ng-class="{active: !open_question_id}">
 		    		<div class="form-horizontal mbotton-3x">
 		    			<div class="form-group">
 		    			    <label class="col-md-2 col-sm-3 control-label">Fach</label>
@@ -80,7 +80,7 @@
 		    			<div class="form-group">
 		    			    <label class="col-md-2 col-sm-3 control-label">Termin</label>
 		    			    <div class="col-md-6 col-sm-7">
-		    			    	<input class="form-control" type="text" ng-model="exam.date" placeholder="z.B. WS 2001/02, SS 2009 oder Unbekannt">
+		    			    	<input class="form-control" type="text" placeholder="z.B. WS 2001/02, SS 2009 oder Unbekannt" ng-model="exam.date">
 		    			    </div>
 		    			    <span class="label validation-error label-danger" ng-show="!exam.date">Hier sollte etwas stehen</span>
 		    			</div>
@@ -136,7 +136,7 @@
 		    						    <a href="/public/files/{{ exam.file_name }}" target="_self" class="btn btn-primary" ng-show="exam.file_name">
 									    <i class="fa fa-external-link fa-fw"></i> Originaldokument
 									</a>
-								    <button ng-disabled="uploader.queue.length == 0" class="btn btn-default" ng-click="uploader.queue[uploader.queue.length-1].upload()">
+								    <button class="btn btn-default" ng-disabled="uploader.queue.length == 0" ng-click="uploader.queue[uploader.queue.length-1].upload()">
 								    	<i class="fa fa-fw fa-upload"></i> Hochladen
 								    </button>
 								    <button class="btn btn-danger" ng-click="exam.file_name=''">Dokument löschen</button>
@@ -148,8 +148,8 @@
 
 			    		<div class="form-group">
 			    			<label class="col-md-2 col-sm-3 control-label">Sichtbar</label>
-
-								<div class="col-md-8 col-sm-9" style="margin-left:20px;">
+			    			
+							<div class="col-md-8 col-sm-9" style="margin-left:20px;">
 		    					<label class="checkbox">
 									<input type="checkbox" ng-model="exam.visibility" ng-true-value="'1'" ng-false-value="'0'">
 								</label>
@@ -188,7 +188,7 @@
 					</div>
 				</div>
 
-				<div class="tab-pane tab-question" ng-class="{active: (open_question_id==q.question_id && open_question_id)}" ng-repeat="q in exam.questions" id="{{ $index+1 }}" question_id="{{ q.question_id }}">
+				<div class="tab-pane tab-question" id="{{ $index+1 }}" ng-class="{active: (open_question_id==q.question_id && open_question_id)}" ng-repeat="q in exam.questions" question_id="{{ q.question_id }}">
 					<div class="form-horizontal mbottom-3x">
 						<div class="form-group">
 							<label class="col-md-2 col-sm-3 control-label">Typ</label>
@@ -226,27 +226,26 @@
 
 								<div style="margin-top: 8px;margin-bottom: 10px;">
 								    <input type="file" nv-file-select uploader="uploader_array[$index]" accept="image/jpeg, image/png"/><br/>
-								    <button ng-disabled="uploader_array[$index].queue.length == 0" class="btn btn-default" ng-click="uploader_array[$index].queue[0].upload()">
+								    <button class="btn btn-default" ng-disabled="uploader_array[$index].queue.length == 0" ng-click="uploader_array[$index].queue[0].upload()">
 								    	<i class="fa fa-fw fa-upload"></i> Hochladen
 								    </button>
 								    <button class="btn btn-danger" ng-click="q.question_image_url=''">Bild löschen</button>
 								</div>
 
-								<img ng-if="q.question_image_url" class="img-thumbnail questionImagePreview" src="/public/files/{{ q.question_image_url }}"/>
+								<img class="img-thumbnail questionImagePreview" src="/public/files/{{ q.question_image_url }}" ng-if="q.question_image_url"/>
 							</div>
 						</div>
 
 						<hr>
 
 						<div class="form-group" style="margin-bottom: -10px;">
-							<label class="col-sm-2">
-							</label>
+							<label class="col-sm-2"></label>
 							<div class="col-sm-10" style="margin-bottom: -10px;">
 								<text-angular-toolbar name="toolbarf{{$index}}" ta-toolbar="[['subscript', 'superscript'], ['times', 'sdot', 'asymp', 'radic'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega']]"></text-angular-toolbar>
 							</div>
 						</div>
 
-						<div class="form-group" ng-repeat="a in [0,1,2,3,4,5]"  id="answer{{ $index+1 }}Form" ng-show="$index < q.type">
+						<div class="form-group" id="answer{{ $index+1 }}Form" ng-repeat="a in [0,1,2,3,4,5]" ng-show="$index < q.type">
 							<label class="col-sm-2 control-label {{q.correct_answer==$index+1 ? 'text-success strong':''}}">
 								Antwort <span ng-show="q.type>1">{{ ::$index+1 }}</span>
 							</label>
@@ -258,11 +257,10 @@
 
 						<div class="form-group" ng-show="q.type>1">
 							<label class="col-sm-2 control-label">Lösung</label>
-
 							<div class="col-sm-10">
 		    					<div class="btn-group">
 			    					<label class="btn btn-success" ng-model="q.correct_answer" btn-radio="'0'">Unbekannt</label>
-    							    <label ng-repeat="a in [0,1,2,3,4,5]" ng-if="$index < q.type" class="btn btn-success" ng-model="q.correct_answer" btn-radio="'{{$index+1}}'">{{ ::$index+1 }}</label>
+    							    <label class="btn btn-success" ng-repeat="a in [0,1,2,3,4,5]" ng-if="$index < q.type" ng-model="q.correct_answer" btn-radio="'{{$index+1}}'">{{ ::$index+1 }}</label>
     							</div>
 							</div>
 						</div>
@@ -272,7 +270,7 @@
 						<div class="form-group">
 					    	<label class="col-sm-2 control-label" for="explanation">Erklärung</label>
 							<div class="col-sm-10">
-		    					<text-angular ng-model="q.explanation" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
+		    					<text-angular class="text-angular-large" ng-model="q.explanation" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]"></text-angular>
 		    					<!--textarea class="form-control" rows="3" ng-model="q.explanation"></textarea-->
 							</div>
 					    </div>
@@ -298,7 +296,7 @@
 	    			<h4 class="modal-title" id="myModalLabel">Klausur wirklich löschen?</h4>
 	    		</div>
 	    		<div class="modal-body">
-	    			<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+	    			<button class="btn btn-default" data-dismiss="modal" type="button">Abbrechen</button>
 	    			<button class="btn btn-danger pull-right" data-dismiss="modal" ng-click="delete_exam()">Löschen</button>
 	    		</div>
 	    	</div>

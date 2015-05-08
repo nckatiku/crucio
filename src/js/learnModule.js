@@ -1,12 +1,12 @@
-angular.module('learnModule', ['ui.slider'])
+angular.module('app.learn', ['ui.slider'])
 
 	.controller('questionsCtrl', function($scope, Page, Auth, API, $location, Selection) {
 		Page.setTitleNav('Lernen | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 
-		$scope.exam_search = {'subject': '', 'semester': '', 'query': '', 'query_keys': ['subject', 'semester', 'date']};
-		$scope.comment_search = {'query': '', 'query_keys': ['comment', 'username', 'question_id']};
-		$scope.tag_search = {'query': '', 'query_keys': ['tag']};
+		$scope.exam_search = {subject: '', semester: '', query: '', query_keys: ['subject', 'semester', 'date']};
+		$scope.comment_search = {query: '', query_keys: ['comment', 'username', 'question_id']};
+		$scope.tag_search = {query: '', query_keys: ['tag']};
 
 		$scope.subject_list = subject_list;
 
@@ -100,7 +100,7 @@ angular.module('learnModule', ['ui.slider'])
 		    });
 
 		    function clone(obj) {
-			    if (null == obj || "object" != typeof obj) return obj;
+			    if (null == obj || 'object' != typeof obj) return obj;
 			    var copy = obj.constructor();
 			    for (var attr in obj) {
 			        if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
@@ -147,19 +147,19 @@ angular.module('learnModule', ['ui.slider'])
 	    	var random = 1;
 	    	API.get('/exams/action/prepare/' + exam_id + '/' + random, function(data) {
 		    	var questionList = {'list': data.list};
-	    		questionList['exam_id'] = exam_id;
+	    		questionList.exam_id = exam_id;
 				localStorage.currentQuestionList = angular.toJson(questionList);
-				$location.path('/question').search('id', questionList['list'][0]['question_id']);
+				$location.path('/question').search('id', questionList.list[0].question_id);
 			});
 		}
 
 		$scope.learn_subjects = function() {
 			var postData = {selection_subject_list: $scope.selection_subject_list, selection_number_questions: $scope.selection_number_questions};
 			API.post('/learn/prepare', postData, function(data) {
-		    	var questionList = {'list': data.list};
+		    	var questionList = {list: data.list};
 	    		questionList['selection_subject_list'] = data.selection_subject_list;
 				localStorage.currentQuestionList = angular.toJson(questionList);
-				$location.path('/question').search('id', questionList['list'][0]['question_id']);
+				$location.path('/question').search('id', questionList.list[0].question_id);
 			});
 		}
 
@@ -183,39 +183,47 @@ angular.module('learnModule', ['ui.slider'])
 
 			if (Object.keys(selection).indexOf(subject) > -1) { // If Subject in Selection Keys
 				if (selection[subject].length == 0) { // If Subject in Selection has Empty Array
-					if (category == 'all')
+					if (category == 'all') {
 						delete selection[subject];
+					}
 
 				} else if (selection[subject].length > 0) { // If Subject in Selection has Full Array
 					if (category == 'all') {
-						if (!checked)
+						if (!checked) {
 							selection[subject] = subjects[subject].slice(0);
-						else
+						} else {
 							delete selection[subject];
+						}
 
 					} else {
 						var idx = selection[subject].indexOf(category);
 						if (idx > -1) {
 							selection[subject].splice(idx, 1);
-							if (selection[subject].length == 0)
+							if (selection[subject].length == 0) {
 								delete selection[subject];
+							}
+								
 						} else {
 							selection[subject].push(category);
 						}
 					}
 
 				} else { // If Subject in Selection has No Array
-					if (category == 'all')
+					if (category == 'all') {
 						selection[subject] = subjects[subject].slice(0);
-					else
+					
+					} else {
 						selection[subject] = [category];
+					}
 				}
 
 			} else {
-				if (category == 'all')
+				if (category == 'all') {
 					selection[subject] = subjects[subject].slice(0);
-				else
+				
+				} else {
 					selection[subject] = [category];
+				}
 			}
 		}
 
@@ -398,11 +406,11 @@ angular.module('learnModule', ['ui.slider'])
 			    tagClass: 'tm-tag-danger',
 			    onlyTagList: false,
 			    createHandler: function(tagManager, tags) {
-			    	var postData = {'tags': tags, 'question_id': $scope.question_id, 'user_id': $scope.user.user_id};
+			    	var postData = {tags: tags, question_id: $scope.question_id, user_id: $scope.user.user_id};
 			    	API.post('/tags', postData, function(data) { });
 			    },
 			    removeHandler: function(tagManager, tags) {
-			    	var post_data = {'tags': tags, 'question_id': $scope.question_id, 'user_id': $scope.user.user_id};
+			    	var post_data = {tags: tags, question_id: $scope.question_id, user_id: $scope.user.user_id};
 			    	API.post('/tags', postData, function(data) { });
 			    }
 			});
@@ -428,7 +436,7 @@ angular.module('learnModule', ['ui.slider'])
 	    	if(correct_answer == 0) { correct = -1; }
 	    	if($scope.question.type == 1) { correct = -1; }
 
-	    	var postData = {'correct': correct, 'question_id': $scope.question_id, 'user_id': $scope.user.user_id, 'given_result': $scope.given_result};
+	    	var postData = {correct: correct, question_id: $scope.question_id, user_id: $scope.user.user_id, given_result: $scope.given_result};
 	    	API.post('/results', postData, function(data) { });
 
 			if ($scope.questionList) {
@@ -487,7 +495,7 @@ angular.module('learnModule', ['ui.slider'])
 
 		$scope.add_comment = function() {
 			var now = new Date() / 1000;
-			var postData = {'comment': $scope.commentText, 'question_id': $scope.question_id, 'reply_to': 0, 'username': $scope.user.username, 'date': now};
+			var postData = {comment: $scope.commentText, question_id: $scope.question_id, reply_to: 0, username: $scope.user.username, date: now};
 			API.post('/comments/' + $scope.user.user_id, postData, function(data) {
 				post_data.voting = 0;
 	    		post_data.user_voting = 0;
@@ -505,14 +513,14 @@ angular.module('learnModule', ['ui.slider'])
 
 		$scope.increase_user_voting = function(current_user_voting, comment_id) {
 			var result = current_user_voting == 1 ? 1 : current_user_voting + 1;
-			var postData = {'user_voting': result};
+			var postData = {user_voting: result};
 			API.post('/comments/' + comment_id + '/user/' + $scope.user.user_id, postData, function(data) { });
 			return result;
 		}
 
 		$scope.decrease_user_voting = function(current_user_voting, comment_id) {
 			var result = current_user_voting == -1 ? -1 : current_user_voting - 1;
-			var post_data = {'user_voting': result};
+			var post_data = {user_voting: result};
 			API.post('/comments/' + comment_id + '/user/' + $scope.user.user_id, postData, function(data) { });
 			return result;
 		}
@@ -582,11 +590,8 @@ angular.module('learnModule', ['ui.slider'])
 		$scope.no_answer_q_count = 0;
 
 		$scope.get_random = function(min, max) {
-			if(min > max)
-				return -1;
-
-			if(min == max)
-				return min;
+			if(min > max) { return -1; }
+			if(min == max) { return min; }
 
 			var r;
 			do {

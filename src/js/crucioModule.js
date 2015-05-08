@@ -1,4 +1,4 @@
-angular.module('crucioModule', [])
+angular.module('app.crucio', [])
 
 	.controller('titleCtrl', function($scope, Page) {
 		$scope.title = function() { return Page.title(); }

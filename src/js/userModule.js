@@ -1,4 +1,4 @@
-angular.module('userModule', ['ui.slider'])
+angular.module('app.user', ['ui.slider'])
 
 	.controller('accountCtrl', function($scope, Page, Auth, API, Validate) {
 		Page.setTitleNav('Account | Crucio', 'Name');

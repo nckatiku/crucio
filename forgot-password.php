@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html ng-app="crucio.outside" id="ng-app">
+<html id="ng-app" lang="de" ng-app="crucio.outside">
 	<head>
 		<?php include 'parts/header.php'; ?>
 		
 		<title>Passwort vergessen | Crucio</title>
 		
 		<script src="public/js/ui-bootstrap-tpls.min.js"></script>
-		<script type="text/javascript">
+		<script>
 			var angularModule = angular.module('crucio.outside', ['ui.bootstrap']);
 			angularModule.controller('ctrl', function($scope, $http, $window, $modal) {
 				// Check if user is in local storage
@@ -46,7 +46,7 @@
 		</script>
 		
 		
-		<script type="text/ng-template" id="forgot-succes-modal.html">
+		<script id="forgot-succes-modal.html" type="text/ng-template">
 		    <div class="modal-header">
 		        <h4 class="modal-title">Passwort zurücksetzen</h4>
 		    </div>
@@ -54,12 +54,12 @@
 		        <p><i class="fa fa-check"></i> Wir werden dein Passwort zurücksetzen. Schau mal in deinen Mail Account.</p>
 		    </div>
 		    <div class="modal-footer">
-		        <button type="button" class="btn btn-default" ng-click="$close()">Zurück</button>
+		        <button class="btn btn-default" type="button" ng-click="$close()">Zurück</button>
 		    </div>
 		</script>
 		
 		
-		<script type="text/ng-template" id="forgot-confirm-modal.html">
+		<script id="forgot-confirm-modal.html" type="text/ng-template">
 		    <div class="modal-header">
 		        <h4 class="modal-title">Neues Passwort</h4>
 		    </div>
@@ -73,12 +73,12 @@
 				</p>
 		    </div>
 		    <div class="modal-footer">
-		        <button type="button" class="btn btn-default" ng-click="$close()">Zurück</button>
+		        <button class="btn btn-default" type="button" ng-click="$close()">Zurück</button>
 		    </div>
 		</script>
 		
 		
-		<script type="text/ng-template" id="forgot-deny-modal.html">
+		<script id="forgot-deny-modal.html" type="text/ng-template">
 		    <div class="modal-header">
 		        <h4 class="modal-title">Doch kein neues Passwort...</h4>
 		    </div>
@@ -92,7 +92,7 @@
 				</p>
 		    </div>
 		    <div class="modal-footer">
-		        <button type="button" class="btn btn-default" ng-click="$close()">Zurück</button>
+		        <button class="btn btn-default" type="button" ng-click="$close()">Zurück</button>
 		    </div>
 		</script>
 	</head>
@@ -107,7 +107,7 @@
 			    		</div>
 
 			    		<div class="col-sm-2">
-				    		<a href="/" class="btn btn-index-top">
+				    		<a class="btn btn-index-top" href="/">
 					        	<i class="fa fa-sign-in fa-fw"></i> Anmelden
 							</a>
 			    		</div>

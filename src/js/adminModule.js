@@ -1,4 +1,4 @@
-angular.module('adminModule', [])
+angular.module('app.admin', ['angles'])
 
 	.controller('adminCtrl', function($scope, Page, Auth, API, Selection, $interval) {
 		Page.setTitleNav('Verwaltung | Crucio', 'Admin');

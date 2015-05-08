@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html ng-app="crucio.outside" id="ng-app">
+<html id="ng-app" lang="de" ng-app="crucio.outside">
 	<head>
 		<?php include 'parts/header.php'; ?>
 
 		<title>Crucio | Fachschaft Medizin <?php echo $config['city'] ?></title>
 		
 		<script src="public/js/smooth-scroll.min.js"></script>
-		<script type="text/javascript">
+		<script>
 			smoothScroll.init();
 			
 			var angularModule = angular.module('crucio.outside', []);
@@ -73,9 +73,9 @@
 		    		<form class="row" ng-controller="ctrl">
 			    		<div class="col-sm-3 col-sm-offset-4">
 				    		<div class="form-group element">
-	        		    	    <input class="form-control form-control-out" ng-class="{'has-error': hasError}" ng-model="email" type="text" placeholder="E-Mail-Adresse" autofocus>
+	        		    	    <input class="form-control form-control-out" type="text" placeholder="E-Mail-Adresse" ng-class="{'has-error': hasError}" ng-model="email" autofocus>
 	        		    	    <label class="checkbox">
-				        			<input type="checkbox" ng-model="rememberMe" style="margin-top:2px;">
+				        			<input type="checkbox" style="margin-top:2px;" ng-model="rememberMe">
 				        			Angemeldet bleiben
 								</label>
 	        		    	</div>
@@ -83,7 +83,7 @@
 
 			    		<div class="col-sm-3">
 				    		<div class="form-group element">
-	        		    	    <input class="form-control form-control-out" ng-class="{'has-error': hasError}" ng-model="password" type="password" placeholder="Passwort">
+	        		    	    <input class="form-control form-control-out" type="password" placeholder="Passwort" ng-class="{'has-error': hasError}" ng-model="password">
 	        		    	    <label for="passwordInput">
 	        		    	    	<a href="forgot-password" target="_self">Passwort vergessen?</a>
 	        		    	    </label>
@@ -108,11 +108,11 @@
 							Hier werden Übungsfragen aus dem Studium gesammelt, gekreuzt und erklärt.</p>
 						
 						<a class="btn btn-lg" href="register" target="_self">Registrieren</a>
-				        <a class="btn btn-lg" data-scroll href="#more" target="_self">Mehr Infos</a>
+				        <a class="btn btn-lg" href="#more" target="_self" data-scroll>Mehr Infos</a>
 					</div>
 				</div>
 
-				<img src="public/images/med_3x.png" class="center-block img-responsive image-med-exam">
+				<img class="center-block img-responsive image-med-exam" src="public/images/med_3x.png">
 	    	</div>
 
 	    	<div class="container-light-grey container-padding-2">

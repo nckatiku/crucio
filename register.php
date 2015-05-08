@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html ng-app="crucio.outside" id="ng-app">
+<html id="ng-app" lang="de" ng-app="crucio.outside">
 	<head>
 		<?php include 'parts/header.php'; ?>
 		
 		<title>Registrieren | Crucio</title>
 		
 		<script src="public/js/ui-bootstrap-tpls.min.js"></script>
-		<script type="text/javascript">
+		<script>
 			var angularModule = angular.module('crucio.outside', ['ui.bootstrap']);
 			angularModule.controller('ctrl', function($scope, $http, $window, $modal, Validate) {
 				// Check if user is in local storage
@@ -104,7 +104,7 @@
 			});
 		</script>
 		
-		<script type="text/ng-template" id="register-modal.html">
+		<script id="register-modal.html" type="text/ng-template">
 		    <div class="modal-header">
 		        <h3 class="modal-title">Registrierung</h3>
 		    </div>
@@ -112,7 +112,7 @@
 		        <p><i class="fa fa-check"></i> Du hast dich erfolgreich registriert. Schau mal in deinen Mail Account.</p>
 		    </div>
 		    <div class="modal-footer">
-		        <button type="button" class="btn btn-default" ng-click="$close()">Zurück</button>
+		        <button class="btn btn-default" type="button" ng-click="$close()">Zurück</button>
 		    </div>
 		</script>
 	</head>
@@ -148,7 +148,7 @@
 			    	    <div class="form-group">
 			    	        <label class="col-sm-3 control-label">Name</label>
 			    	        <div class="col-sm-4">
-			    	    		<input class="form-control span5 form-control-out" ng-class="{'has-error': noNameError || duplicateNameError}" ng-model="username" type="text" placeholder="Vorname Nachname"/>
+			    	    		<input class="form-control span5 form-control-out" type="text" placeholder="Vorname Nachname" ng-class="{'has-error': noNameError || duplicateNameError}" ng-model="username"/>
 			    	        </div>
 			    	        <span class="label validation-error label-danger" ng-show="noNameError">Kein Name</span>
 			    	        <span class="label validation-error label-danger" ng-show="duplicateNameError">Name wird bereits verwendet</span>
@@ -157,7 +157,7 @@
 			    	    <div class="form-group">
 			    	        <label class="col-sm-3 control-label">E-Mail</label>
 			    	        <div class="col-sm-4">
-			    	    		<input class="form-control span5 form-control-out" ng-class="{'has-error': noMailError || duplicateMailError}" ng-model="email" type="text" placeholder="________@studserv.uni-leipzig.de"/>
+			    	    		<input class="form-control span5 form-control-out" type="text" placeholder="________@studserv.uni-leipzig.de" ng-class="{'has-error': noMailError || duplicateMailError}" ng-model="email" />
 			    	        </div>
 			    	        <span class="label label-danger validation-error" ng-show="noMailError">Keine gültige E-Mail-Adresse</span>
 			    	        <span class="label label-danger validation-error" ng-show="duplicateMailError">E-Mail-Adresse wird bereits verwendet</span>
@@ -169,7 +169,7 @@
 			    	        <label class="col-sm-3 control-label">Studienfach</label>
 			    	        <div class="col-sm-3">
 			    	        	<div class="btn-group">
-					            	<label class="btn btn-default" ng-model="course" btn-radio="1">Humanmedizin</label>
+					            	<label class="btn btn-default" btn-radio="1" ng-model="course">Humanmedizin</label>
 								</div>
 			    	        </div>
 			    	    </div>
@@ -177,7 +177,7 @@
 			    	    <div class="form-group">
 			    	        <label class="col-sm-3 control-label">Fachsemester</label>
 			    	        <div class="col-sm-2">
-			    	        	<input class="form-control form-control-out" ng-class="{'has-error': noSemesterError}" ng-model="semester" type="number">
+			    	        	<input class="form-control form-control-out" type="number" ng-class="{'has-error': noSemesterError}" ng-model="semester">
 			    	        </div>
 			    	        <span class="label validation-error label-danger" ng-show="noSemesterError">Kein gültiges Semester</span>
 			    	    </div>
@@ -187,7 +187,7 @@
 			    	    <div class="form-group">
 			    	        <label class="col-sm-3 control-label">Passwort</label>
 			    	        <div class="col-sm-4">
-			    	    		<input class="form-control span5 form-control-out" ng-class="{'has-error': noPasswordError}" ng-model="password" type="password"/>
+			    	    		<input class="form-control span5 form-control-out" type="password" ng-class="{'has-error': noPasswordError}" ng-model="password"/>
 			    	        </div>
 			    	        <span class="label validation-error label-danger" ng-show="noPasswordError">Kein gültiges Passwort</span>
 			    	    </div>
@@ -195,7 +195,7 @@
 			    	    <div class="form-group">
 			    	        <label class="col-sm-3 control-label">Passwort bestätigen</label>
 			    	        <div class="col-sm-4">
-			    	    		<input class="form-control span5 form-control-out" ng-class="{'has-error': noPasswordCError}" ng-model="passwordc" type="password"/>
+			    	    		<input class="form-control span5 form-control-out" type="password" ng-class="{'has-error': noPasswordCError}" ng-model="passwordc"/>
 			    	        </div>
 			    	        <span class="label validation-error label-danger" ng-show="noPasswordCError">Passwörter nicht gleich</span>
 			    	    </div>

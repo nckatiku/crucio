@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="crucio.outside" id="ng-app">
+<html id="ng-app" lang="de" ng-app="crucio.outside">
 	<head>
 		<?php include 'parts/header.php'; ?>
 		
@@ -80,7 +80,7 @@
 			});
 		</script>
 		
-		<script type="text/ng-template" id="contact-modal.html">
+		<script id="contact-modal.html" type="text/ng-template">
 		    <div class="modal-header">
 		        <h4 class="modal-title">Nachricht abgeschickt.</h4>
 		    </div>
@@ -88,7 +88,7 @@
 		        <p><i class="fa fa-check"></i> Danke für deine Nachricht. Wir kümmern uns so schnell es geht.</p>
 		    </div>
 		    <div class="modal-footer">
-		        <button type="button" class="btn btn-success" ng-click="$close()">Schließen</button>
+		        <button class="btn btn-success" type="button" ng-click="$close()">Schließen</button>
 		    </div>
 		</script>
 	</head>
@@ -103,11 +103,11 @@
 			    		</div>
 
 			    		<div class="col-sm-2">
-				    		<a href="/" class="btn btn-index-top" ng-if="!user">
+				    		<a class="btn btn-index-top" href="/" ng-if="!user">
 					        	<i class="fa fa-sign-in fa-fw"></i> Anmelden
 							</a>
 							
-							<a href="/questions" class="btn btn-index-top" ng-if="user">
+							<a class="btn btn-index-top" href="/questions" ng-if="user">
 					        	<i class="fa fa-angle-left fa-fw"></i> Zurück
 							</a>
 			    		</div>
@@ -130,7 +130,7 @@
 					<div class="form-group">
 						<label class="col-sm-2">Name</label>
 						<div class="col-sm-6">
-							<input ng-model="username" type="text" class="form-control form-control-out" ng-class="{'has-error': noNameError}">
+							<input class="form-control form-control-out" type="text" ng-model="username" ng-class="{'has-error': noNameError}">
 						</div>
 						<span class="label validation-error label-danger" ng-show="noNameError">Kein Name</span>
 					</div>
@@ -138,7 +138,7 @@
 					<div class="form-group">
 					   	<label class="col-sm-2">E-Mail-Adresse</label>
 					   	<div class="col-sm-6">
-					   		<input ng-model="email" type="text" class="form-control form-control-out" ng-class="{'has-error': noMailError}">
+					   		<input class="form-control form-control-out" type="text" ng-model="email" ng-class="{'has-error': noMailError}">
 					   	</div>
 					   	<span class="label validation-error label-danger" ng-show="noMailError">Keine gültige E-Mail-Adresse</span>
 					</div>
@@ -146,7 +146,7 @@
 					<div class="form-group" ng-show="question_id">
 						<label class="col-sm-2">Frage</label>
 						<div class="col-sm-6">
-							<span>{{ question.question }}</span>
+							<span ng-bind="question.question"></span>
 						</div>
 					</div>
 
@@ -160,14 +160,14 @@
 					<div class="form-group" ng-show="question_id">
 						<label class="col-sm-2">Anliegen</label>
 						<div class="col-sm-6">
-							<span>{{ subject }}</span>
+							<span ng-bind="subject"></span>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label class="col-sm-2">Bemerkungen</label>
 						<div class="col-sm-6">
-							<textarea ng-model="text" class="form-control form-control-out" rows="3" placeholder="..."></textarea>
+							<textarea class="form-control form-control-out" rows="3" placeholder="..." ng-model="text"></textarea>
 						</div>
 						<span class="label validation-error label-danger"></span>
 					</div>

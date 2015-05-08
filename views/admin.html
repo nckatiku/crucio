@@ -63,7 +63,7 @@
     				<br>
 
 					<div class="table-responsive">
-    					<table id="user-table" class="table">
+    					<table class="table" id="user-table">
     						<thead>
     							<th></th>
     						    <th>Name</th>
@@ -103,8 +103,8 @@
 											Gestern, {{ user.last_sign_in * 1000 | date: 'HH:mm' }}
 										</span>
 
-										<span ng-if="user.last_sign_in == 0 && user.active == 0" class="label label-danger">Nicht Aktiviert</span>
-										<span ng-if="user.last_sign_in == 0 && user.active == 1" class="label label-warning">Nie Angemeldet</span>
+										<span class="label label-danger" ng-if="user.last_sign_in == 0 && user.active == 0">Nicht Aktiviert</span>
+										<span class="label label-warning" ng-if="user.last_sign_in == 0 && user.active == 1">Nie Angemeldet</span>
 									</td>
 									<td>{{ ::user.sign_up_date * 1000 | date: 'dd.MM.yyyy' }}</td>
 									<td><a href="mailto:{{ user.email }}" tooltip-placement="top" tooltip="{{user.email}}">
@@ -143,9 +143,9 @@
 
 						<tbody>
 							<tr ng-repeat="email in whitelist">
-								<td><i ng-show="email.used > 0" class="fa fa-check"></i></td>
+								<td><i class="fa fa-check" ng-show="email.used > 0"></i></td>
 								<td>{{ email.mail_address }}</td>
-								<td><button ng-click="remove_mail($index)" type="button" class="close">&times;</button></td>
+								<td><button class="close" type="button" ng-click="remove_mail($index)">&times;</button></td>
 							</tr>
 						</tbody>
 					</table>
@@ -229,7 +229,6 @@
 					<div class="row">
 						<div class="col-xs-6 col-sm-4">
 							<div class="stats-box">
-
 								<h5>{{ ::stats.user_count }}</h5>
 								<p><i class="fa fa-users fa-fw"></i> Nutzer</p>
 							</div>

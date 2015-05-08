@@ -1,9 +1,10 @@
 <?php $config = include('public/php/config.php'); ?>
 
 <!DOCTYPE html>
-<html ng-app="crucioApp" id="ng-app">
+<html id="ng-app" lang="de" ng-app="app">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="apple-mobile-web-app-title" content="Crucio">
 		
@@ -27,7 +28,7 @@
 					<div class="row">
 						<div class="col-sm-5 col-md-4 col-md-offset-1">
 							<div class="navbar-header">
-					    	    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+					    	    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-collapse-1">
 				        	        <span class="icon-bar"></span>
 				        	        <span class="icon-bar"></span>
 				        	        <span class="icon-bar"></span>
@@ -54,7 +55,7 @@
 								    	<a href="admin">Admin</a>
 								    </li>
 			
-						    	    <li ng-class="{ active: nav() == 'Name'}" class="dropdown" dropdown>
+						    	    <li class="dropdown" ng-class="{ active: nav() == 'Name'}" dropdown>
 						    	    	<a class="dropdown-toggle" dropdown-toggle href>
 						    	    		<span ng-bind="user.username"></span> <b class="caret"></b>
 										</a>
@@ -73,7 +74,7 @@
 				</div>
 			</nav>
 
-			<div ng-view class="external-ctrl"></div>
+			<div class="external-ctrl" ng-view></div>
 		</div>
 
 		<div class="footer">

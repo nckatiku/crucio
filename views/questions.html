@@ -17,7 +17,7 @@
 	    	<div class="tab-content">
 
 	    		<div ng-show="tab_active == 'abstract'" ng-show="abstract_exams.length > 0">
-    				<div ng-if="!abstract_exams" class="container-center-align-sm">
+    				<div class="container-center-align-sm" ng-if="!abstract_exams">
     				    <i class="fa fa-pencil"></i>
 
     				    <hr>
@@ -30,7 +30,7 @@
     				</div>
 
 					<div ng-if="abstract_exams && ready">
-    					<table  class="table">
+    					<table class="table">
     						<thead>
     					    	<th><i class="fa fa-flask fa-fw"></i> Fach</th>
     					    	<th><i class="fa fa-calendar fa-fw"></i> Termin</th>
@@ -47,16 +47,16 @@
 									<td class="hidden-xs hidden-sm">{{ exam.answered_questions }} / {{ exam.question_count }}</td>
 									<td style="min-width: 250px;">
 										<div class="btn-group" role="group">
-											<a type="button" class="btn btn-default" href ng-click="learn_exam(exam.exam_id)">
+											<a class="btn btn-default" type="button" href ng-click="learn_exam(exam.exam_id)">
 												Fragen
 											</a>
 
-											<a type="button" class="btn btn-default" href="exam?id={{ exam.exam_id }}">
+											<a class="btn btn-default" type="button" href="exam?id={{ exam.exam_id }}">
 												Klausuransicht
 											</a>
 
 											<div class="btn-group" dropdown>
-												<button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle>
+												<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
 												    <i class="fa fa-fw fa-file-pdf-o"></i> PDF
 													<span class="caret"></span>
 												</button>
@@ -78,7 +78,7 @@
 											</div>
 
 											<div class="btn-group" dropdown>
-												<button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle>
+												<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
 												    <span class="caret"></span>
 												</button>
 												<ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -109,13 +109,14 @@
 											<td style="width: 30px;">
 												<input type="checkbox" ng-model="q" ng-click="toggle_selection(name, 'all', q)">
 											</td>
+											
 									    	<td>
 										    	<div ng-if="cat.length == 0">
 													<i class="fa fa-fw"></i><strong>{{ name }} </strong>
 												</div>
 
 												<div ng-if="cat.length > 0">
-													<a ng-click="isCollapsed = !isCollapsed" style="color: #333;cursor: pointer;">
+													<a style="color: #333;cursor: pointer;" ng-click="isCollapsed = !isCollapsed">
 														<i class="fa fa-fw" ng-class="{'fa-caret-down': isCollapsed, 'fa-caret-right': !isCollapsed}"></i>
 														<strong>{{ name }}</strong>
 													</a>
@@ -132,6 +133,7 @@
 													</div>
 												</div>
 									    	</td>
+									    	
 									    	<td>
 										    	<span class="pull-right" ng-show="cat.length>0">{{ cat.length }}</span>
 									    	</td>
@@ -277,11 +279,11 @@
 									<td class="hidden-xs hidden-sm">{{ exam.answered_questions }} / {{ exam.question_count }}</td>
 									<td style="min-width: 250px;">
 										<div class="btn-group" role="group">
-											<a type="button" class="btn btn-default" href ng-click="learn_exam(exam.exam_id)">
+											<a class="btn btn-default" type="button" href ng-click="learn_exam(exam.exam_id)">
 												Fragen
 											</a>
 
-											<a type="button" class="btn btn-default" href="exam?id={{ exam.exam_id }}">
+											<a class="btn btn-default" type="button" href="exam?id={{ exam.exam_id }}">
 												Klausuransicht
 											</a>
 
@@ -304,7 +306,7 @@
 											</div>
 
 											<div class="btn-group" dropdown>
-												<button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle>
+												<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
 												    <span class="caret"></span>
 												</button>
 												<ul class="dropdown-menu dropdown-menu-right" role="menu">
@@ -337,7 +339,7 @@
 
 						<div class="panel-body">
 							<form class="input-group" submit="search_question()">
-								<input class="form-control" type="text" ng-model="question_search_query" placeholder="...">
+								<input class="form-control" type="text" placeholder="..." ng-model="question_search_query">
 
 								<span class="input-group-btn">
 									<button class="btn btn-default" ng-click="search_question()">
@@ -378,7 +380,7 @@
 
 
 	    		<div ng-show="tab_active == 'comments'">
-					<div ng-if="comments.length == 0" class="container-center-align-sm">
+					<div class="container-center-align-sm" ng-if="comments.length == 0">
 					    <i class="fa fa-comments"></i>
 
 					    <hr>
@@ -417,7 +419,7 @@
 
 
 	    		<div ng-show="tab_active == 'tags'">
-					<div ng-if="tags.length == 0" class="container-center-align-sm">
+					<div class="container-center-align-sm" ng-if="tags.length == 0">
 					    <i class="fa fa-tags"></i>
 
 					    <hr>

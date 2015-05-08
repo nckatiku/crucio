@@ -13,7 +13,7 @@ var subject_list = {
 	'Chemie': [],
 
 	'Klinische Chemie': [],
-
+	
 	'Histologie': [],
 
 	'Gynäkologie':[],
@@ -30,7 +30,7 @@ var subject_list = {
 };
 
 
-var app = angular.module('crucioApp', ['ngRoute', 'ngSanitize', 'angular-loading-bar', 'ui.bootstrap', 'angles', 'crucioModule', 'userModule', 'learnModule', 'authorModule', 'adminModule']);
+var app = angular.module('app', ['ngRoute', 'ngSanitize', 'angular-loading-bar', 'ui.bootstrap', 'app.crucio', 'app.user', 'app.learn', 'app.author', 'app.admin']);
 
 app.config(function($routeProvider, $locationProvider) {
 	// Crucio Routing
@@ -148,19 +148,20 @@ app.factory('Auth', function($window) {
 });
 
 app.factory('API', function($http) {
+	var apiBase = 'api/v1';
+	
 	return {
 		get: function(path, successFunction) {
-			$http.get('api/v1' + path).success(function(data) { successFunction(data); });
+			$http.get(apiBase + path).success(function(data) { successFunction(data); });
 		},
 		post: function(path, postData, successFunction) {
-			$http.post('api/v1' + path, postData).success(function(data) { successFunction(data); });
+			$http.post(apiBase + path, postData).success(function(data) { successFunction(data); });
 		},
 		put: function(path, postData, successFunction) {
-			$http.put('api/v1' + path, postData).success(function(data) { successFunction(data); });
+			$http.put(apiBase + path, postData).success(function(data) { successFunction(data); });
 		},
 		delete: function(path, successFunction) {
-			var postData = {};
-			$http.delete('api/v1' + path, postData).success(function(data) { successFunction(data); });
+			$http.delete(apiBase + path, {}).success(function(data) { successFunction(data); });
 		}
 	}
 });

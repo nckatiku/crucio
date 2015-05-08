@@ -9,19 +9,15 @@
 		<div class="wrap" style="margin-bottom: -57px;">
     		<div class="container container-top-bar" style="height: 64px;">
 	    		<div class="row">
-					<div class="col-xs-7 col-sm-8 col-md-10">
-						<h1>
-							<a href="http://<?php echo $config['website']; ?>">
-								<i class="fa fa-check-square-o"></i> Crucio
-							</a>
-						</h1>
-					</div>
-
-					<div class="col-xs-5 col-sm-4 col-md-2">
-			    		<a class="btn btn-block btn-index-top" href="http://<?php echo $config['website']; ?>">
-				        	<i class="fa fa-sign-in fa-fw hidden-xs"></i> Anmelden
+					<div class="col-sm-9">
+						<h1><a href="http://<?php echo $config['website']; ?>"><i class="fa fa-check-square-o"></i> Crucio</a></h1>
+			    	</div>
+			    	
+					<div class="col-sm-2">
+						<a class="btn btn-index-top" href="http://<?php echo $config['website']; ?>">
+				        	<i class="fa fa-sign-in fa-fw"></i> Anmelden
 						</a>
-					</div>
+			    	</div>
 	    		</div>
     		</div>
 
@@ -31,7 +27,7 @@
     			</div>
 			</div>
 
-			<div class="container">
+			<div class="container-padding-4">
 				<div class="container">
 					<strong>Hey #USERNAME#,</strong><br><br>
 

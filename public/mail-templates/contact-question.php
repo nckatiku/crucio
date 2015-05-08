@@ -9,19 +9,15 @@
 		<div class="wrap" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; height: auto; margin: 0 auto -61px; margin-bottom: -57px; min-height: 100%; padding: 0 0 60px;">
 			<div class="container container-top-bar" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; height: 64px; margin-bottom: 0; margin-left: auto; margin-right: auto; padding-bottom: 2px; padding-left: 15px; padding-right: 15px; padding-top: 9px;">
 	    		<div class="row" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; margin-left: -15px; margin-right: -15px;">
-					<div class="col-xs-7 col-sm-8 col-md-10" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; float: left; min-height: 1px; padding-left: 15px; padding-right: 15px; position: relative; width: 58.33333333%;">
-						<h1 style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; color: inherit; font-family: inherit; font-size: 36px; font-weight: 500; line-height: 1.1; margin: .67em 0; margin-bottom: 10px; margin-top: 6px;">
-							<a href="http://<?php echo $config['website']; ?>" style="-moz-box-sizing: border-box; -moz-transition: all .2s; -ms-transition: all .2s; -o-transition: all .2s; -webkit-box-sizing: border-box; -webkit-transition: all .2s; background-color: transparent; box-sizing: border-box; color: #2c3e50; font-family: Lato,sans-serif; font-weight: 700; padding: 13px; text-decoration: none; transition: all .2s;">
-								<i class="fa fa-check-square-o" style="-moz-box-sizing: border-box; -moz-osx-font-smoothing: grayscale; -webkit-box-sizing: border-box; -webkit-font-smoothing: antialiased; box-sizing: border-box; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit; text-rendering: auto;"></i> Crucio
-							</a>
-						</h1>
-					</div>
-
-					<div class="col-xs-5 col-sm-4 col-md-2" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; float: left; min-height: 1px; padding-left: 15px; padding-right: 15px; position: relative; width: 41.66666667%;">
-			    		<a class="btn btn-block btn-index-top" href="http://<?php echo $config['website']; ?>" style="-moz-box-sizing: border-box; -moz-transition: all .2s; -moz-user-select: none; -ms-touch-action: manipulation; -ms-transition: all .2s; -ms-user-select: none; -o-transition: all .2s; -webkit-box-sizing: border-box; -webkit-transition: all .2s; -webkit-user-select: none; background-color: transparent; background-image: none; border: 2px solid #2c3e50; border-radius: 4px; box-sizing: border-box; color: #444; cursor: pointer; display: block; font-family: Lato,sans-serif; font-size: 14px; font-weight: 400; line-height: 1.42857143; margin-bottom: 6px; margin-top: 7px; padding: 6px 12px; text-align: center; text-decoration: none; touch-action: manipulation; transition: all .2s; user-select: none; vertical-align: middle; white-space: nowrap; width: 100%;">
-				        	<i class="fa fa-sign-in fa-fw hidden-xs" style="-moz-box-sizing: border-box; -moz-osx-font-smoothing: grayscale; -webkit-box-sizing: border-box; -webkit-font-smoothing: antialiased; box-sizing: border-box; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit; text-align: center; text-rendering: auto; width: 1.28571429em;"></i> Anmelden
+		    		<div class="col-sm-9" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; min-height: 1px; padding-left: 15px; padding-right: 15px; position: relative;">
+						<h1 style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; color: inherit; font-family: inherit; font-size: 36px; font-weight: 500; line-height: 1.1; margin: .67em 0; margin-bottom: 10px; margin-top: 6px;"><a href="http://<?php echo $config['website']; ?>" style="-moz-box-sizing: border-box; -moz-transition: all .2s; -ms-transition: all .2s; -o-transition: all .2s; -webkit-box-sizing: border-box; -webkit-transition: all .2s; background-color: transparent; box-sizing: border-box; color: #2c3e50; font-family: Lato,sans-serif; font-weight: 700; padding: 13px; text-decoration: none; transition: all .2s;"><i class="fa fa-check-square-o" style="-moz-box-sizing: border-box; -moz-osx-font-smoothing: grayscale; -webkit-box-sizing: border-box; -webkit-font-smoothing: antialiased; box-sizing: border-box; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit; text-rendering: auto;"></i> Crucio</a></h1>
+			    	</div>
+			    	
+					<div class="col-sm-2" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; min-height: 1px; padding-left: 15px; padding-right: 15px; position: relative;">
+						<a class="btn btn-index-top" href="http://<?php echo $config['website']; ?>" style="-moz-box-sizing: border-box; -moz-transition: all .2s; -moz-user-select: none; -ms-touch-action: manipulation; -ms-transition: all .2s; -ms-user-select: none; -o-transition: all .2s; -webkit-box-sizing: border-box; -webkit-transition: all .2s; -webkit-user-select: none; background-color: transparent; background-image: none; border: 2px solid #2c3e50; border-radius: 4px; box-sizing: border-box; color: #444; cursor: pointer; display: inline-block; font-family: Lato,sans-serif; font-size: 14px; font-weight: 400; line-height: 1.42857143; margin-bottom: 6px; margin-top: 7px; padding: 6px 12px; text-align: center; text-decoration: none; touch-action: manipulation; transition: all .2s; user-select: none; vertical-align: middle; white-space: nowrap;">
+				        	<i class="fa fa-sign-in fa-fw" style="-moz-box-sizing: border-box; -moz-osx-font-smoothing: grayscale; -webkit-box-sizing: border-box; -webkit-font-smoothing: antialiased; box-sizing: border-box; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit; text-align: center; text-rendering: auto; width: 1.28571429em;"></i> Anmelden
 						</a>
-					</div>
+			    	</div>
 	    		</div>
     		</div>
 
@@ -31,7 +27,7 @@
     			</div>
 			</div>
 
-			<div class="container" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; margin-left: auto; margin-right: auto; padding-left: 15px; padding-right: 15px;">
+			<div class="container-padding-4" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; padding: 60px 0;">
 				<div class="container" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; margin-left: auto; margin-right: auto; padding-left: 15px; padding-right: 15px;">
 					<div class="row" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; margin-left: -15px; margin-right: -15px;">
 						<div class="col-xs-4" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; float: left; min-height: 1px; padding-left: 15px; padding-right: 15px; position: relative; width: 33.33333333%;">
@@ -41,7 +37,7 @@
 							<i class="fa fa-envelope-o fa-fw" style="-moz-box-sizing: border-box; -moz-osx-font-smoothing: grayscale; -webkit-box-sizing: border-box; -webkit-font-smoothing: antialiased; box-sizing: border-box; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit; text-align: center; text-rendering: auto; width: 1.28571429em;"></i> #MAIL#
 						</div>
 						<div class="col-xs-4" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; float: left; min-height: 1px; padding-left: 15px; padding-right: 15px; position: relative; width: 33.33333333%;">
-							<a href="mailto:#MAIL#" class="pull-right" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; background-color: transparent; box-sizing: border-box; color: #337ab7; float: right; text-decoration: none;">
+							<a class="pull-right" href="mailto:#MAIL#" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; background-color: transparent; box-sizing: border-box; color: #337ab7; float: right; text-decoration: none;">
 								<i class="fa fa-reply fa-fw" style="-moz-box-sizing: border-box; -moz-osx-font-smoothing: grayscale; -webkit-box-sizing: border-box; -webkit-font-smoothing: antialiased; box-sizing: border-box; display: inline-block; font: normal normal normal 14px/1 FontAwesome; font-size: inherit; text-align: center; text-rendering: auto; width: 1.28571429em;"></i> Antworten
 							</a>
 						</div>

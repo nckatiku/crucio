@@ -69,7 +69,7 @@
 
     					<div class="col-md-4 col-sm-4">
     						<div class="input-group mtop">
-    				    		<input type="text" class="form-control" ng-model="exam_search.query">
+    				    		<input class="form-control" type="text" ng-model="exam_search.query">
     				    		<span class="input-group-btn">
     				        		<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
     				    		</span>
@@ -93,8 +93,8 @@
     					<tbody>
     						<tr ng-repeat="exam in exams" ng-show="exam_in_selection($index)">
     						    <td>
-	    						    <span ng-if="exam.visibility==0" class="label label-danger"><i class="fa fa-eye-slash"></i></span>
-	    						    <span ng-if="exam.visibility==1" class="label label-success"><i class="fa fa-eye"></i></span>
+	    						    <span class="label label-danger" ng-if="exam.visibility==0"><i class="fa fa-eye-slash"></i></span>
+	    						    <span class="label label-success" ng-if="exam.visibility==1"><i class="fa fa-eye"></i></span>
     						    </td>
     						    <td>{{ exam.subject | cut:true:38:'...' }}</td>
 							    <td>{{ exam.date | cut:true:28:'...' }}</td>
@@ -187,16 +187,16 @@
 					<br><br>
 
 					<dl class="dl-horizontal">
-					  	<dt ng-repeat-start="(name, cat) in subject_list" style="width:250px;">{{ name }}</dt>
-					  	<dd ng-repeat-end style="margin-left:250px;">
-					  		<span ng-if="cat.length == 0"><br></span>
-					  		<ul><li ng-repeat="c in cat">{{ c }}</li></ul>
-					  	</dd>
+						<dt style="width:250px;" ng-repeat-start="(name, cat) in subject_list">{{ name }}</dt>
+						<dd style="margin-left:250px;" ng-repeat-end>
+							<span ng-if="cat.length == 0"><br></span>
+							<ul><li ng-repeat="c in cat">{{ c }}</li></ul>
+						</dd>
 					</dl>
 				</div>
 
 
-	    		<div ng-show="tab_active == 'advices'" class="mbottom-3x">
+	    		<div class="mbottom-3x" ng-show="tab_active == 'advices'">
 					<h4>Hinweise</h4>
 					Zu einer Klausur gehören verschiedene Infos und eine Sammlung an Fragen. Es wäre schön, wenn diese möglichst einheitlich eingetragen werden. Unter anderem dafür folgende Anmerkungen:
 					<br><br>

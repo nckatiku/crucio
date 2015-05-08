@@ -81,7 +81,7 @@
 
 	        	<hr>
 
-	        	<input type="text" name="tags" placeholder="Markierung hinzufügen" id="tagInput" class="tm-input form-control"/>
+	        	<input class="tm-input form-control" id="tagInput" name="tags" type="text" placeholder="Markierung hinzufügen"/>
 	        </div>
 	    </div>
 
@@ -89,7 +89,7 @@
 
 	    <div class="btn-toolbar mmtop">
 	    	<div class="btn-group">
-	    		<a class="btn btn-default mtop" ng-if="questionList.list" ng-disabled="index==0" href="question?id={{ questionList.list[index-1]['question_id'] }}">
+	    		<a class="btn btn-default mtop" href="question?id={{ questionList.list[index-1]['question_id'] }}" ng-if="questionList.list" ng-disabled="index==0">
 		    		<i class="fa fa-backward"></i>
 		    	</a>
 
@@ -101,14 +101,14 @@
 	    			Erklärung
 	    		</button>
 
-	    		<a class="btn btn-default mtop" ng-if="questionList.list" ng-disabled="index==length-1" href="question?id={{ questionList.list[index+1]['question_id'] }}">
+	    		<a class="btn btn-default mtop" href="question?id={{ questionList.list[index+1]['question_id'] }}" ng-if="questionList.list" ng-disabled="index==length-1">
 		    		<i class="fa fa-forward"></i>
 		    	</a>
 	    	</div>
 
-	    	<a class="btn btn-danger mtop" ng-if="questionList.list" href="analysis">Klausur beenden</a>
+	    	<a class="btn btn-danger mtop" href="analysis" ng-if="questionList.list">Klausur beenden</a>
 
-	    	<a ng-if="user.group_id == 2 || user.group_id == 3" class="btn btn-default pull-right mtop hidden-xs" href="edit-exam?id={{ question.exam_id }}&question_id={{ question_id }}">
+	    	<a class="btn btn-default pull-right mtop hidden-xs" href="edit-exam?id={{ question.exam_id }}&question_id={{ question_id }}" ng-if="user.group_id == 2 || user.group_id == 3">
 		    	Bearbeiten
 		    </a>
 
@@ -133,7 +133,7 @@
 	        </div>
 
 	        <div class="btn-group pull-right mtop hidden-xs" dropdown>
-				<button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle>
+				<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
 					<i class="fa fa-fw fa-file-pdf-o"></i> PDF
 					<span class="caret"></span>
 				</button>
@@ -160,7 +160,7 @@
 	    	<h4 class="panel-title">
 	    		<a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
 					<i class="fa fa-comments fa-fw"></i>Kommentare
-					<div class="pull-right"><span class="badge">{{ question.comments.length }}</span></div>
+					<div class="pull-right"><span class="badge" ng-bind="question.comments.length"></span></div>
 	    		</a>
 	    	</h4>
 	    </div>
@@ -168,9 +168,9 @@
 	    <div class="panel panel-collapse collapse {{ user.showComments==0 ? 'in':'' }}" id="collapseOne">
 	        <div class="panel-body">
 	        	<form method="post">
-	        		<input type="hidden" name="question_id" ng-value="question_id">
+	        		<input name="question_id" type="hidden" ng-value="question_id">
 	        		<div class="form-group">
-	    				<label for="disabledTextInput">{{ user.username }}</label>
+	    				<label for="disabledTextInput" ng-bind="user.username"></label>
 	        			<div class="row">
 	        			    <div class="col-lg-10 col-md-9 col-sm-8">
 	        			    	<textarea class="form-control" name="commentText" rows="3" ng-model="commentText"></textarea>
@@ -207,7 +207,7 @@
 		        				</div>
 
 							    <div class="header">
-							    	<strong class="primary-font">{{ comment.username }}</strong>
+							    	<strong class="primary-font" ng-bind="comment.username"></strong>
 							    	<br>
 							        <small class="text-muted">
 							        	<i class="fa fa-clock-o"></i>
@@ -216,11 +216,11 @@
 								</div>
 							</div>
 							<div class="col-md-6 col-sm-5 col-xs-4">
-							    <p>{{ comment.comment }}</p>
+							    <p ng-bind="comment.comment"></p>
 							</div>
 							<div class="col-md-3 col-sm-4 col-xs-4">
 							    <div class="btn-group pull-right">
-							    	<button type="button" class="close" ng-click="delete_comment($index)">&times;</button>
+							    	<button class="close" type="button" ng-click="delete_comment($index)">&times;</button>
 							    </div>
 							</div>
 	        			</div>
