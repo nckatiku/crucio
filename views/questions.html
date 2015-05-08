@@ -17,8 +17,6 @@
 	    	<div class="tab-content">
 
 	    		<div ng-show="tab_active == 'abstract'" ng-show="abstract_exams.length > 0">
-		    		<h4 class="mbottom-2x">Klausuren</h4>
-
     				<div ng-if="!abstract_exams" class="container-center-align-sm">
     				    <i class="fa fa-pencil"></i>
 
@@ -233,8 +231,8 @@
     								</ul>
     							</div>
 
-    							<div class="btn-group mtop">
-    								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+    							<div class="btn-group mtop" dropdown>
+    								<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
     									{{ exam_search.subject ? exam_search.subject : 'Alle Fächer' }} <span class="caret"></span>
     								</button>
 
@@ -274,7 +272,7 @@
 							<tbody>
 								<tr ng-repeat="exam in exams" ng-show="exam_in_selection($index)">
 									<td id="semester">{{ exam.semester }}</td>
-									<td id="subject">{{ exam.subject | cut:true:38:'...' }}</td>
+									<td id="subject">{{ exam.subject }}</td>
 									<td>{{ exam.date }}</td>
 									<td class="hidden-xs hidden-sm">{{ exam.answered_questions }} / {{ exam.question_count }}</td>
 									<td style="min-width: 250px;">
@@ -380,8 +378,6 @@
 
 
 	    		<div ng-show="tab_active == 'comments'">
-					<h4 class="mbottom">Deine Kommentare <small></small></h4>
-
 					<div ng-if="comments.length == 0" class="container-center-align-sm">
 					    <i class="fa fa-comments"></i>
 

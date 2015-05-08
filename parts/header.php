@@ -4,8 +4,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="apple-mobile-web-app-title" content="Crucio">
 
-<base href="http://<?php echo $_SERVER['SERVER_NAME']; ?>/">
-
 <link rel="shortcut icon" href="public/images/favicon.png" type="image/png" />
 <link rel="icon" href="public/images/favicon.png" type="image/png" />
 <link rel="apple-touch-icon" href="public/images/apple-icon.png" />
@@ -14,28 +12,7 @@
 <link rel="stylesheet" href="public/css/crucio.min.css" />
 <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Lato:300,400,700" />
 
-<script src="public/js/jquery.min.js"></script>
-<script src="public/js/bootstrap.min.js"></script>
 <script src="public/js/angular.min.js"></script>
-
-<script src="public/js/angular-route.min.js"></script>
-<script src="public/js/angular-cookie.min.js"></script>
-<script src="public/js/angular-sanitize.min.js"></script>
-<script src="public/js/angular-file-upload.min.js"></script>
-
-<script src="public/js/textAngular.min.js"></script>
-<script src="public/js/textAngularSetup.js"></script>
-<script src="public/js/loading-bar.min.js"></script>
-<script src="public/js/Chart.min.js"></script>
-<script src="public/js/tagmanager.js"></script>
-<script src="public/js/spin.js"></script>
-<script src="public/js/angles.js"></script>
-<script src="public/js/ui-bootstrap-tpls.min.js"></script>
-<script src="public/js/smooth-scroll.min.js"></script>
-<script src="public/js/slider.js"></script>
-
-<!--script src="public/js/dep.min.js"></script-->
-<script src="public/js/crucio.min.js"></script>
 
 <script>
 	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

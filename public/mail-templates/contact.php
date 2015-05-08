@@ -8,7 +8,7 @@
 	<body style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; background-color: #fff; box-sizing: border-box; color: #333; font-family: 'Open Sans',sans-serif; font-size: 14px; height: 100%; line-height: 1.42857143; margin: 0;">
 		<div class="wrap" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; height: auto; margin: 0 auto -61px; margin-bottom: -57px; min-height: 100%; padding: 0 0 60px;">
 			<div class="container-white" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;">
-    			<div class="container container-top-bar" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; height: 64px; margin-bottom: 2px; margin-left: auto; margin-right: auto; padding-bottom: 2px; padding-left: 15px; padding-right: 15px; padding-top: 9px;">
+    			<div class="container container-top-bar" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; height: 64px; margin-bottom: 0; margin-left: auto; margin-right: auto; padding-bottom: 2px; padding-left: 15px; padding-right: 15px; padding-top: 9px;">
 	    			<div class="row" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; margin-left: -15px; margin-right: -15px;">
 			    		<div class="col-xs-7 col-sm-8 col-md-10" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; float: left; min-height: 1px; padding-left: 15px; padding-right: 15px; position: relative; width: 58.33333333%;">
 							<h1 style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; color: inherit; font-family: inherit; font-size: 36px; font-weight: 500; line-height: 1.1; margin: .67em 0; margin-bottom: 10px; margin-top: 6px;">
@@ -33,7 +33,7 @@
     			</div>
 			</div>
 
-			<div class="container container-register" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; margin-bottom: 50px; margin-left: auto; margin-right: auto; margin-top: 60px; padding-left: 15px; padding-right: 15px;">
+			<div class="container" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; margin-left: auto; margin-right: auto; padding-left: 15px; padding-right: 15px;">
 				<div class="container" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; margin-left: auto; margin-right: auto; padding-left: 15px; padding-right: 15px;">
 					<div class="row" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; margin-left: -15px; margin-right: -15px;">
 						<div class="col-xs-4" style="-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box; float: left; min-height: 1px; padding-left: 15px; padding-right: 15px; position: relative; width: 33.33333333%;">

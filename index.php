@@ -1,32 +1,90 @@
 <!DOCTYPE html>
-<!-- ID NG-App for Internet Explorer Support -->
-<html ng-app="crucioApp" id="ng-app">
+<html ng-app="crucio.outside" id="ng-app">
 	<head>
 		<?php include 'parts/header.php'; ?>
+
 		<title>Crucio | Fachschaft Medizin <?php echo $config['city'] ?></title>
 		
-		<script> smoothScroll.init(); </script>
+		<script src="public/js/smooth-scroll.min.js"></script>
+		<script type="text/javascript">
+			smoothScroll.init();
+			
+			var angularModule = angular.module('crucio.outside', []);
+			angularModule.controller('ctrl', function($scope, $http, $window) {
+				// Check if user is in session storage
+				if (angular.isDefined(localStorage.user)) {
+					sessionStorage.freshLogin = true;
+					$window.location.replace('/questions');
+				
+				// Check if user is in local storage (persistant)
+				} else if (angular.isDefined(sessionStorage.user)) {
+					localStorage.user = sessionStorage.user;
+					sessionStorage.freshLogin = true;
+					$window.location.replace('/questions');
+				}
+				
+				// Init Values
+				$scope.rememberMe = true;
+				
+				// Login Function
+				$scope.login = function() {
+					
+					// Errors
+					$scope.hasError = false;
+					
+					// Form Validation 
+					var validation = true;
+					if (!$scope.email) {
+						$scope.hasError = true;
+						validation = false;
+					}
+					if (!$scope.password) {
+						$scope.hasError = true;
+						validation = false;
+					}
+					if (!validation) { return false; }
+				
+					if ($scope.email.indexOf("@") == -1) {
+						$scope.email += '@studserv.uni-leipzig.de';
+					}
+					
+					var postData = { email: $scope.email, password: $scope.password, remember_me: $scope.rememberMe };
+					$http.post('api/v1/users/action/login', postData).success(function(data) {
+						if (data.login == 'success') {
+							// Set cookie if user should be remembered
+						    if ($scope.rememberMe == 1) {
+							    localStorage.user = angular.toJson(data.logged_in_user);
+						    }	
+							sessionStorage.user = angular.toJson(data.logged_in_user);
+			    			$window.location.replace('/questions');
+						
+			    		} else {
+				    		$scope.hasError = true;
+			    		}
+					});
+				}
+			});
+		</script>
 	</head>
 
 	<body class="body">
 	    <div class="wrap">
-	    	<div class="container-top-bar" ng-controller="loginCtrl" style="margin-bottom: 0px;">
+	    	<div class="container-top-bar">
 	    		<div class="container">
-		    		<form class="row" ng-submit="login()">
+		    		<form class="row" ng-controller="ctrl">
 			    		<div class="col-sm-3 col-sm-offset-4">
-				    		<div class="form-group element has-feedback {{login_error ? 'has-error' : ''}}">
-	        		    	    <input class="form-control" ng-model="email" type="email" placeholder="E-Mail-Adresse" autofocus>
+				    		<div class="form-group element">
+	        		    	    <input class="form-control form-control-out" ng-class="{'has-error': hasError}" ng-model="email" type="text" placeholder="E-Mail-Adresse" autofocus>
 	        		    	    <label class="checkbox">
-				        			<input type="checkbox" ng-model="remember_me" ng-true-value="1" ng-false-value="0" style="margin-top:2px;">
+				        			<input type="checkbox" ng-model="rememberMe" style="margin-top:2px;">
 				        			Angemeldet bleiben
 								</label>
 	        		    	</div>
 			    		</div>
 
 			    		<div class="col-sm-3">
-				    		<div class="form-group element has-feedback {{login_error ? 'has-error' : ''}}">
-	        		    	    <input class="form-control" ng-model="password" type="password" placeholder="Passwort">
-	        		    	    <i class="fa fa-remove form-control-feedback" ng-show="login_error" style="margin-top:9px;"></i>
+				    		<div class="form-group element">
+	        		    	    <input class="form-control form-control-out" ng-class="{'has-error': hasError}" ng-model="password" type="password" placeholder="Passwort">
 	        		    	    <label for="passwordInput">
 	        		    	    	<a href="forgot-password" target="_self">Passwort vergessen?</a>
 	        		    	    </label>
@@ -34,7 +92,7 @@
 			    		</div>
 
 			    		<div class="col-sm-2">
-				    		<button class="btn btn-index-top">
+				    		<button class="btn btn-index-top" ng-click="login()">
 					        	<i class="fa fa-sign-in fa-fw"></i> Anmelden
 							</button>
 			    		</div>
@@ -48,7 +106,7 @@
 					    <h1><i class="fa fa-check-square-o"></i> Crucio</h1>
 					    
 					    <p>... hilft dir bei der Vorbereitung für Medizinklausuren an der Universität <?php echo $config['city'] ?>.
-							Hier werden Übungsfragen aus dem Studium gesammelt, gekreuzt und erklärt. <span ng-show="is_dev">Hier ist die Dev-Version.</span></p>
+							Hier werden Übungsfragen aus dem Studium gesammelt, gekreuzt und erklärt.</p>
 						
 						<a class="btn btn-lg" href="register" target="_self">Registrieren</a>
 				        <a class="btn btn-lg" data-scroll href="#more" target="_self">Mehr Infos</a>

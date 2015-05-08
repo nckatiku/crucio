@@ -34,5 +34,11 @@ Die wichtigsten Frameworks, auf denen Crucio basiert, sind [AngularJS](https://a
 ### Workflow
 Zur Entwicklung wird [Gulp](http://gulpjs.com) verwendet; hauptsächlich für den LESS-Compiler und für Minify- & Concat-Aktionen. Es muss zunächst [NodeJS](https://nodejs.org) installiert werden, danach kann Gulp über den Befehl `npm install -g gulp` installiert werden. Es müssen einmalig die benötigten Pakete für Crucio heruntergeladen werden (die in `package.json` aufgelistet sind), dies passiert über `npm install`. Über `gulp` wird dann eine Umgebung gestartet, bei der Änderungen sofort verarbeitet werden. Für die einmalige Installation aller Dependencies kann [Bower](http://bower.io) genutzt werden.
 
+### Code Style
+
+- [HTML / CSS](http://mdo.github.io/code-guide/#html-attribute-order)
+- [JavaScript](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml)
+- [AngularJS](https://github.com/mgechev/angularjs-style-guide/blob/master/README-de-de.md)
+
 ## Lizenz
 Crucio ist steht unter der GNU GENERAL PUBLIC LICENSE Version 3.

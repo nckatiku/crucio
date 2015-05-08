@@ -31,7 +31,7 @@
     			</div>
 			</div>
 
-			<div class="container container-register">
+			<div class="container">
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-4">

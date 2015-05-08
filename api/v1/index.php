@@ -347,8 +347,8 @@ $app->group('/users', function () use ($app) {
 		$clean_email = $email;
 		$clean_password = trim($data->password);
 		$clean_username = sanitize($username);
-		$semester = $data->semester;
-		$course_id = $data->course;
+		$semester = $_POST['semester'];
+		$course_id = $_POST['course'];
 		$activation_token = 0;
 
 		$mysql = start_mysql();
@@ -394,10 +394,14 @@ $app->group('/users', function () use ($app) {
 
 		$mysql = start_mysql();
 
-		if ($email == '')
-		    $response['error'] = 'error_no_email';
-		if ($password == '')
-		    $response['error'] = 'error_no_password';
+		if ($email == '') {
+			$response['error'] = 'error_no_email';
+		}
+		    
+		if ($password == '') {
+			$response['error'] = 'error_no_password';
+		}
+		    
 
 		if (count($response['error']) == 0) {
 			if (get_count($mysql, "users WHERE email = ?", [sanitize($email)]) == 0) {

@@ -1,8 +1,4 @@
 // -------- Global Variables ----------
-
-var base_url = window.location.origin;
-var is_dev = (base_url.indexOf("dev") == 7) ? 1 : 0;
-
 var subject_list = {
 	'Anästhesie und Intensivmedizin':[],
 
@@ -34,113 +30,121 @@ var subject_list = {
 };
 
 
-var crucioApp = angular.module('crucioApp', ['ngRoute', 'ngSanitize', 'angular-loading-bar', 'ui.bootstrap', 'angularFileUpload', 'textAngular', 'angles', 'ipCookie', 'crucioModule', 'userModule', 'learnModule', 'authorModule', 'adminModule']);
+var app = angular.module('crucioApp', ['ngRoute', 'ngSanitize', 'angular-loading-bar', 'ui.bootstrap', 'angles', 'crucioModule', 'userModule', 'learnModule', 'authorModule', 'adminModule']);
 
-
-
-crucioApp.config(function($routeProvider, $locationProvider) {
-
+app.config(function($routeProvider, $locationProvider) {
+	// Crucio Routing
     $routeProvider
-    	.when('', { templateUrl: 'index.php', controller: 'loginCtrl' })
-    	.when('/', { templateUrl: 'index.php', controller: 'loginCtrl' })
-    	.when('/forgot-password', { templateUrl: 'forgot-password.php', controller: 'forgotPasswordCtrl' })
-    	.when('/register', { templateUrl: 'register.php', controller: 'registerCtrl' })
-    	.when('/activate-account', { templateUrl: 'activate-account.php', controller: 'activateCtrl' })
-    	.when('/contact', { templateUrl: 'contact.php', controller: 'contactCtrl' })
-    	.when('/about', { templateUrl: 'about.php', controller: 'aboutCtrl' })
-    	.when('/blog', { templateUrl: 'blog.php', controller: 'blogCtrl' })
-    	.when('/stats', { templateUrl: 'stats.php', controller: 'blogCtrl' })
-
-
 		.when('/questions', { templateUrl : 'views/questions.html', controller: 'questionsCtrl' })
-    	.when('/author', { templateUrl : 'views/author.html', controller: 'authorCtrl' })
-    	.when('/admin', { templateUrl : 'views/admin.html', controller: 'adminCtrl' })
+		.when('/question', { templateUrl : 'views/question.html', controller: 'questionCtrl' })
+		.when('/exam', { templateUrl : 'views/exam.html', controller: 'examCtrl' })
+		.when('/analysis', { templateUrl : 'views/analysis.html', controller: 'analysisCtrl' })
     	.when('/account', { templateUrl : 'views/account.html', controller: 'accountCtrl' })
     	.when('/settings', { templateUrl : 'views/settings.html', controller: 'settingsCtrl' })
+    	.when('/author', { templateUrl : 'views/author.html', controller: 'authorCtrl' })
     	.when('/edit-exam', { templateUrl : 'views/edit-exam.html', controller: 'editCtrl' })
-    	.when('/question', { templateUrl : 'views/question.html', controller: 'questionCtrl' })
-    	.when('/exam', { templateUrl : 'views/exam.html', controller: 'examCtrl' })
+    	.when('/admin', { templateUrl : 'views/admin.html', controller: 'adminCtrl' })
     	.when('/statistics', { templateUrl : 'views/statistics.html', controller: 'statisticsCtrl' })
     	.when('/exam-pdf', { templateUrl : 'exam-pdf.php', controller: 'examCtrl' })
     	.when('/exam-solution-pdf', { templateUrl : 'exam-solution-pdf.php', controller: 'examCtrl' })
-    	.when('/analysis', { templateUrl : 'views/analysis.html', controller: 'analysisCtrl' })
+    	
 		.when('/403', { templateUrl : 'views/403.html', controller: 'errorCtrl' })
     	.when('/404', { templateUrl : 'views/404.html', controller: 'errorCtrl' })
     	.when('/500', { templateUrl : 'views/500.html', controller: 'errorCtrl' })
 
     	.otherwise({ redirectTo: '/404' });
 
-    // use the HTML5 History API
+    // Use the HTML5 history API
 	$locationProvider.html5Mode(true);
 });
 
-crucioApp.run(function (ipCookie, $rootScope, $location) {
-	
-	// enumerate routes that don't need authentication
-	var routesThatDontRequireAuth = ['/', '/contact', '/about', '/register', '/activate-account', '/forgot-password'];
-	var routesThatLogin = ['/', '/register', '/forgot-password'];
-	var routesForAuthor = ['/author', '/edit-exam'];
-	var routesForAdmin = ['/admin']; // + Author Routes
-
-	$rootScope.user = angular.fromJson(sessionStorage.user);
-	$rootScope.is_dev = is_dev;
-
-	var cookieUser = ipCookie('CrucioUser');
-
-	if(!$rootScope.user) {
-		if(cookieUser) {
-			$rootScope.user = cookieUser;
-			sessionStorage.user = angular.toJson(cookieUser);
-		}
-	}
+app.run(function ($location, Auth) {
+	// Routes that need specific authentication
+	var routesForAuthor = ['/author', '/edit-exam']; // Also for admins...
+	var routesForAdmin = ['/admin'];
 	
 	var routeInArray = function (route, array) {
 		var route_c = route;
-		if(route.indexOf('?') > -1)
+		if(route.indexOf('?') > -1) {
 			route_c = route.substr(0, route.indexOf('?'));
-		return ( array.indexOf(route_c) > -1) ? 1 : 0;
+		}
+		return ( array.indexOf(route_c) > -1) ? true : false;
 	};
-
-	if($rootScope.user) {
-	    var isLoggedIn = ($rootScope.user.group_id) ? 1 : 0;
-	    var isAuthor = ($rootScope.user.group_id == 3) ? 1 : 0;
-	    var isAdmin = ($rootScope.user.group_id == 2) ? 1 : 0;
-
-	} else {
-	    var isLoggedIn = 0;
-	    var isAuthor = 0;
-	    var isAdmin = 0;
+	
+	var user = Auth.user();
+	var isLoggedIn = false;
+	var isAuthor = false;
+	var isAdmin = false;
+	if (user) {
+		if (user.group_id) { isLoggedIn = true; }
+		if (user.group_id == 3) { isAuthor = true; }
+		if (user.group_id == 2) { isAdmin = true; }
 	}
-
-	if (!routeInArray($location.url(), routesThatDontRequireAuth) && !isLoggedIn) {
-		// $location.path('');
-	}
-	if (routeInArray($location.url(), routesThatLogin) && isLoggedIn) {
-		$location.path('/questions');
-	}
-	if (routeInArray($location.url(), routesForAuthor) && !(isAuthor || isAdmin)) {
+	
+	var route = $location.url();
+	if (routeInArray(route, routesForAuthor) && !(isAuthor || isAdmin)) {
 		$location.path('/403');
 	}
-	if (routeInArray($location.url(), routesForAdmin) && !isAdmin) {
+	if (routeInArray(route, routesForAdmin) && !isAdmin) {
 		$location.path('/403');
 	}
 });
 
 
-crucioApp.factory('Page', function() {
-	var title = 'Crucio';
-	var nav = '';
+// --- Global Services ---
+
+app.factory('Page', function() {
+	var title = 'Crucio'; // Title of HTML page
+	var nav = ''; // Determines the selected element in the navbar
 
 	return {
     	title: function() { return title; },
-		setTitle: function(arg) { title = arg; },
+		setTitle: function(newTitle) { title = newTitle; },
 		nav: function() { return nav; },
-		setNav: function(arg) { nav = arg; },
-		set_title_and_nav: function(new_title, new_nav) { title = new_title; nav = new_nav; }
+		setNav: function(newNav) { nav = newNav; },
+		setTitleNav: function(newTitle, newNav) { title = newTitle; nav = newNav; }
 	};
 });
 
-crucioApp.service('Selection', function() {
+app.factory('Auth', function($window) {
+	var user; // Current user object
+	
+	return {
+		user: function() { // Get current user
+			// Check if user is in already in user object
+			if (angular.isDefined(user)) {
+				// Pass...
+			
+			// Check if user is in session storage
+			} else if (angular.isDefined(sessionStorage.user)) {
+				user = angular.fromJson(sessionStorage.user);
+					
+			// Check if user is in local storage
+			} else if (angular.isDefined(localStorage.user)) {
+				sessionStorage.user = localStorage.user;
+				user = angular.fromJson(localStorage.user);
+				
+			// If there is no user data, return to login page
+			} else {
+				$window.location.replace($window.location.origin);
+			}
+			
+			return user;
+		},
+		logout: function() { // Log current user out
+			sessionStorage.removeItem('user');
+			localStorage.removeItem('user');
+			$window.location.replace($window.location.origin);
+		}
+	};
+});
+
+
+
+
+
+
+app.service('Selection', function() {
 	this.is_element_included = function(element, search_dictionary) {
 		for (var key in search_dictionary) {
 			if (key == 'query') {
@@ -166,7 +170,7 @@ crucioApp.service('Selection', function() {
 	}
 
 	this.count = function(list, search_dictionary) {
-		if(!list) { return 0; }
+		if (!list) { return 0; }
 
 		var counter = 0;
 		for (var i = 0; i < list.length; i++) {
@@ -187,43 +191,3 @@ crucioApp.service('Selection', function() {
 		return result;
 	}
 });
-
-crucioApp.filter('cut', function () {
-    return function (value, wordwise, max, tail) {
-        if (!value) { return ''; };
-
-        max = parseInt(max, 10);
-        if (!max) { return value };
-        if (value.length <= max) { return value; };
-
-        value = value.substr(0, max);
-        if (wordwise) {
-            var lastspace = value.lastIndexOf(' ');
-            if (lastspace != -1) {
-                value = value.substr(0, lastspace);
-            }
-        }
-
-        return value + (tail || ' ?');
-    };
-});
-
-
-
-Array.prototype.getIndexBy = function(name, value) {
-    for (var i = 0; i < this.length; i++) {
-        if (this[i][name] == value) {
-            return i;
-        }
-    }
-}
-
-Array.prototype.getArrayByKey = function(name) {
-	var array = [];
-    for (var i = 0; i < this.length; i++) {
-        if (this[i][name]) {
-            array.push(this[i]);
-        }
-    }
-    return array;
-}

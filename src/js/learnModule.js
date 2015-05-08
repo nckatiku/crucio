@@ -1,11 +1,8 @@
 angular.module('learnModule', ['ui.slider'])
 
-	.controller('questionsCtrl', function($scope, Page, $location, $http, Selection) {
-		Page.set_title_and_nav('Lernen | Crucio', 'Lernen');
-
-		$scope.user = angular.fromJson(sessionStorage.user);
-		if (!$scope.user)
-			window.location.replace(base_url);
+	.controller('questionsCtrl', function($scope, Page, Auth, $location, $http, Selection) {
+		Page.setTitleNav('Lernen | Crucio', 'Lernen');
+		$scope.user = Auth.user();
 
 		$scope.exam_search = {'subject': '', 'semester': '', 'query': '', 'query_keys': ['subject', 'semester', 'date']};
 		$scope.comment_search = {'query': '', 'query_keys': ['comment', 'username', 'question_id']};
@@ -150,7 +147,7 @@ angular.module('learnModule', ['ui.slider'])
 	    	$http.get('api/v1/exams/action/prepare/' + exam_id + '/' + random).success(function(data) {
 		    	var questionList = {'list': data.list};
 	    		questionList['exam_id'] = exam_id;
-				sessionStorage.currentQuestionList = angular.toJson(questionList);
+				localStorage.currentQuestionList = angular.toJson(questionList);
 				$location.path('/question').search('id', questionList['list'][0]['question_id']);
 			});
 		}
@@ -160,7 +157,7 @@ angular.module('learnModule', ['ui.slider'])
 	    	$http.post('api/v1/learn/prepare', post_data).success(function(data) {
 		    	var questionList = {'list': data.list};
 	    		questionList['selection_subject_list'] = data.selection_subject_list;
-				sessionStorage.currentQuestionList = angular.toJson(questionList);
+				localStorage.currentQuestionList = angular.toJson(questionList);
 				$location.path('/question').search('id', questionList['list'][0]['question_id']);
 			});
 		}
@@ -267,10 +264,10 @@ angular.module('learnModule', ['ui.slider'])
 	})
 
 
-	.controller('examCtrl', function($scope, $rootScope, $routeParams, Page, $http, $location, $modal) {
-		Page.set_title_and_nav('Klausur | Crucio', 'Lernen');
-
-		$scope.user = angular.fromJson(sessionStorage.user);
+	.controller('examCtrl', function($scope, $routeParams, Page, Auth, $http, $location, $modal) {
+		Page.setTitleNav('Klausur | Crucio', 'Lernen');
+		$scope.user = Auth.user();
+		
 		$scope.exam_id = $routeParams['id'];
 		$scope.questionList = {'exam_id': $scope.exam_id, 'list': []};
 
@@ -278,7 +275,7 @@ angular.module('learnModule', ['ui.slider'])
 
 		$scope.current_index = 0;
 
-		$http.get('api/v1/exams/'+$scope.exam_id).success(function(data) {
+		$http.get('api/v1/exams/' + $scope.exam_id).success(function(data) {
 			$scope.exam = data;
 
 			var questions =  $scope.exam.questions;
@@ -290,7 +287,7 @@ angular.module('learnModule', ['ui.slider'])
 
 
 		$scope.save_answer = function(question_i, given_answer) {
-			$scope.questionList.list[question_i]['given_result'] = String(given_answer);
+			$scope.questionList.list[question_i].given_result = String(given_answer);
 		}
 
 		$scope.scroll_to_top = function() {
@@ -298,34 +295,40 @@ angular.module('learnModule', ['ui.slider'])
 		}
 
 		$scope.hand_exam = function() {
-			sessionStorage.currentQuestionList = angular.toJson($scope.questionList);
+			localStorage.currentQuestionList = angular.toJson($scope.questionList);
 			$location.path('/analysis').search('id', null);
 		}
 
-		$scope.open_image_model = function (file_name) {
+		$scope.open_image_model = function(file_name) {
 			var modalInstance = $modal.open({
 		    	templateUrl: 'imageModalContent.html',
 		    	controller: 'ModalInstanceCtrl',
 				resolve: {
-				  image_url: function () {
-				    return file_name;
-				  }
+					image_url: function() { return file_name; }
 				}
 			});
 		};
 	})
 
 
-	.controller('questionCtrl', function($scope, Page, $routeParams, $http, $location, $modal) {
-		Page.set_title_and_nav('Frage | Crucio', 'Lernen');
+	.controller('questionCtrl', function($scope, Page, Auth, $routeParams, $http, $location, $modal) {
+		Page.setTitleNav('Frage | Crucio', 'Lernen');
+		$scope.user = Auth.user();
+		
+		Array.prototype.getIndexBy = function(name, value) {
+		    for (var i = 0; i < this.length; i++) {
+		        if (this[i][name] == value) {
+		            return i;
+		        }
+		    }
+		}
 
 		$scope.answerButtonClass = 'btn-primary';
 
-		$scope.user = angular.fromJson(sessionStorage.user);
-		$scope.questionList = angular.fromJson(sessionStorage.currentQuestionList);
+		$scope.questionList = angular.fromJson(localStorage.currentQuestionList);
 
-		$scope.question_id = $routeParams['id'];
-		$scope.reset_session = $routeParams['reset_session'];
+		$scope.question_id = $routeParams.id;
+		$scope.reset_session = $routeParams.reset_session;
 		
 		// If Question does not exists, pass forward to the questions page
 		if (!$scope.question_id) { window.location.replace('/questions'); }
@@ -336,25 +339,26 @@ angular.module('learnModule', ['ui.slider'])
 
 		if ($scope.reset_session) {
 			$scope.questionList = {};
-			sessionStorage.currentQuestionList = angular.toJson($scope.questionList);
+			localStorage.currentQuestionList = angular.toJson($scope.questionList);
 		}
 
 		if ($scope.questionList) {
 			if (Object.keys($scope.questionList).length) {
 				$scope.index = $scope.questionList.list.getIndexBy('question_id', $scope.question_id);
 				$scope.length = $scope.questionList.list.length;
-				$scope.show_answer = $scope.questionList.list[$scope.index]['mark_answer'];
-				$scope.given_result = $scope.questionList.list[$scope.index]['given_result'];
-				if ($scope.questionList.list[$scope.index]['strike'])
-					$scope.strike = $scope.questionList.list[$scope.index]['strike'];
+				$scope.show_answer = $scope.questionList.list[$scope.index].mark_answer;
+				$scope.given_result = $scope.questionList.list[$scope.index].given_result;
+				if ($scope.questionList.list[$scope.index].strike) {
+					$scope.strike = $scope.questionList.list[$scope.index].strike;
+				}
 			}
 		}
 
-		$scope.$watch("strike", function( newValue, oldValue ) {
+		$scope.$watch('strike', function( newValue, oldValue ) {
 			if ($scope.questionList) {
 				if(Object.keys($scope.questionList).length) {
-					$scope.questionList.list[$scope.index]['strike'] = newValue;
-					sessionStorage.currentQuestionList = angular.toJson($scope.questionList);
+					$scope.questionList.list[$scope.index].strike = newValue;
+					localStorage.currentQuestionList = angular.toJson($scope.questionList);
 				}
 			}
 		}, true);
@@ -439,7 +443,7 @@ angular.module('learnModule', ['ui.slider'])
 			if ($scope.questionList) {
 	    		if(Object.keys($scope.questionList).length) {
 		    		$scope.questionList.list[$scope.index]['mark_answer'] = 1;
-					sessionStorage.currentQuestionList = angular.toJson($scope.questionList);
+					localStorage.currentQuestionList = angular.toJson($scope.questionList);
 	    		}
 	    	}
 
@@ -452,8 +456,8 @@ angular.module('learnModule', ['ui.slider'])
 
 			if ($scope.questionList) {
 				if(Object.keys($scope.questionList).length) {
-					$scope.questionList.list[$scope.index]['given_result'] = given_answer;
-					sessionStorage.currentQuestionList = angular.toJson($scope.questionList);
+					$scope.questionList.list[$scope.index].given_result = given_answer;
+					localStorage.currentQuestionList = angular.toJson($scope.questionList);
 				}
 			}
 	    }
@@ -494,9 +498,9 @@ angular.module('learnModule', ['ui.slider'])
 			var now = new Date() / 1000;
 			var post_data = {'comment': $scope.commentText, 'question_id': $scope.question_id, 'reply_to': 0, 'username': $scope.user.username, 'date': now};
 	    	$http.post('api/v1/comments/' + $scope.user.user_id, post_data).success(function(data) {
-				post_data['voting'] = 0;
-	    		post_data['user_voting'] = 0;
-	    		post_data['comment_id'] = data.comment_id;
+				post_data.voting = 0;
+	    		post_data.user_voting = 0;
+	    		post_data.comment_id = data.comment_id;
 	    		$scope.question.comments.push(post_data);
 	    		$scope.commentText = '';
 			});
@@ -522,14 +526,12 @@ angular.module('learnModule', ['ui.slider'])
 			return result;
 		}
 
-		$scope.open_image_model = function () {
+		$scope.open_image_model = function() {
 			var modalInstance = $modal.open({
 		    	templateUrl: 'imageModalContent.html',
 		    	controller: 'ModalInstanceCtrl',
 				resolve: {
-				  image_url: function () {
-				    return $scope.question.question_image_url;
-				  }
+					image_url: function() { return $scope.question.question_image_url; }
 				}
 			});
 		};
@@ -541,11 +543,21 @@ angular.module('learnModule', ['ui.slider'])
 	})
 
 
-	.controller('analysisCtrl', function($scope, Page, $http) {
-		Page.set_title_and_nav('Analyse | Crucio', 'Lernen');
+	.controller('analysisCtrl', function($scope, Page, Auth, $http) {
+		Page.setTitleNav('Analyse | Crucio', 'Lernen');
+		$scope.user = Auth.user();
+		
+		Array.prototype.getArrayByKey = function(name) {
+			var array = [];
+		    for (var i = 0; i < this.length; i++) {
+		        if (this[i][name]) {
+		            array.push(this[i]);
+		        }
+		    }
+		    return array;
+		}
 
-		$scope.user = angular.fromJson(sessionStorage.user);
-		$scope.questionList = angular.fromJson(sessionStorage.currentQuestionList);
+		$scope.questionList = angular.fromJson(localStorage.currentQuestionList);
 
 		// Post Results
 		for (var i = 0; i < $scope.questionList.list.length; i++) {
@@ -555,7 +567,7 @@ angular.module('learnModule', ['ui.slider'])
 				if (question.type > 1) { // Don't save free questions
 					if (question.given_result > 0) {
 						var correct = (question.correct_answer == question.given_result) ? 1 : 0;
-						if(question.correct_answer == 0) { correct = -1; }
+						if (question.correct_answer == 0) { correct = -1; }
 
 						var post_data = {'correct': correct, 'question_id': question.question_id, 'user_id': $scope.user.user_id, 'given_answer': question.given_result};
 						$http.post('api/v1/results', post_data).success(function(data) { });
@@ -595,26 +607,19 @@ angular.module('learnModule', ['ui.slider'])
 
 		$scope.random = $scope.get_random(0, 1000);
 
-		for (var i=0; i < $scope.worked_question_count; i++){
+		for (var i = 0; i < $scope.worked_question_count; i++) {
 			var question = $scope.workedQuestionList[i];
 
-			if (question.correct_answer == question.given_result && question.given_result > 0 && question.correct_answer > 0)
+			if (question.correct_answer == question.given_result && question.given_result > 0 && question.correct_answer > 0) {
 				$scope.correct_q_count++;
-
-			if (question.correct_answer != question.given_result && question.given_result > 0 && question.correct_answer > 0)
+			}
+			if (question.correct_answer != question.given_result && question.given_result > 0 && question.correct_answer > 0) {
 				$scope.wrong_q_count++;
-
-			if (question.given_result > 0)
-				$scope.solved_q_count++;
-
-			if (question.given_result > -2)
-				$scope.seen_q_count++;
-
-			if (question.type == 1)
-				$scope.free_q_count++;
-
-			if (question.correct_answer == 0 && question.type!=1)
-				$scope.no_answer_q_count++;
+			}
+			if (question.given_result > 0) { $scope.solved_q_count++; }
+			if (question.given_result > -2) { $scope.seen_q_count++; }
+			if (question.type == 1) { $scope.free_q_count++; }
+			if (question.correct_answer == 0 && question.type!=1) { $scope.no_answer_q_count++; }
 		}
 
 		if ($scope.exam_id) {
@@ -625,10 +630,9 @@ angular.module('learnModule', ['ui.slider'])
 	})
 
 
-	.controller('statisticsCtrl', function($scope, Page, $http) {
-		Page.set_title_and_nav('Statistik | Crucio', 'Lernen');
-
-		$scope.user = angular.fromJson(sessionStorage.user);
+	.controller('statisticsCtrl', function($scope, Page, Auth) {
+		Page.setTitleNav('Statistik | Crucio', 'Lernen');
+		$scope.user = Auth.user();
 	})
 
 

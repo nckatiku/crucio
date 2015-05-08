@@ -1,9 +1,8 @@
-angular.module('authorModule', [])
+angular.module('authorModule', ['angularFileUpload', 'textAngular'])
 
-	.controller('authorCtrl', function($scope, Page, $location, $http, Selection) {
-		Page.set_title_and_nav('Autor | Crucio', 'Autor');
-
-		$scope.user = angular.fromJson(sessionStorage.user);
+	.controller('authorCtrl', function($scope, Page, Auth, $location, $http, Selection) {
+		Page.setTitleNav('Autor | Crucio', 'Autor');
+		$scope.user = Auth.user();
 
 		$scope.subject_list = subject_list;
 
@@ -133,12 +132,12 @@ angular.module('authorModule', [])
 	})
 
 
-	.controller('editCtrl', function($scope, $routeParams, Page, $location, $http, FileUploader) {
-		Page.set_title_and_nav('Klausur | Crucio', 'Autor');
-
+	.controller('editCtrl', function($scope, $routeParams, Page, Auth, $location, $http, FileUploader) {
+		Page.setTitleNav('Klausur | Crucio', 'Autor');
+		$scope.user = Auth.user();
+		
 		$scope.ready = 0;
 
-		$scope.user = angular.fromJson(sessionStorage.user);
 		$scope.exam_id = $routeParams['id'];
 		$scope.open_question_id = $routeParams['question_id'];
 
@@ -194,7 +193,7 @@ angular.module('authorModule', [])
 
 		$scope.$on('$locationChangeStart', function (event, next, current) {
 			if ($scope.has_changed == 1) {
-				var confirmClose = confirm('Die \u00C4nderungen an deiner Klausur bleiben dann ungespeichert. Wirklich verlassen?');
+				var confirmClose = confirm('Die Änderungen an deiner Klausur bleiben dann ungespeichert. Wirklich verlassen?');
 				if (!confirmClose)
 					event.preventDefault();
 			}
@@ -330,4 +329,25 @@ angular.module('authorModule', [])
 				$location.url('/author');
 			});
 		}
+	})
+	
+	
+	.filter('cut', function() {
+	    return function (value, wordwise, max, tail) {
+	        if (!value) { return ''; };
+	
+	        max = parseInt(max, 10);
+	        if (!max) { return value };
+	        if (value.length <= max) { return value; };
+	
+	        value = value.substr(0, max);
+	        if (wordwise) {
+	            var lastspace = value.lastIndexOf(' ');
+	            if (lastspace != -1) {
+	                value = value.substr(0, lastspace);
+	            }
+	        }
+	
+	        return value + (tail || ' ?');
+	    };
 	});

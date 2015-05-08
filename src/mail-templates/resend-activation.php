@@ -31,7 +31,7 @@
     			</div>
 			</div>
 
-			<div class="container container-register">
+			<div class="container">
 				<div class="container">
 					<strong>Hey #USERNAME#,</strong><br><br>
 
