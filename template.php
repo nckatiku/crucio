@@ -21,7 +21,7 @@
 		<title ng-controller="titleCtrl" ng-bind="title()"></title>
 	</head>
 
-	<body class="body-padding" style="visibility: hidden;">
+	<body class="body-padding" style="visibility: hidden;" data-spy="scroll" data-target=".admin-nav" data-offset="90">
 		<div class="wrap">
 			<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="navCtrl">
 				<div class="container">
@@ -98,8 +98,8 @@
 	<script>
 		var body = document.getElementsByTagName('body')[0];
 		body.style.visibility = 'visible';
-		if (sessionStorage.freshLogin) {
-			sessionStorage.removeItem('freshLogin');
+		if (sessionStorage.fresh_login) {
+			sessionStorage.removeItem('fresh_login');
 			body.className = body.className + ' body-animated';
 		}
 		

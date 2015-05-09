@@ -13,8 +13,6 @@ app.config(function($routeProvider, $locationProvider) {
     	.when('/edit-exam', { templateUrl : 'views/edit-exam.html', controller: 'editCtrl' })
     	.when('/admin', { templateUrl : 'views/admin.html', controller: 'adminCtrl' })
     	.when('/statistics', { templateUrl : 'views/statistics.html', controller: 'statisticsCtrl' })
-    	.when('/exam-pdf', { templateUrl : 'exam-pdf.php', controller: 'examCtrl' })
-    	.when('/exam-solution-pdf', { templateUrl : 'exam-solution-pdf.php', controller: 'examCtrl' })
     	
 		.when('/403', { templateUrl : 'views/403.html', controller: 'errorCtrl' })
     	.when('/404', { templateUrl : 'views/404.html', controller: 'errorCtrl' })
@@ -57,6 +55,7 @@ app.run(function ($location, Auth) {
 		$location.path('/403');
 	}
 });
+
 
 
 // --- Global Services ---

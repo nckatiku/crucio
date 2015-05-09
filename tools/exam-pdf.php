@@ -1,9 +1,9 @@
 <?php
 
-require_once('public/php/tcpdf/tcpdf.php');
-require_once('api/v1/funcs.general.php');
+require_once('../public/php/tcpdf/tcpdf.php');
+require_once('../api/v1/funcs.general.php');
 
-$config = include('public/php/config.php');
+$config = include('../public/php/config.php');
 
 $exam_id = $_GET['id'];
 

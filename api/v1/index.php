@@ -128,8 +128,9 @@ $app->group('/questions', function () use ($app) {
 		});
 
 		$tags = get_fetch($mysql, "SELECT tags FROM tags WHERE user_id = ? AND question_id = ?", [$user_id, $question_id], 'tags');
-		if(!$tags)
+		if (!$tags) {
 			$tags['tags'] = '';
+		}
 
 		$comments = get_all($mysql, "SELECT c.*, IF(uc.user_id, uc.user_voting, 0) AS 'user_voting', u.username, (SELECT SUM(uc.user_voting) FROM user_comments_data uc WHERE uc.comment_id = c.comment_id AND uc.user_id != ?) AS 'voting' FROM users u, comments c LEFT JOIN user_comments_data uc ON c.comment_id = uc.comment_id AND uc.user_id = ? WHERE c.question_id = ? AND c.user_id = u.user_id  ORDER BY c.comment_id ASC", [$user_id, $user_id, $question_id], 'comments');
 

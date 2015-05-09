@@ -35,6 +35,12 @@
 						</div>
 	    			</li>
 	    		</ul>
+	    		
+	    		<div class="admin-nav" style="display: none;">
+				    <ul class="nav nav-pills nav-stacked" role="tablist">
+				        <li ng-repeat="q in exam.questions"><a data-target="#a{{ $index + 1 }}" href></a></li>
+				    </ul>
+				</div>
 	        </div>
 		</div>
 
@@ -149,3 +155,14 @@
 		</div>
 	</div>
 </div>
+
+<script>
+	$('.admin-nav').on('activate.bs.scrollspy', function() {
+		var hash = $(this).find("li.active a").attr("data-target");
+		var current_index = parseInt(hash.slice(2)) - 1;
+		var scope = angular.element($(".external-ctrl")).scope();
+		scope.$apply(function(){
+		    scope.current_index = current_index;
+		});
+	})
+</script>

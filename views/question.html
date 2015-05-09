@@ -63,7 +63,7 @@
 	        				<i class="fa fa-fw fa-angle-right"></i> {{ question.topic }}
 	        			</li>
 
-	        			<li class="list-group-item" ng-if="questionList.list">
+	        			<li class="list-group-item" ng-if="question_list.list">
 							<p class="strong">Frage {{ index + 1 }} von {{ length }}</p>
 
 							<progress><bar value="(index+1) / length * 100" type="success"></bar></progress>
@@ -89,24 +89,24 @@
 
 	    <div class="btn-toolbar mmtop">
 	    	<div class="btn-group">
-	    		<a class="btn btn-default mtop" href="question?id={{ questionList.list[index-1]['question_id'] }}" ng-disabled="index==0" ng-if="questionList.list">
+	    		<a class="btn btn-default mtop" href="question?id={{ question_list.list[index-1]['question_id'] }}" ng-disabled="index==0" ng-if="question_list.list">
 		    		<i class="fa fa-backward"></i>
 		    	</a>
 
-	    		<button class="btn mtop" ng-class="answerButtonClass" ng-disabled="answerButtonClass!='btn-primary' || (question.type==1 && question.answers[0].length==0) || (question.type>1 && question.correct_answer==0)" ng-click="show_solution()">
+	    		<button class="btn mtop" ng-class="answerButtonClass" ng-click="show_solution()" ng-disabled="answerButtonClass!='btn-primary' || (question.type==1 && question.answers[0].length==0) || (question.type>1 && question.correct_answer==0)">
 					Lösung anzeigen
 	    		</button>
 
-	    		<button class="btn btn-default mtop" ng-disabled="!question.explanation" ng-click="show_explanation=1-show_explanation" data-toggle="button">
+	    		<button class="btn btn-default mtop" data-toggle="button" ng-click="show_explanation=1-show_explanation" ng-disabled="!question.explanation">
 	    			Erklärung
 	    		</button>
 
-	    		<a class="btn btn-default mtop" href="question?id={{ questionList.list[index+1]['question_id'] }}" ng-disabled="index==length-1" ng-if="questionList.list">
+	    		<a class="btn btn-default mtop" href="question?id={{ question_list.list[index+1]['question_id'] }}" ng-disabled="index==length-1" ng-if="question_list.list">
 		    		<i class="fa fa-forward"></i>
 		    	</a>
 	    	</div>
 
-	    	<a class="btn btn-danger mtop" href="analysis" ng-if="questionList.list">Klausur beenden</a>
+	    	<a class="btn btn-danger mtop" href="analysis" ng-if="question_list.list">Klausur beenden</a>
 
 	    	<a class="btn btn-default pull-right mtop hidden-xs" href="edit-exam?id={{ question.exam_id }}&question_id={{ question_id }}" ng-if="user.group_id == 2 || user.group_id == 3">
 		    	Bearbeiten
@@ -159,7 +159,7 @@
 	    <div class="panel-heading">
 	    	<h4 class="panel-title">
 	    		<a data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
-					<i class="fa fa-comments fa-fw"></i>Kommentare
+					<i class="fa fa-comments fa-fw"></i> Kommentare
 					<div class="pull-right"><span class="badge" ng-bind="question.comments.length"></span></div>
 	    		</a>
 	    	</h4>
@@ -189,29 +189,17 @@
 
 	        <ul class="list-group">
 	        	<div id="comments">
-	        		<li class="list-group-item" id="comment" ng-repeat="comment in question.comments">
+	        		<li class="list-group-item" ng-repeat="comment in question.comments">
 	        			<div class="row">
 	        				<div class="col-md-3 col-sm-3 col-xs-4">
-		        				<div class="comment-voting pull-left">
-			        				<div><a ng-click="comment.user_voting = increase_user_voting(comment.user_voting, comment.comment_id)" href>
-				        				<i class="fa fa-chevron-up text-muted" ng-class="comment.user_voting == '1' ? 'text-success':''"></i>
-				        			</a></div>
-
-			        				<div class="comment-voting-number"><small class="text-muted">{{ comment.voting + comment.user_voting }}</small></div>
-
-			        				<div class="comment-voting-down">
-				        				<a ng-click="comment.user_voting = decrease_user_voting(comment.user_voting, comment.comment_id)" href>
-				        					<i class="fa fa-chevron-down text-muted" ng-class="comment.user_voting == '-1' ? 'text-danger':''"></i>
-				        				</a>
-				        			</div>
-		        				</div>
+		        				<cr-comment-vote comment="comment" user="user"></cr-comment-vote>
 
 							    <div class="header">
 							    	<strong class="primary-font" ng-bind="comment.username"></strong>
 							    	<br>
 							        <small class="text-muted">
 							        	<i class="fa fa-clock-o"></i>
-							        	<span timeago="{{comment.date * 1000}}">
+							        	<span timeago="{{ comment.date * 1000 }}">
 							        </small>
 								</div>
 							</div>
@@ -219,8 +207,8 @@
 							    <p ng-bind="comment.comment"></p>
 							</div>
 							<div class="col-md-3 col-sm-4 col-xs-4">
-							    <div class="btn-group pull-right">
-							    	<button class="close" type="button" ng-click="delete_comment($index)">&times;</button>
+							    <div class="pull-right">
+							    	<button class="close" type="button" ng-click="delete_comment($index)" style="font-size: 16px;"><i class="fa fa-trash-o"></i></button>
 							    </div>
 							</div>
 	        			</div>

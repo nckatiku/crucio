@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html id="ng-app" lang="de" ng-app="crucio.outside">
 	<head>
-		<?php include 'parts/header.php'; ?>
+		<?php include 'public/php/header.php'; ?>
 		
 		<title>Account Aktivierung | Crucio</title>
 		
@@ -93,6 +93,6 @@
 			</div>
 		</div>
 
-	    <?php include 'parts/footer.php'; ?>
+	    <?php include 'public/php/footer.php'; ?>
 	</body>
 </html>

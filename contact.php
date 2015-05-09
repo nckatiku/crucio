@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html id="ng-app" lang="de" ng-app="crucio.outside">
 	<head>
-		<?php include 'parts/header.php'; ?>
+		<?php include 'public/php/header.php'; ?>
 		
 		<title>Kontakt | Crucio</title>
 		
@@ -181,6 +181,6 @@
 			</div>
 		</div>
 
-		<?php require_once('parts/footer.php'); ?>
+		<?php require_once('public/php/footer.php'); ?>
 	</body>
 </html>

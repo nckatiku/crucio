@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="crucioApp2">
 	<head>
-		<?php include '../parts/header.php'; ?>
+		<?php include '../public/php/header.php'; ?>
 		<title>Stats | Crucio </title>
 
 		<script>
@@ -529,6 +529,6 @@
 			</div>
 		</div>
 
-		<?php require_once('../parts/footer.php'); ?>
+		<?php require_once('../public/php/footer.php'); ?>
 	</body>
 </html>

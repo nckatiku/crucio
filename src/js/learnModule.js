@@ -1,6 +1,6 @@
 angular.module('app.learn', ['ui.slider'])
 
-	.controller('questionsCtrl', function($scope, Page, Auth, API, $location, Selection) {
+	.controller('questionsCtrl', function($scope, Page, Auth, API, Exam, $location, Selection) {
 		Page.setTitleNav('Lernen | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 
@@ -22,7 +22,7 @@ angular.module('app.learn', ['ui.slider'])
 		
 		$scope.slider = { step: 10, min: 0, max: $scope.number_questions_in_choosen_subjects}
 		
-		$scope.$watch("selection_subject_list", function( newValue, oldValue ) {
+		$scope.$watch('selection_subject_list', function( newValue, oldValue ) {
 			var post_data = {ignoreLoadingBar: true, selection_subject_list: $scope.selection_subject_list};
 			API.post('/learn/number-questions', post_data, function(data) {
 				$scope.number_questions_in_choosen_subjects = data.number_questions;
@@ -37,7 +37,7 @@ angular.module('app.learn', ['ui.slider'])
 			});
 		}, true);
 
-		$scope.$watch("number_questions_in_choosen_subjects", function( newValue, oldValue ) {
+		$scope.$watch('number_questions_in_choosen_subjects', function( newValue, oldValue ) {
 			var max = $scope.number_questions_in_choosen_subjects;
 			if (max > 200) { max = 200; }
 				
@@ -155,9 +155,8 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.learn_exam = function(exam_id) {
 	    	var random = 1;
 	    	API.get('/exams/action/prepare/' + exam_id + '/' + random, function(data) {
-		    	var question_list = {'list': data.list};
-	    		question_list.exam_id = exam_id;
-				localStorage.current_question_list = angular.toJson(question_list);
+		    	var question_list = {list: data.list, exam_id: exam_id};
+	    		Exam.setCurrentQuestionList(question_list);
 				$location.path('/question').search('id', question_list.list[0].question_id);
 			});
 		}
@@ -165,9 +164,8 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.learn_subjects = function() {
 			var post_data = {selection_subject_list: $scope.selection_subject_list, selection_number_questions: $scope.selection_number_questions};
 			API.post('/learn/prepare', post_data, function(data) {
-		    	var question_list = {list: data.list};
-	    		question_list['selection_subject_list'] = data.selection_subject_list;
-				localStorage.current_question_list = angular.toJson(question_list);
+		    	var question_list = {list: data.list, selection_subject_list: selection_subject_list};
+	    		Exam.setCurrentQuestionList(question_list);
 				$location.path('/question').search('id', question_list.list[0].question_id);
 			});
 		}
@@ -278,7 +276,7 @@ angular.module('app.learn', ['ui.slider'])
 	})
 
 
-	.controller('examCtrl', function($scope, $routeParams, Page, Auth, API, $location, $modal) {
+	.controller('examCtrl', function($scope, $routeParams, Page, Auth, API, Exam, $location, $modal) {
 		Page.setTitleNav('Klausur | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 		
@@ -304,7 +302,7 @@ angular.module('app.learn', ['ui.slider'])
 		}
 
 		$scope.hand_exam = function() {
-			localStorage.current_question_list = angular.toJson($scope.question_list);
+			Exam.setCurrentQuestionList($scope.question_list);
 			$location.path('/analysis').search('id', null);
 		}
 
@@ -320,7 +318,7 @@ angular.module('app.learn', ['ui.slider'])
 	})
 
 
-	.controller('questionCtrl', function($scope, Page, Auth, API, $routeParams, $location, $modal) {
+	.controller('questionCtrl', function($scope, Page, Auth, API, $routeParams, Exam, $location, $modal, $window) {
 		Page.setTitleNav('Frage | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 		
@@ -333,14 +331,14 @@ angular.module('app.learn', ['ui.slider'])
 		}
 
 		$scope.answerButtonClass = 'btn-primary';
-
-		$scope.question_list = angular.fromJson(localStorage.current_question_list);
+		
+		$scope.question_list = Exam.currentQuestionList();
 
 		$scope.question_id = $routeParams.id;
 		$scope.reset_session = $routeParams.reset_session;
 		
 		// If Question does not exists, pass forward to the questions page
-		if (!$scope.question_id) { window.location.replace('/questions'); }
+		if (!$scope.question_id) { $window.location.replace('/questions'); }
 
 		$scope.show_explanation = 0;
 		$scope.given_result = 0;
@@ -348,7 +346,7 @@ angular.module('app.learn', ['ui.slider'])
 
 		if ($scope.reset_session) {
 			$scope.question_list = {};
-			localStorage.current_question_list = angular.toJson($scope.question_list);
+			Exam.setCurrentQuestionList($scope.question_list);
 		}
 
 		if ($scope.question_list) {
@@ -367,7 +365,7 @@ angular.module('app.learn', ['ui.slider'])
 			if ($scope.question_list) {
 				if (Object.keys($scope.question_list).length) {
 					$scope.question_list.list[$scope.index].strike = newValue;
-					localStorage.current_question_list = angular.toJson($scope.question_list);
+					Exam.setCurrentQuestionList($scope.question_list);
 				}
 			}
 		}, true);
@@ -451,7 +449,7 @@ angular.module('app.learn', ['ui.slider'])
 			if ($scope.question_list) {
 	    		if (Object.keys($scope.question_list).length) {
 		    		$scope.question_list.list[$scope.index].mark_answer = 1;
-					localStorage.current_question_list = angular.toJson($scope.question_list);
+		    		Exam.setCurrentQuestionList($scope.question_list);
 	    		}
 	    	}
 
@@ -465,7 +463,7 @@ angular.module('app.learn', ['ui.slider'])
 			if ($scope.question_list) {
 				if (Object.keys($scope.question_list).length) {
 					$scope.question_list.list[$scope.index].given_result = given_answer;
-					localStorage.current_question_list = angular.toJson($scope.question_list);
+					Exam.setCurrentQuestionList($scope.question_list);
 				}
 			}
 	    }
@@ -520,20 +518,6 @@ angular.module('app.learn', ['ui.slider'])
 			$scope.question.comments.splice(index, 1);
 		}
 
-		$scope.increase_user_voting = function(current_user_voting, comment_id) {
-			var result = current_user_voting == 1 ? 1 : current_user_voting + 1;
-			var post_data = {user_voting: result};
-			API.post('/comments/' + comment_id + '/user/' + $scope.user.user_id, post_data, function(data) { });
-			return result;
-		}
-
-		$scope.decrease_user_voting = function(current_user_voting, comment_id) {
-			var result = current_user_voting == -1 ? -1 : current_user_voting - 1;
-			var post_data = {user_voting: result};
-			API.post('/comments/' + comment_id + '/user/' + $scope.user.user_id, post_data, function(data) { });
-			return result;
-		}
-
 		$scope.open_image_model = function() {
 			$modal.open({
 		    	templateUrl: 'imageModalContent.html',
@@ -551,7 +535,7 @@ angular.module('app.learn', ['ui.slider'])
 	})
 
 
-	.controller('analysisCtrl', function($scope, Page, Auth, API) {
+	.controller('analysisCtrl', function($scope, Page, Auth, API, Exam) {
 		Page.setTitleNav('Analyse | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 		
@@ -564,8 +548,8 @@ angular.module('app.learn', ['ui.slider'])
 		    }
 		    return array;
 		}
-
-		$scope.question_list = angular.fromJson(localStorage.current_question_list);
+		
+		$scope.question_list = Exam.currentQuestionList();
 
 		// Post Results
 		for (var i = 0; i < $scope.question_list.list.length; i++) {
@@ -641,6 +625,17 @@ angular.module('app.learn', ['ui.slider'])
 	})
 
 
+	.factory('Exam', function() {
+		return {
+			currentQuestionList: function() {
+				return angular.fromJson(localStorage.currentQuestionList);
+			},
+			setCurrentQuestionList: function(newQuestionList) {
+				localStorage.currentQuestionList = angular.toJson(newQuestionList);
+			}
+		}
+	})
+
 	.filter('newline_to_br', function($sce) {
 	   return function (text) {
 	       if (text !== undefined) return text.replace(/\n/g, '<br>');
@@ -715,5 +710,27 @@ angular.module('app.learn', ['ui.slider'])
 					element.text(result);
 				});
 			}
+		};
+	})
+	
+	.directive('crCommentVote', function(API) {
+		return {
+			restrict: 'E',
+			scope: { user: '=', comment: '=' },
+			controller: function($scope, API) {
+				$scope.increase_user_voting = function() {
+					$scope.comment.user_voting = $scope.comment.user_voting == 1 ? 1 : $scope.comment.user_voting + 1;
+					var post_data = {user_voting: $scope.comment.user_voting};
+					API.post('/comments/' + $scope.comment.comment_id + '/user/' + $scope.user.user_id, post_data, function(data) { });
+				}
+				
+				$scope.decrease_user_voting = function() {
+					$scope.comment.user_voting = $scope.comment.user_voting == -1 ? -1 : $scope.comment.user_voting - 1;
+					var post_data = {user_voting: $scope.comment.user_voting};
+					API.post('/comments/' + $scope.comment.comment_id + '/user/' + $scope.user.user_id, post_data, function(data) { });
+				}
+			},
+			templateUrl: 'public/html/cr-comment-vote.html',
+			transclude: true
 		};
 	});

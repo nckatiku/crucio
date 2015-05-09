@@ -3,15 +3,14 @@ angular.module('app.admin', ['angles'])
 	.controller('adminCtrl', function($scope, Page, Auth, API, Selection, $interval) {
 		Page.setTitleNav('Verwaltung | Crucio', 'Admin');
 		$scope.user = Auth.user();
+		
+		$scope.tab_active = 'users';
 
 		$scope.user_search = {'semester': '', 'group': '', 'login': '', 'query': '', 'query_keys': ['group_name', 'username']};
 		$scope.comment_search = {'question_id': '', 'username': '', 'query': '', 'query_keys': ['question', 'comment', 'username', 'question_id']};
 
 		$scope.update_activity = false;
 		$scope.show_activity = {search_query: !true, result: !true, login: !true, register: !true, comment: !true, exam_new: !true, exam_update: !true};
-		
-		$scope.tab_active = 'users';
-
 
 		$scope.$watch('comment_search', function(newValue, oldValue) {
 			$scope.questions_by_comment_display = [];
@@ -117,28 +116,6 @@ angular.module('app.admin', ['angles'])
 	    	$window.location.href = 'mailto:' + mailAddresses;
 		}
 
-		$scope.change_group = function(index) {
-			var user_id = $scope.users[index].user_id;
-			var group_id = $scope.users[index].group_id;
-
-			if (user_id == 1) { return false };
-
-			if (group_id == 2) {
-				group_id = 1;
-				$scope.users[index].group_name = 'Standard';
-			} else if (group_id == 3) {
-				group_id = 2;
-				$scope.users[index].group_name = 'Admin';
-			} else {
-				group_id = 3;
-				$scope.users[index].group_name = 'Autor';
-			}
-
-			$scope.users[index].group_id = group_id;
-			var post_data = {group_id: group_id};
-			API.put('/users/' + user_id + '/group', post_data, function(data) { });
-		}
-
 		$scope.is_today = function(date) {
 			var today = new Date();
 
@@ -177,16 +154,9 @@ angular.module('app.admin', ['angles'])
 			return Selection.count($scope.comments, $scope.comment_search);
 		}
 
-		$scope.increase_semester = function() {
-			var post_data = {number: '1'};
+		$scope.change_all_semester = function(number) {
+			var post_data = {number: number};
 			API.post('/admin/change-semester/dFt(45i$hBmk*I', post_data, function(data) {
-	    		alert(data.status);
-			});
-		}
-
-		$scope.decrease_semester = function() {
-			var post_data = {number: '-1'};
-	    	API.post('/admin/change-semester/dFt(45i$hBmk*I', post_data, function(data) {
 	    		alert(data.status);
 			});
 		}
@@ -196,4 +166,35 @@ angular.module('app.admin', ['angles'])
 				alert(data.status);
 			});
 		}
+	})
+	
+	.directive('crGroup', function(API) {
+		return {
+			restrict: 'E',
+			scope: { user: '=' },
+			controller: function($scope, API) {
+				$scope.change_group = function() {
+					var user_id = $scope.user.user_id;
+					var group_id = $scope.user.group_id;
+					var group_name_array = ['Standard', 'Admin', 'Autor'];
+					
+					// Change Group ID
+					if (group_id == 1) {
+						group_id = 3;
+					} else if (group_id == 2) {
+						group_id = 1;
+					} else if (group_id == 3) {
+						group_id = 2;
+					}
+					
+					$scope.user.group_id = group_id;
+					$scope.user.group_name = group_name_array[group_id - 1];
+					
+					var post_data = {group_id: group_id};
+					API.put('/users/' + user_id + '/group', post_data, function(data) { });
+				}
+			},
+			templateUrl: 'public/html/cr-group.html',
+			transclude: true
+		};
 	});
