@@ -3,6 +3,7 @@ angular.module('app.learn', ['ui.slider'])
 	.controller('questionsCtrl', function($scope, Page, Auth, API, Exam, $location, Selection) {
 		Page.setTitleNav('Lernen | Crucio', 'Lernen');
 		$scope.user = Auth.user();
+		$scope.tab_active = 'abstract';
 
 		$scope.exam_search = {subject: '', semester: '', query: '', query_keys: ['subject', 'semester', 'date']};
 		$scope.comment_search = {query: '', query_keys: ['comment', 'username', 'question_id']};
@@ -14,9 +15,6 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.selection_number_questions = 0;
 		$scope.number_questions_in_choosen_subjects = 0;
 		$scope.conditions = 1;
-		
-		$scope.tab_active = 'abstract';
-
 
 		var spinner = new Spinner({length: 0, radius: 18, color: '#333', shadow: false});
 		
@@ -619,9 +617,14 @@ angular.module('app.learn', ['ui.slider'])
 	})
 
 
-	.controller('statisticsCtrl', function($scope, Page, Auth) {
-		Page.setTitleNav('Statistik | Crucio', 'Lernen');
+	.controller('statisticsCtrl', function($scope, Page, Auth, API) {
+		Page.setTitleNav('Statistik | Crucio', 'Statistik');
 		$scope.user = Auth.user();
+		$scope.tab_active = 'general';
+		
+		API.get('/stats/user_id/' + $scope.user.user_id, function(data) {
+    		$scope.stats = data.stats;
+		});
 	})
 
 

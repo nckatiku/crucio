@@ -1,0 +1,32 @@
+<div class="container">
+	<div class="row mtop-navbar-row">
+        <div class="col-md-3 sidebar">
+	    	<ul class="nav nav-pills nav-stacked mbottom-2x">
+	    		<li ng-class="{active: tab_active == 'general'}"><a ng-click="tab_active = 'general'"><i class="fa fa-inbox fa-fw"></i>  Allgemein</a></li>
+	    		<hr>
+	    		<li ng-class="{active: tab_active == 'subjects'}"><a ng-click="tab_active = 'subjects'"><i class="fa fa-flask fa-fw"></i>  Fächer</a></li>
+	    		<li ng-class="{active: tab_active == 'exams'}"><a ng-click="tab_active = 'exams'"><i class="fa fa-list fa-fw"></i>  Klausuren</a></li>
+			</ul>
+			<hr class="visible-xs visible-sm">
+	    </div>
+
+	    <div class="col-md-9">
+	    	<div class="tab-content">
+
+	    		<div ng-show="tab_active == 'general'">
+		    		
+    			</div>
+
+
+	    		<div ng-show="tab_active == 'subjects'">
+		    		
+	    		</div>
+	    		
+	    		
+	    		<div ng-show="tab_active == 'exams'">
+		    		
+	    		</div>
+	    	</div>
+        </div>
+    </div>
+</div>

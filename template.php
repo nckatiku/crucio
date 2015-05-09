@@ -46,6 +46,10 @@
 								    <li class="navbar-element" ng-class="{ active: nav() == 'Lernen'}">
 								    	<a href="questions">Lernen</a>
 								    </li>
+								    
+								    <!--li class="navbar-element" ng-class="{ active: nav() == 'Statistik'}">
+								    	<a href="statistics">Statistik</a>
+								    </li-->
 			
 									<li class="navbar-element" ng-class="{ active: nav() == 'Autor'}" ng-if="user.group_id == 2 || user.group_id == 3">
 								    	<a href="author">Autoren</a>

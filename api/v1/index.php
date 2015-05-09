@@ -29,12 +29,14 @@ $app->group('/exams', function () use ($app) {
 
 	$app->get('/user_id/:user_id', function($user_id) use ($app) {
 		$mysql = start_mysql();
-		$response = get_each($mysql, "SELECT e.*, u.username, COUNT(*) AS 'question_count' FROM exams e, users u, questions q WHERE e.visibility = 1 AND e.user_id_added = u.user_id AND q.exam_id = e.exam_id GROUP BY q.exam_id ORDER BY e.semester ASC, e.subject ASC, e.date DESC", [], 'exam', function($row, $stmt, $mysql) use ($user_id) {
+		$response = get_each($mysql, "SELECT e.*, COUNT(*) AS 'question_count' FROM exams e, questions q WHERE e.visibility = 1 AND q.exam_id = e.exam_id GROUP BY q.exam_id ORDER BY e.semester ASC, e.subject ASC, e.date DESC", [], 'exam', function($row, $stmt, $mysql) use ($user_id) {
 			$tmp['answered_questions'] = get_count($mysql, "questions q, results r WHERE r.user_id = ? AND r.resetted = 0 AND r.attempt = 1 AND q.exam_id = ? AND r.question_id = q.question_id", [$user_id, $row['exam_id']]);
 			return $tmp;
 		});
 		print_response($app, $response);
 	});
+	
+	/* SELECT e.*, COUNT(*) FROM exams e, questions q, results r WHERE e.exam_id = q.exam_id AND q.question_id = r.question_id AND r.user_id = 1 AND r.attempt = 1 GROUP BY q.exam_id */
 
 	$app->get('/:exam_id', function($exam_id) use ($app) {
 		$mysql = start_mysql();
@@ -899,6 +901,23 @@ $app->group('/stats', function () use ($app) {
 		});
 
 		$response['activities'] = array_slice($activities, 0, 101);
+		print_response($app, $response);
+	});
+	
+	$app->get('/user_id/:user_id', function($user_id) use ($app) {
+		$mysql = start_mysql();
+		
+		$stats['exam_count'] = get_count($mysql, "results r, exams e, questions q WHERE e.exam_id = q.question_id AND r.user_id = ? AND r.question_id = q.question_id", [$user_id]);
+		$stats['result_count'] = get_count($mysql, "results WHERE user_id = ?", [$user_id]);
+		$stats['result_count_hour'] = get_count($mysql, "results WHERE date > ? AND user_id = ?", [time() - 60*60, $user_id]);
+		$stats['result_count_week'] = get_count($mysql, "results WHERE date > ? AND user_id = ?", [time() - 7*24*60*60, $user_id]);
+		$stats['result_count_today'] = get_count($mysql, "results WHERE date > ? AND user_id = ?", [time() - 1*24*60*60, $user_id]);
+		
+		$stats['comment_count'] = get_count($mysql, "comments WHERE user_id = ?", [$user_id]);
+		$stats['votes_count'] = get_count($mysql, "user_comments_data WHERE user_id = ?", [$user_id]);
+		$stats['tag_count'] = get_count($mysql, "tags WHERE user_id = ?", [$user_id]);
+		
+		$response['stats'] = $stats;
 		print_response($app, $response);
 	});
 });
