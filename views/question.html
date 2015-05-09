@@ -89,7 +89,7 @@
 
 	    <div class="btn-toolbar mmtop">
 	    	<div class="btn-group">
-	    		<a class="btn btn-default mtop" href="question?id={{ questionList.list[index-1]['question_id'] }}" ng-if="questionList.list" ng-disabled="index==0">
+	    		<a class="btn btn-default mtop" href="question?id={{ questionList.list[index-1]['question_id'] }}" ng-disabled="index==0" ng-if="questionList.list">
 		    		<i class="fa fa-backward"></i>
 		    	</a>
 
@@ -101,7 +101,7 @@
 	    			Erklärung
 	    		</button>
 
-	    		<a class="btn btn-default mtop" href="question?id={{ questionList.list[index+1]['question_id'] }}" ng-if="questionList.list" ng-disabled="index==length-1">
+	    		<a class="btn btn-default mtop" href="question?id={{ questionList.list[index+1]['question_id'] }}" ng-disabled="index==length-1" ng-if="questionList.list">
 		    		<i class="fa fa-forward"></i>
 		    	</a>
 	    	</div>
@@ -173,14 +173,14 @@
 	    				<label for="disabledTextInput" ng-bind="user.username"></label>
 	        			<div class="row">
 	        			    <div class="col-lg-10 col-md-9 col-sm-8">
-	        			    	<textarea class="form-control" name="commentText" rows="3" ng-model="commentText"></textarea>
+	        			    	<textarea class="form-control" rows="3" ng-model="comment_text"></textarea>
 	        			    </div>
 	        			    <div class="col-lg-2 col-md-3 col-sm-4">
 	        			    	<!--div class="checkbox">
 	        				    	<label><input id="subscriptCommentsCheckbox" type="checkbox" <?php if($subscription['subscription']){ echo 'checked="true"'; } ?>> Antworten per Mail</label>
 	        				    </div-->
 	        				    <br>
-	        				    <button class="btn btn-primary btn-block" ng-click="add_comment()" ng-disabled="!commentText">Kommentieren</button>
+	        				    <button class="btn btn-primary btn-block" ng-click="add_comment()" ng-disabled="!comment_text">Kommentieren</button>
 	        			    </div>
 	        			</div>
 	        		</div>

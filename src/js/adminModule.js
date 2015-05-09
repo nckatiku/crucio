@@ -13,7 +13,7 @@ angular.module('app.admin', ['angles'])
 		$scope.tab_active = 'users';
 
 
-		$scope.$watch('comment_search', function( newValue, oldValue ) {
+		$scope.$watch('comment_search', function(newValue, oldValue) {
 			$scope.questions_by_comment_display = [];
 			if ($scope.questions_by_comment) {
 				$scope.questions_by_comment.forEach(function(comments) {
@@ -93,8 +93,8 @@ angular.module('app.admin', ['angles'])
 			if (email.length) {
 				$scope.whitelist.push({username: '', mail_address: email});
 
-				var postData = {mail_address: email.replace('@','(@)')};
-				API.post('/whitelist', postData, function(data) { });
+				var post_data = {mail_address: email.replace('@','(@)')};
+				API.post('/whitelist', post_data, function(data) { });
 			}
 		}
 
@@ -135,15 +135,15 @@ angular.module('app.admin', ['angles'])
 			}
 
 			$scope.users[index].group_id = group_id;
-			var postData = {'group_id': group_id};
-			API.put('/users/' + user_id + '/group', postData, function(data) { });
+			var post_data = {group_id: group_id};
+			API.put('/users/' + user_id + '/group', post_data, function(data) { });
 		}
 
 		$scope.is_today = function(date) {
 			var today = new Date();
 
 			var date_c = new Date(date * 1000);
-			if(today.toDateString() == date_c.toDateString()) {
+			if (today.toDateString() == date_c.toDateString()) {
 				return true;
 			
 			} else {
@@ -178,15 +178,15 @@ angular.module('app.admin', ['angles'])
 		}
 
 		$scope.increase_semester = function() {
-			var postData = {'number': '1'};
-			API.post('/admin/change-semester/dFt(45i$hBmk*I', postData, function(data) {
+			var post_data = {number: '1'};
+			API.post('/admin/change-semester/dFt(45i$hBmk*I', post_data, function(data) {
 	    		alert(data.status);
 			});
 		}
 
 		$scope.decrease_semester = function() {
-			var postData = {'number': '-1'};
-	    	API.post('/admin/change-semester/dFt(45i$hBmk*I', postData, function(data) {
+			var post_data = {number: '-1'};
+	    	API.post('/admin/change-semester/dFt(45i$hBmk*I', post_data, function(data) {
 	    		alert(data.status);
 			});
 		}

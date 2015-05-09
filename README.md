@@ -10,7 +10,7 @@ Wenn ihr Fehler in Crucio gefunden habt, tragt sie bitte unter Issues ein. Dafü
 
 
 ## Installation
-Falls du/ihr Crucio bei euch einführen möchtet, braucht ihr einen Server mit PHP und einer MySQL-Datenbank; diese kann man ab 60€ im Jahr mieten. Folgende Schritte sind zur Installation notwendig:
+Falls du/ihr Crucio bei euch einführen möchtet, braucht ihr einen Server mit PHP und einer MySQL-Datenbank; diese kann man ab 70€ im Jahr mieten. Folgende Schritte sind zur Installation notwendig:
 
 1. Ladet dieses Repository z.B. unter `Download ZIP` auf der rechten Seite herunter.
 2. Ladet über euren FTP-Zugang die Dateien aus dem Repository auf euren Server hoch. (Den `src`-Ordner braucht ihr dabei nicht hochzuladen.)
@@ -36,9 +36,12 @@ Zur Entwicklung wird [Gulp](http://gulpjs.com) verwendet; hauptsächlich für de
 
 ### Code Style
 
+Im gesamten Projekt wird CamelCase für Namen verwendet; ebenso 4-Space Tabs, Englisch als Sprache. Ansonsten sind als grobe Richtlinien
 - [HTML / CSS](http://mdo.github.io/code-guide/#html-attribute-order)
 - [JavaScript](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml)
 - [AngularJS](https://github.com/mgechev/angularjs-style-guide/blob/master/README-de-de.md)
+gedacht.
+
 
 ## Lizenz
 Crucio ist steht unter der GNU GENERAL PUBLIC LICENSE Version 3.

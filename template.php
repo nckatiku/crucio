@@ -23,7 +23,7 @@
 
 	<body class="body-padding" style="visibility: hidden;">
 		<div class="wrap">
-			<nav class="navbar navbar-crucio navbar-fixed-top" role="navigation" ng-controller="navCtrl">
+			<nav class="navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="navCtrl">
 				<div class="container">
 					<div class="row">
 						<div class="col-sm-5 col-md-4 col-md-offset-1">
@@ -35,7 +35,7 @@
 				        	    </button>
 			
 				        	    <a class="navbar-brand" href="/questions">
-					        	    <h1><i class="fa fa-check-square-o"></i>  Crucio</h1>
+					        	    <i class="fa fa-check-square-o"></i>  Crucio
 					        	</a>
 				        	</div>
 				        </div>

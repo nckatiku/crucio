@@ -1,16 +1,13 @@
 angular.module('app.author', ['angularFileUpload', 'textAngular'])
 
-	.controller('authorCtrl', function($scope, Page, Auth, API, $location, Selection) {
+	.controller('authorCtrl', function($scope, Page, Auth, API, Selection, $location) {
 		Page.setTitleNav('Autor | Crucio', 'Autor');
 		$scope.user = Auth.user();
-
-		$scope.subject_list = subject_list;
 
 		$scope.exam_search = {'subject': '', 'semester': '', 'author': $scope.user.username, 'query': '', 'query_keys': ['subject', 'author', 'date']};
 		$scope.comment_search = {'username_added': '', 'username': '', 'query': '', 'query_keys': ['question', 'comment', 'username', 'question_id']};
 		
 		$scope.tab_active = 'exams';
-
 
 		$scope.$watch("comment_search", function( newValue ) {
 			$scope.questions_by_comment_display = [];
@@ -48,7 +45,7 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 		    // Find Distinct Semesters
 		    $scope.distinct_semesters = [];
 		    $scope.exams.forEach(function(entry) {
-		    	if($scope.distinct_semesters.indexOf(entry.semester) == -1) {
+		    	if ($scope.distinct_semesters.indexOf(entry.semester) == -1) {
 		    		$scope.distinct_semesters.push(entry.semester);
 		    	}
 		    });
@@ -57,7 +54,7 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 		    // Find Distinct Subjects
 		    $scope.distinct_subjects = [];
 		    $scope.exams.forEach(function(entry) {
-		    	if($scope.distinct_subjects.indexOf(entry.subject) == -1) {
+		    	if ($scope.distinct_subjects.indexOf(entry.subject) == -1) {
 		    		$scope.distinct_subjects.push(entry.subject);
 		    	}
 		    });
@@ -66,7 +63,7 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 		    // Find Distinct Authors
 		    $scope.distinct_authors = [];
 		    $scope.exams.forEach(function(entry) {
-		    	if($scope.distinct_authors.indexOf(entry.author) == -1) {
+		    	if ($scope.distinct_authors.indexOf(entry.author) == -1) {
 		    		$scope.distinct_authors.push(entry.author);
 		    	}
 		    });
@@ -106,11 +103,21 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 		    
 		    $scope.comment_search.username_added = $scope.user.username;
 		});
+		
+		API.get('/subjects/categories', function(data) {
+			$scope.subject_list = {};
+			data.subjects.forEach(function(subject) {
+				$scope.subject_list[subject.name] = [];
+		    });
+		    data.categories.forEach(function(category) {
+				$scope.subject_list[category.subject_name].push(category.name);
+		    });
+		})
 
 
 		$scope.new_exam = function() {
-			var postData = {'subject': '', 'professor': '', 'semester': '', 'date': '', 'type': '', 'user_id_added': $scope.user.user_id, 'duration': '', 'notes': ''};
-			API.post('/exams', postData, function(data) {
+			var post_data = {'subject': '', 'professor': '', 'semester': '', 'date': '', 'type': '', 'user_id_added': $scope.user.user_id, 'duration': '', 'notes': ''};
+			API.post('/exams', post_data, function(data) {
 		    	$location.path('/edit-exam').search('id', data.exam_id);
 		    });
 		}
@@ -141,8 +148,6 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 
 		$scope.exam_id = $routeParams['id'];
 		$scope.open_question_id = $routeParams['question_id'];
-
-		$scope.subject_list = subject_list;
 
 		$scope.has_changed = 0;
 		$scope.number_changed = 0;
@@ -219,16 +224,16 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 
 			remake_uploader_array();
 
-			if($scope.exam.questions.length == 0) {
+			if ($scope.exam.questions.length == 0) {
 				$scope.add_question(0, false);
 			}
 
-			if(!$scope.exam.subject) {
+			if (!$scope.exam.subject) {
 				$scope.exam.subject = 'Allgemeine Pathologie';
 				$scope.exam.sort = 'Erstklausur';
 			}
 
-			if($scope.open_question_id) {
+			if ($scope.open_question_id) {
 				// Scroll
 			}
 
@@ -236,6 +241,16 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 
 			setTimeout(function(){ resize_overscroll(); }, 10);
 		});
+		
+		API.get('/subjects/categories', function(data) {
+			$scope.subject_list = {};
+			data.subjects.forEach(function(subject) {
+				$scope.subject_list[subject.name] = [];
+		    });
+		    data.categories.forEach(function(category) {
+				$scope.subject_list[category.subject_name].push(category.name);
+		    });
+		})
 
 
 		$scope.add_question = function(show, scroll_to_question) {
@@ -293,8 +308,8 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 			if (validate) {
 				$scope.is_saving = 1;
 
-				var postData = $scope.exam;
-				API.put('/exams/' + $scope.exam_id, postData, function(data) { });
+				var post_data = $scope.exam;
+				API.put('/exams/' + $scope.exam_id, post_data, function(data) { });
 
 				$scope.exam.questions.forEach(function(question) {
 					var validate_question = true;
@@ -309,16 +324,17 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 			    			question.question_image_url = '';
 			    		}
 
-		    			var postQuestionData = {'question': question.question, 'topic': question.topic, 'type': question.type, 'answers': question.answers, 'correct_answer': question.correct_answer, 'exam_id': $scope.exam.exam_id, 'user_id_added': $scope.user.user_id, 'explanation': question.explanation, 'question_image_url': question.question_image_url};
+		    			var post_question_data = {'question': question.question, 'topic': question.topic, 'type': question.type, 'answers': question.answers, 'correct_answer': question.correct_answer, 'exam_id': $scope.exam.exam_id, 'user_id_added': $scope.user.user_id, 'explanation': question.explanation, 'question_image_url': question.question_image_url};
 
-		    			// New Question
-		    			if(!question.question_id) {
-			    			API.post('/questions', postQuestionData, function(data) {
+		    			// Save new question
+		    			if (!question.question_id) {
+			    			API.post('/questions', post_question_data, function(data) {
 				    			question.question_id = data.question_id;
 			    			});
-
+						
+						// Update question
 		    			} else {
-			    			API.put('/questions/' + question.question_id, postQuestionData, function(data) { });
+			    			API.put('/questions/' + question.question_id, post_question_data, function(data) { });
 		    			}
 		    		}
 				});

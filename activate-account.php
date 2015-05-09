@@ -7,34 +7,33 @@
 		
 		<script src="public/js/ui-bootstrap-tpls.min.js"></script>
 		<script>
-			var angularModule = angular.module('crucio.outside', []);
-			angularModule.controller('ctrl', function($scope, $http, $window, $location) {
+			var module = angular.module('crucio.outside', []);
+			module.controller('ctrl', function($scope, $http, $window, $location) {
 				// Check if user is in local storage
 				if (angular.isDefined(localStorage.user)) {
 					$window.location.replace('/questions');
 				}
 				
 				// Errors
-				$scope.noTokenError = false;
-				$scope.unknownError = false;
+				$scope.no_token_error = false;
+				$scope.unknown_error = false;
 				
 				// Get and analyze token from URL
-				var route_params = $location.search();
 				var token = $location.search().token;
 				if (token) {
-					var postData = {token: token};
-					$http.post('api/v1/users/action/activate', postData).success(function(data) {
+					var post_data = {token: token};
+					$http.post('api/v1/users/action/activate', post_data).success(function(data) {
 						if (data.status == 'error_unknown') {
-							$scope.unknownError = true;
+							$scope.unknown_error = true;
 						
 						} else if (data.status == 'error_no_token') {
-							$scope.noTokenError = true;
+							$scope.no_token_error = true;
 						
 						}
 					});
 					
 				} else {
-					$scope.noTokenError = true;
+					$scope.no_token_error = true;
 				}
 			});
 		</script>
@@ -69,19 +68,19 @@
 				<div class="container">
 			    <div class="row">
 			    	<div class="col-sm-10 col-sm-offset-1">
-			    		<center ng-if="noTokenError">
+			    		<center ng-if="no_token_error">
 						    <div class="alert alert-danger">
 						    	Der Schlüssel konnte deinen Account nicht aktivieren. Wir haben einfach keinen Schlüssel gefunden.
 						    </div>
 						</center>
 						
-						<center ng-if="unknownError">
+						<center ng-if="unknown_error">
 						    <div class="alert alert-danger">
 						    	Der Schlüssel konnte deinen Account nicht aktivieren. <br> Entweder passt der Schlüssel nicht oder dein Account ist bereits aktiviert.
 						    </div>
 						</center>
 
-						<center ng-if="!unknownError && !noTokenError">
+						<center ng-if="!unknown_error && !no_token_error">
 						    <div class="alert alert-success">
 						    	Dein Account ist aktiviert und deine E-Mail-Adresse bestätigt. Willkommen bei Crucio!
 						    </div>

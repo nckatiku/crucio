@@ -12,22 +12,22 @@ angular.module('app.user', ['ui.slider'])
 
 		$scope.submit_button_title = 'Speichern';
 
-		$scope.$watch("user.email", function( newValue, oldValue ) {
-			if (newValue != oldValue)
+		$scope.$watch("user.email", function( new_value, old_value ) {
+			if (new_value != old_value)
 				$scope.submit_button_title = 'Speichern';
 		}, true);
-		$scope.$watch("old_password", function( newValue, oldValue ) {
-			if (newValue != oldValue) {
+		$scope.$watch("old_password", function( new_value, old_value ) {
+			if (new_value != old_value) {
 				$scope.submit_button_title = 'Speichern';
 				$scope.wrong_password = false;
 			}
 		}, true);
-		$scope.$watch("new_password", function( newValue, oldValue ) {
-			if (newValue != oldValue)
+		$scope.$watch("new_password", function( new_value, old_value ) {
+			if (new_value != old_value)
 				$scope.submit_button_title = 'Speichern';
 		}, true);
-		$scope.$watch("new_password_c", function( newValue, oldValue ) {
-			if (newValue != oldValue)
+		$scope.$watch("new_password_c", function( new_value, old_value ) {
+			if (new_value != old_value)
 				$scope.submit_button_title = 'Speichern';
 		}, true);
 
@@ -57,9 +57,9 @@ angular.module('app.user', ['ui.slider'])
 
 			$scope.submit_button_title = 'Speichern...';
 
-			var postData = {'email': $scope.user.email.replace('@','(@)'), 'course_id': $scope.user.course_id, 'semester': $scope.user.semester, 'current_password': $scope.old_password, 'password': $scope.new_password};
-			API.put('/users/' + $scope.user.user_id + '/account', postData, function(data) {
-				if(data.status == 'success') {
+			var post_data = {'email': $scope.user.email.replace('@','(@)'), 'course_id': $scope.user.course_id, 'semester': $scope.user.semester, 'current_password': $scope.old_password, 'password': $scope.new_password};
+			API.put('/users/' + $scope.user.user_id + '/account', post_data, function(data) {
+				if (data.status == 'success') {
 					Auth.setUser($scope.user);
 			    	$scope.submit_button_title = 'Gespeichert';
 
@@ -67,8 +67,9 @@ angular.module('app.user', ['ui.slider'])
 					$scope.user = Auth.user();
 					$scope.user.semester = parseInt($scope.user.semester);
 
-					if (data.status == 'error_incorrect_password')
+					if (data.status == 'error_incorrect_password') {
 						$scope.wrong_password = true;
+					}
 
 					$scope.submit_button_title = 'Speichern nicht m\u00F6glich...';
 				}
@@ -86,8 +87,8 @@ angular.module('app.user', ['ui.slider'])
 	    $scope.update_user = function() {
 		    $scope.submit_button_title = 'Speichern...';
 		    
-		    var postData = {'highlightExams': $scope.user.highlightExams, 'showComments': $scope.user.showComments, 'repetitionValue': $scope.user.repetitionValue, 'useAnswers': $scope.user.useAnswers, 'useTags': $scope.user.useTags};
-		    API.put('/users/' + $scope.user.user_id + '/settings', postData, function(data) {
+		    var post_data = {'highlightExams': $scope.user.highlightExams, 'showComments': $scope.user.showComments, 'repetitionValue': $scope.user.repetitionValue, 'useAnswers': $scope.user.useAnswers, 'useTags': $scope.user.useTags};
+		    API.put('/users/' + $scope.user.user_id + '/settings', post_data, function(data) {
 		    	if (data.status == 'success') {
 			    	Auth.setUser($scope.user);
 			    	$scope.submit_button_title = 'Gespeichert';

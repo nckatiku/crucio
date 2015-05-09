@@ -9,8 +9,8 @@
 		<script>
 			smoothScroll.init();
 			
-			var angularModule = angular.module('crucio.outside', []);
-			angularModule.controller('ctrl', function($scope, $http, $window) {
+			var module = angular.module('crucio.outside', []);
+			module.controller('ctrl', function($scope, $http, $window) {
 				// Check if user is in session storage
 				if (angular.isDefined(localStorage.user)) {
 					$window.location.replace('/questions');
@@ -22,22 +22,22 @@
 				}
 				
 				// Init Values
-				$scope.rememberMe = true;
+				$scope.remember_me = true;
 				
 				// Login Function
 				$scope.login = function() {
 					
 					// Errors
-					$scope.hasError = false;
+					$scope.has_error = false;
 					
 					// Form Validation 
 					var validation = true;
 					if (!$scope.email) {
-						$scope.hasError = true;
+						$scope.has_error = true;
 						validation = false;
 					}
 					if (!$scope.password) {
-						$scope.hasError = true;
+						$scope.has_error = true;
 						validation = false;
 					}
 					if (!validation) { return false; }
@@ -46,19 +46,19 @@
 						$scope.email += '@studserv.uni-leipzig.de';
 					}
 					
-					var postData = { email: $scope.email, password: $scope.password, remember_me: $scope.rememberMe };
-					$http.post('api/v1/users/action/login', postData).success(function(data) {
+					var post_data = { email: $scope.email, password: $scope.password, remember_me: $scope.remember_me };
+					$http.post('api/v1/users/action/login', post_data).success(function(data) {
 						if (data.login == 'success') {
 							// Set cookie if user should be remembered
-						    if ($scope.rememberMe == 1) {
+						    if ($scope.remember_me == 1) {
 							    localStorage.user = angular.toJson(data.logged_in_user);
 						    }	
 							sessionStorage.user = angular.toJson(data.logged_in_user);
-							sessionStorage.freshLogin = true;
+							sessionStorage.fresh_login = true;
 			    			$window.location.replace('/questions');
 						
 			    		} else {
-				    		$scope.hasError = true;
+				    		$scope.has_error = true;
 			    		}
 					});
 				}
@@ -73,9 +73,9 @@
 		    		<form class="row" ng-controller="ctrl">
 			    		<div class="col-sm-3 col-sm-offset-4">
 				    		<div class="form-group element">
-	        		    	    <input class="form-control form-control-out" type="text" placeholder="E-Mail-Adresse" ng-class="{'has-error': hasError}" ng-model="email" autofocus>
+	        		    	    <input class="form-control form-control-out" type="text" placeholder="E-Mail-Adresse" ng-class="{'has-error': has_error}" ng-model="email" autofocus>
 	        		    	    <label class="checkbox">
-				        			<input type="checkbox" style="margin-top:2px;" ng-model="rememberMe">
+				        			<input type="checkbox" style="margin-top:2px;" ng-model="remember_me">
 				        			Angemeldet bleiben
 								</label>
 	        		    	</div>
@@ -83,7 +83,7 @@
 
 			    		<div class="col-sm-3">
 				    		<div class="form-group element">
-	        		    	    <input class="form-control form-control-out" type="password" placeholder="Passwort" ng-class="{'has-error': hasError}" ng-model="password">
+	        		    	    <input class="form-control form-control-out" type="password" placeholder="Passwort" ng-class="{'has-error': has_error}" ng-model="password">
 	        		    	    <label for="passwordInput">
 	        		    	    	<a href="forgot-password" target="_self">Passwort vergessen?</a>
 	        		    	    </label>

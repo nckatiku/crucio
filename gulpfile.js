@@ -9,6 +9,12 @@ var gulp = require('gulp'),
 	order = require("gulp-order");
 
 // Compile Less
+gulp.task('less-bootstrap', function() {
+    return gulp.src('src/less/bootstrap/bootstrap.less')
+        .pipe(less())
+        .pipe(gulp.dest('src/css/'));
+});
+
 gulp.task('less', function() {
     return gulp.src('src/less/*.less')
         .pipe(less())
@@ -44,6 +50,7 @@ gulp.task('mail', function() {
 // Watch Files For Changes
 gulp.task('watch', function() {
 	gulp.watch('src/less/*.less', ['less', 'css']);
+	gulp.watch('src/less/bootstrap/*.less', ['less-bootstrap', 'css']);
 	gulp.watch('src/js/*.js', ['js']);
 	gulp.watch('src/mail-templates/*.php', ['mail']);
 });

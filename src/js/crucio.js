@@ -1,35 +1,3 @@
-// -------- Global Variables ----------
-var subject_list = {
-	'Anästhesie und Intensivmedizin':[],
-
-	'Biologie': [],
-
-	'Biochemie': ['Chemie der Kohlenhydrate', 'Chemie der Aminosäuren, Peptide und Proteine', 'Chemie der Fettsäuren und Lipide', 'Chemie der Nukleotide und Nukleinsäuren', 'Vitamine und Koenzyme', 'Enzyme', 'Ernährung, Verdauung, Resorption', 'Abbau der Kohlenhydrate', 'Abbau der Fettsäuren, Ketonkörper', 'Aminosäurestoffwechsel', 'Zitratzyklus und Atmungskette', 'Glykogenstoffwechsel, Glukoneogenese', 'Biosynthese der Fettsäuren, Lipogenese', 'Mineral- und Elektrolythaushalt', 'Subzelluläre Strukturen', 'Nukleinsäuren, genetische Information, Molekularbiologie', 'Hormone', 'Immunchemie', 'Blut', 'Leber', 'Fettgewebe', 'Niere, Harn', 'Muskelgewebe, Bewegung', 'Binde- und Stützgewebe', 'Nervensystem'],
-
-	'Physik': [],
-	
-	'Physiologie': ['Allgemeine und Zellphysiologie, Zellerregung', 'Blut und Immunsystem', 'Herz', 'Blutkreislauf', 'Atmung', 'Arbeit- und Leistungsphysiologie', 'Ernährung, Verdauungstrakt, Leber', 'Energie- und Wärmehaushalt', 'Wasser- und Elektrolythaushalt, Nierenfunktion', 'Hormonale Regulationen', 'Sexualentwicklung und Reproduktionsphysiologie', 'Funktionsprinzipien des Nervensystems', 'Muskulatur', 'Vegetatives Nervensystem', 'Motorik', 'Somatoviszerale Sensorik', 'Visuelles System', 'Auditorisches System', 'Chemische Sinne', 'Integrative Leistungen des Zentralnervensystems'],
-
-	'Chemie': [],
-
-	'Klinische Chemie': [],
-	
-	'Histologie': [],
-
-	'Gynäkologie':[],
-
-	'Chirurgie': [],
-
-	'Pharmakologie': [],
-
-	'Allgemeine Pathologie': [],
-
-	'Mikrobiologie / Virologie / Immunologie / Hygiene': [],
-
-	'Psychologie': []
-};
-
-
 var app = angular.module('app', ['ngRoute', 'ngSanitize', 'angular-loading-bar', 'ui.bootstrap', 'app.crucio', 'app.user', 'app.learn', 'app.author', 'app.admin']);
 
 app.config(function($routeProvider, $locationProvider) {
@@ -154,11 +122,11 @@ app.factory('API', function($http) {
 		get: function(path, successFunction) {
 			$http.get(apiBase + path).success(function(data) { successFunction(data); });
 		},
-		post: function(path, postData, successFunction) {
-			$http.post(apiBase + path, postData).success(function(data) { successFunction(data); });
+		post: function(path, post_data, successFunction) {
+			$http.post(apiBase + path, post_data).success(function(data) { successFunction(data); });
 		},
-		put: function(path, postData, successFunction) {
-			$http.put(apiBase + path, postData).success(function(data) { successFunction(data); });
+		put: function(path, post_data, successFunction) {
+			$http.put(apiBase + path, post_data).success(function(data) { successFunction(data); });
 		},
 		delete: function(path, successFunction) {
 			$http.delete(apiBase + path, {}).success(function(data) { successFunction(data); });

@@ -326,6 +326,29 @@ $app->group('/whitelist', function () use ($app) {
 });
 
 
+$app->group('/subjects', function () use ($app) {
+
+	$app->get('', function() use ($app) {
+		$mysql = start_mysql();
+		$response = get_all($mysql, "SELECT s.* FROM subjects s", [], 'subjects');
+		print_response($app, $response);
+	});
+	
+	$app->get('/categories', function() use ($app) {
+		$mysql = start_mysql();
+		$response = get_all($mysql, "SELECT s.* FROM subjects s", [], 'subjects');
+		$response += get_all($mysql, "SELECT c.*, s.name as 'subject_name' FROM categories c, subjects s WHERE c.subject_id = s.subject_id", [], 'categories');
+		print_response($app, $response);
+	});
+
+	$app->get('/categories/:subject_id', function($subject_id) use ($app) {
+		$mysql = start_mysql();
+		$response = get_all($mysql, "SELECT c.* FROM categories c WHERE c.subject_id = ?", [$subject_id], 'categories');
+		print_response($app, $response);
+	});
+});
+
+
 $app->group('/users', function () use ($app) {
 
 	$app->get('', function() use ($app) {

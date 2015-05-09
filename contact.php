@@ -7,8 +7,8 @@
 		
 		<script src="public/js/ui-bootstrap-tpls.min.js"></script>
 		<script>
-			var angularModule = angular.module('crucio.outside', ['ui.bootstrap']);
-			angularModule.controller('ctrl', function($scope, $http, $location, $modal) {
+			var module = angular.module('crucio.outside', ['ui.bootstrap']);
+			module.controller('ctrl', function($scope, $http, $location, $modal) {
 				// Check if user is in local storage
 				if (angular.isDefined(localStorage.user)) {
 					$scope.user = angular.fromJson(localStorage.user);
@@ -18,10 +18,10 @@
 					
 					// Check if contact request is for a specific question
 					var route_params = $location.search();
-					var question_id = route_params['question_id'];
+					var question_id = route_params.question_id;
 					if (question_id) {
 						$scope.question_id = question_id;
-						$scope.subject = route_params['s'];
+						$scope.subject = route_params.s;
 						if ($scope.subject == '') {
 							$scope.subject = 'Allgemein';
 						} else if ($scope.subject == 'Antwort') {
@@ -34,17 +34,17 @@
 					}
 				}
 			
-				$scope.validateMail = function(mail) {
+				$scope.validate_mail = function(mail) {
 					var regex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 					if (regex.test(mail)) { return false; }
 					return true;
 				}
 			
-				$scope.sendMail = function() {
+				$scope.send_mail = function() {
 					
 					// Errors
-					$scope.noNameError = false;
-					$scope.noMailError = false;
+					$scope.no_name_error = false;
+					$scope.no_mail_error = false;
 					
 					// Init Values
 					var destination = 'kontakt@crucio-leipzig.de';
@@ -53,11 +53,11 @@
 					var validation = true;
 					if (!$scope.username) {
 						validation = false;
-						$scope.noNameError = true;
+						$scope.no_name_error = true;
 					}
-					if (validateMail($scope.email)) {
+					if (validate_mail($scope.email)) {
 						validation = false;
-						$scope.noMailError = true;
+						$scope.no_mail_error = true;
 					}
 					if (!validation) { return false; }
 					
@@ -130,17 +130,17 @@
 					<div class="form-group">
 						<label class="col-sm-2">Name</label>
 						<div class="col-sm-6">
-							<input class="form-control form-control-out" type="text" ng-model="username" ng-class="{'has-error': noNameError}">
+							<input class="form-control form-control-out" type="text" ng-model="username" ng-class="{'has-error': no_name_error}">
 						</div>
-						<span class="label validation-error label-danger" ng-show="noNameError">Kein Name</span>
+						<span class="label validation-error label-danger" ng-show="no_name_error">Kein Name</span>
 					</div>
 
 					<div class="form-group">
 					   	<label class="col-sm-2">E-Mail-Adresse</label>
 					   	<div class="col-sm-6">
-					   		<input class="form-control form-control-out" type="text" ng-model="email" ng-class="{'has-error': noMailError}">
+					   		<input class="form-control form-control-out" type="text" ng-model="email" ng-class="{'has-error': no_mail_error}">
 					   	</div>
-					   	<span class="label validation-error label-danger" ng-show="noMailError">Keine gültige E-Mail-Adresse</span>
+					   	<span class="label validation-error label-danger" ng-show="no_mail_error">Keine gültige E-Mail-Adresse</span>
 					</div>
 
 					<div class="form-group" ng-show="question_id">
@@ -174,7 +174,7 @@
 
 					<div class="form-group">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button class="btn btn-accent-color-2" ng-click="sendMail()">Senden</button>
+							<button class="btn btn-accent-color-2" ng-click="send_mail()">Senden</button>
 						</div>
 					</div>
 				</form>

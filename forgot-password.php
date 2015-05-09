@@ -7,8 +7,8 @@
 		
 		<script src="public/js/ui-bootstrap-tpls.min.js"></script>
 		<script>
-			var angularModule = angular.module('crucio.outside', ['ui.bootstrap']);
-			angularModule.controller('ctrl', function($scope, $http, $window, $modal) {
+			var module = angular.module('crucio.outside', ['ui.bootstrap']);
+			module.controller('ctrl', function($scope, $http, $window, $modal) {
 				// Check if user is in local storage
 				if (angular.isDefined(localStorage.user)) {
 					$window.location.replace('/questions');
@@ -18,27 +18,27 @@
 				$scope.reset = function() {
 					
 					// Init Values
-					$scope.noMailError = false;
-					$scope.alreadyMailError = false;
+					$scope.no_mail_error = false;
+					$scope.already_mail_error = false;
 					
 					// Form Validation
 					var validation = true;
 				    if (!$scope.email) {
-					    $scope.noMailError = true;
+					    $scope.no_mail_error = true;
 					    validation = false;
 				    }
 				    if (!validation) { return false; }
 				    
-				    var postData = { email: $scope.email };
-					$http.post('api/v1/users/password/reset', postData).success(function(data) {
+				    var post_data = { email: $scope.email };
+					$http.post('api/v1/users/password/reset', post_data).success(function(data) {
 						if (data.status == 'success') {
 							$modal.open({ templateUrl: 'forgot-succes-modal.html' });
 						
 						} else if(data.status == 'error_email') {
-							$scope.noMailError = true;
+							$scope.no_mail_error = true;
 						
 						} else if(data.status == 'error_already_requested') {
-							$scope.alreadyMailError = true;
+							$scope.already_mail_error = true;
 						}
 					});
 				};
@@ -137,10 +137,10 @@
 						<div class="form-group">
 						    <label class="col-sm-3 control-label">E-Mail-Adresse</label>
 					        <div class="col-sm-4">
-					    		<input class="form-control form-control-out" type="text" ng-model="email" ng-class="{'has-error': noMailError || alreadyMailError}"/>
+					    		<input class="form-control form-control-out" type="text" ng-model="email" ng-class="{'has-error': no_mail_error || already_mail_error}"/>
 					        </div>
-					        <span class="label validation-error label-danger" ng-show="noMailError">Keine gültige E-Mail-Adresse</span>
-					        <span class="label validation-error label-danger" ng-show="alreadyMailError">
+					        <span class="label validation-error label-danger" ng-show="no_mail_error">Keine gültige E-Mail-Adresse</span>
+					        <span class="label validation-error label-danger" ng-show="already_mail_error">
 					        	Für die E-Mail-Adresse wurde bereits das Passwort zurückgesetzt.
 					        </span>
 					    </div>

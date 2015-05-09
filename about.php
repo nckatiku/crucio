@@ -6,8 +6,8 @@
 		<title>Impressum | Crucio</title>
 		
 		<script>
-			var angularModule = angular.module('crucio.outside', []);
-			angularModule.controller('ctrl', function($scope) {
+			var module = angular.module('crucio.outside', []);
+			module.controller('ctrl', function($scope) {
 				// Check if user is in session storage
 				if (angular.isDefined(sessionStorage.user)) {
 					$scope.user = angular.fromJson(sessionStorage.user);

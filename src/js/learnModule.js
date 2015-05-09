@@ -8,8 +8,6 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.comment_search = {query: '', query_keys: ['comment', 'username', 'question_id']};
 		$scope.tag_search = {query: '', query_keys: ['tag']};
 
-		$scope.subject_list = subject_list;
-
 		$scope.question_field_message = '';
 
 		$scope.selection_subject_list = {};
@@ -25,8 +23,8 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.slider = { step: 10, min: 0, max: $scope.number_questions_in_choosen_subjects}
 		
 		$scope.$watch("selection_subject_list", function( newValue, oldValue ) {
-			var postData = {ignoreLoadingBar: true, selection_subject_list: $scope.selection_subject_list};
-			API.post('/learn/number-questions', postData, function(data) {
+			var post_data = {ignoreLoadingBar: true, selection_subject_list: $scope.selection_subject_list};
+			API.post('/learn/number-questions', post_data, function(data) {
 				$scope.number_questions_in_choosen_subjects = data.number_questions;
 
 				if ($scope.selection_number_questions == 0) {
@@ -93,7 +91,7 @@ angular.module('app.learn', ['ui.slider'])
 			$scope.distinct_tags = [];
 		    $scope.tags.forEach(function(entry) {
 		    	entry.tags.split(',').forEach(function(tagText) {
-		    		if($scope.distinct_tags.indexOf(tagText) == -1) {
+		    		if ($scope.distinct_tags.indexOf(tagText) == -1) {
 		    			$scope.distinct_tags.push(tagText);
 					}
 				});
@@ -103,14 +101,15 @@ angular.module('app.learn', ['ui.slider'])
 			    if (null == obj || 'object' != typeof obj) return obj;
 			    var copy = obj.constructor();
 			    for (var attr in obj) {
-			        if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+			        if (obj.hasOwnProperty(attr)) { copy[attr] = clone(obj[attr]); }
 			    }
 			    return copy;
 			}
 
 			function sortByKey(array, key) {
 			    return array.sort(function(a, b) {
-			        var x = a[key]; var y = b[key];
+			        var x = a[key];
+			        var y = b[key];
 			        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 			    });
 			}
@@ -141,25 +140,35 @@ angular.module('app.learn', ['ui.slider'])
 			    $scope.questions_by_comment[c.question].push(c);
 		    });
 		});
+		
+		API.get('/subjects/categories', function(data) {
+			$scope.subject_list = {};
+			data.subjects.forEach(function(subject) {
+				$scope.subject_list[subject.name] = [];
+		    });
+		    data.categories.forEach(function(category) {
+				$scope.subject_list[category.subject_name].push(category.name);
+		    });
+		})
 
 
 		$scope.learn_exam = function(exam_id) {
 	    	var random = 1;
 	    	API.get('/exams/action/prepare/' + exam_id + '/' + random, function(data) {
-		    	var questionList = {'list': data.list};
-	    		questionList.exam_id = exam_id;
-				localStorage.currentQuestionList = angular.toJson(questionList);
-				$location.path('/question').search('id', questionList.list[0].question_id);
+		    	var question_list = {'list': data.list};
+	    		question_list.exam_id = exam_id;
+				localStorage.current_question_list = angular.toJson(question_list);
+				$location.path('/question').search('id', question_list.list[0].question_id);
 			});
 		}
 
 		$scope.learn_subjects = function() {
-			var postData = {selection_subject_list: $scope.selection_subject_list, selection_number_questions: $scope.selection_number_questions};
-			API.post('/learn/prepare', postData, function(data) {
-		    	var questionList = {list: data.list};
-	    		questionList['selection_subject_list'] = data.selection_subject_list;
-				localStorage.currentQuestionList = angular.toJson(questionList);
-				$location.path('/question').search('id', questionList.list[0].question_id);
+			var post_data = {selection_subject_list: $scope.selection_subject_list, selection_number_questions: $scope.selection_number_questions};
+			API.post('/learn/prepare', post_data, function(data) {
+		    	var question_list = {list: data.list};
+	    		question_list['selection_subject_list'] = data.selection_subject_list;
+				localStorage.current_question_list = angular.toJson(question_list);
+				$location.path('/question').search('id', question_list.list[0].question_id);
 			});
 		}
 
@@ -184,7 +193,7 @@ angular.module('app.learn', ['ui.slider'])
 			if (Object.keys(selection).indexOf(subject) > -1) { // If Subject in Selection Keys
 				if (selection[subject].length == 0) { // If Subject in Selection has Empty Array
 					if (category == 'all') {
-						delete selection[subject];
+						selection[subject] = null;
 					}
 
 				} else if (selection[subject].length > 0) { // If Subject in Selection has Full Array
@@ -192,7 +201,7 @@ angular.module('app.learn', ['ui.slider'])
 						if (!checked) {
 							selection[subject] = subjects[subject].slice(0);
 						} else {
-							delete selection[subject];
+							selection[subject] = null;
 						}
 
 					} else {
@@ -200,7 +209,7 @@ angular.module('app.learn', ['ui.slider'])
 						if (idx > -1) {
 							selection[subject].splice(idx, 1);
 							if (selection[subject].length == 0) {
-								delete selection[subject];
+								selection[subject] = null;
 							}
 								
 						} else {
@@ -274,7 +283,7 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.user = Auth.user();
 		
 		$scope.exam_id = $routeParams.id;
-		$scope.questionList = {exam_id: $scope.exam_id, list: []};
+		$scope.question_list = {exam_id: $scope.exam_id, list: []};
 
 		$scope.Math = window.Math;
 
@@ -286,16 +295,16 @@ angular.module('app.learn', ['ui.slider'])
 			var questions =  $scope.exam.questions;
 			for (i = 0; i < questions.length; i++) {
 				var q = questions[i];
-				$scope.questionList.list[i] = q;
+				$scope.question_list.list[i] = q;
 			}
 		});
 
 		$scope.save_answer = function(question_i, given_answer) {
-			$scope.questionList.list[question_i].given_result = String(given_answer);
+			$scope.question_list.list[question_i].given_result = String(given_answer);
 		}
 
 		$scope.hand_exam = function() {
-			localStorage.currentQuestionList = angular.toJson($scope.questionList);
+			localStorage.current_question_list = angular.toJson($scope.question_list);
 			$location.path('/analysis').search('id', null);
 		}
 
@@ -325,7 +334,7 @@ angular.module('app.learn', ['ui.slider'])
 
 		$scope.answerButtonClass = 'btn-primary';
 
-		$scope.questionList = angular.fromJson(localStorage.currentQuestionList);
+		$scope.question_list = angular.fromJson(localStorage.current_question_list);
 
 		$scope.question_id = $routeParams.id;
 		$scope.reset_session = $routeParams.reset_session;
@@ -338,27 +347,27 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.strike = {};
 
 		if ($scope.reset_session) {
-			$scope.questionList = {};
-			localStorage.currentQuestionList = angular.toJson($scope.questionList);
+			$scope.question_list = {};
+			localStorage.current_question_list = angular.toJson($scope.question_list);
 		}
 
-		if ($scope.questionList) {
-			if (Object.keys($scope.questionList).length) {
-				$scope.index = $scope.questionList.list.getIndexBy('question_id', $scope.question_id);
-				$scope.length = $scope.questionList.list.length;
-				$scope.show_answer = $scope.questionList.list[$scope.index].mark_answer;
-				$scope.given_result = $scope.questionList.list[$scope.index].given_result;
-				if ($scope.questionList.list[$scope.index].strike) {
-					$scope.strike = $scope.questionList.list[$scope.index].strike;
+		if ($scope.question_list) {
+			if (Object.keys($scope.question_list).length) {
+				$scope.index = $scope.question_list.list.getIndexBy('question_id', $scope.question_id);
+				$scope.length = $scope.question_list.list.length;
+				$scope.show_answer = $scope.question_list.list[$scope.index].mark_answer;
+				$scope.given_result = $scope.question_list.list[$scope.index].given_result;
+				if ($scope.question_list.list[$scope.index].strike) {
+					$scope.strike = $scope.question_list.list[$scope.index].strike;
 				}
 			}
 		}
 
 		$scope.$watch('strike', function( newValue, oldValue ) {
-			if ($scope.questionList) {
-				if(Object.keys($scope.questionList).length) {
-					$scope.questionList.list[$scope.index].strike = newValue;
-					localStorage.currentQuestionList = angular.toJson($scope.questionList);
+			if ($scope.question_list) {
+				if (Object.keys($scope.question_list).length) {
+					$scope.question_list.list[$scope.index].strike = newValue;
+					localStorage.current_question_list = angular.toJson($scope.question_list);
 				}
 			}
 		}, true);
@@ -406,12 +415,12 @@ angular.module('app.learn', ['ui.slider'])
 			    tagClass: 'tm-tag-danger',
 			    onlyTagList: false,
 			    createHandler: function(tagManager, tags) {
-			    	var postData = {tags: tags, question_id: $scope.question_id, user_id: $scope.user.user_id};
-			    	API.post('/tags', postData, function(data) { });
+			    	var post_data = {tags: tags, question_id: $scope.question_id, user_id: $scope.user.user_id};
+			    	API.post('/tags', post_data, function(data) { });
 			    },
 			    removeHandler: function(tagManager, tags) {
 			    	var post_data = {tags: tags, question_id: $scope.question_id, user_id: $scope.user.user_id};
-			    	API.post('/tags', postData, function(data) { });
+			    	API.post('/tags', post_data, function(data) { });
 			    }
 			});
 
@@ -433,16 +442,16 @@ angular.module('app.learn', ['ui.slider'])
 
 			var correct = (correct_answer == $scope.given_result) ? 1 : 0;
 
-	    	if(correct_answer == 0) { correct = -1; }
-	    	if($scope.question.type == 1) { correct = -1; }
+	    	if (correct_answer == 0) { correct = -1; }
+	    	if ($scope.question.type == 1) { correct = -1; }
 
-	    	var postData = {correct: correct, question_id: $scope.question_id, user_id: $scope.user.user_id, given_result: $scope.given_result};
-	    	API.post('/results', postData, function(data) { });
+	    	var post_data = {correct: correct, question_id: $scope.question_id, user_id: $scope.user.user_id, given_result: $scope.given_result};
+	    	API.post('/results', post_data, function(data) { });
 
-			if ($scope.questionList) {
-	    		if(Object.keys($scope.questionList).length) {
-		    		$scope.questionList.list[$scope.index]['mark_answer'] = 1;
-					localStorage.currentQuestionList = angular.toJson($scope.questionList);
+			if ($scope.question_list) {
+	    		if (Object.keys($scope.question_list).length) {
+		    		$scope.question_list.list[$scope.index].mark_answer = 1;
+					localStorage.current_question_list = angular.toJson($scope.question_list);
 	    		}
 	    	}
 
@@ -453,10 +462,10 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.save_answer = function(given_answer) {
 			$scope.given_result = given_answer;
 
-			if ($scope.questionList) {
-				if(Object.keys($scope.questionList).length) {
-					$scope.questionList.list[$scope.index].given_result = given_answer;
-					localStorage.currentQuestionList = angular.toJson($scope.questionList);
+			if ($scope.question_list) {
+				if (Object.keys($scope.question_list).length) {
+					$scope.question_list.list[$scope.index].given_result = given_answer;
+					localStorage.current_question_list = angular.toJson($scope.question_list);
 				}
 			}
 	    }
@@ -476,10 +485,10 @@ angular.module('app.learn', ['ui.slider'])
 			$scope.mark_answer_free = true;
 			var type = $scope.question.type;
 			var correct_answer = $scope.correct_answer();
-	    	if(type > 1) {
+	    	if (type > 1) {
 	    		$scope.check_answer(given_answer);
 
-				if(given_answer == correct_answer) {
+				if (given_answer == correct_answer) {
 
 				    $scope.correctAnswer = given_answer;
 				    $scope.answerButtonClass = 'btn-success';
@@ -495,13 +504,13 @@ angular.module('app.learn', ['ui.slider'])
 
 		$scope.add_comment = function() {
 			var now = new Date() / 1000;
-			var postData = {comment: $scope.commentText, question_id: $scope.question_id, reply_to: 0, username: $scope.user.username, date: now};
-			API.post('/comments/' + $scope.user.user_id, postData, function(data) {
+			var post_data = {comment: $scope.comment_text, question_id: $scope.question_id, reply_to: 0, username: $scope.user.username, date: now};
+			API.post('/comments/' + $scope.user.user_id, post_data, function(data) {
 				post_data.voting = 0;
 	    		post_data.user_voting = 0;
 	    		post_data.comment_id = data.comment_id;
 	    		$scope.question.comments.push(post_data);
-	    		$scope.commentText = '';
+	    		$scope.comment_text = '';
 			});
 		}
 
@@ -513,15 +522,15 @@ angular.module('app.learn', ['ui.slider'])
 
 		$scope.increase_user_voting = function(current_user_voting, comment_id) {
 			var result = current_user_voting == 1 ? 1 : current_user_voting + 1;
-			var postData = {user_voting: result};
-			API.post('/comments/' + comment_id + '/user/' + $scope.user.user_id, postData, function(data) { });
+			var post_data = {user_voting: result};
+			API.post('/comments/' + comment_id + '/user/' + $scope.user.user_id, post_data, function(data) { });
 			return result;
 		}
 
 		$scope.decrease_user_voting = function(current_user_voting, comment_id) {
 			var result = current_user_voting == -1 ? -1 : current_user_voting - 1;
 			var post_data = {user_voting: result};
-			API.post('/comments/' + comment_id + '/user/' + $scope.user.user_id, postData, function(data) { });
+			API.post('/comments/' + comment_id + '/user/' + $scope.user.user_id, post_data, function(data) { });
 			return result;
 		}
 
@@ -556,11 +565,11 @@ angular.module('app.learn', ['ui.slider'])
 		    return array;
 		}
 
-		$scope.questionList = angular.fromJson(localStorage.currentQuestionList);
+		$scope.question_list = angular.fromJson(localStorage.current_question_list);
 
 		// Post Results
-		for (var i = 0; i < $scope.questionList.list.length; i++) {
-			var question = $scope.questionList.list[i];
+		for (var i = 0; i < $scope.question_list.list.length; i++) {
+			var question = $scope.question_list.list[i];
 
 			if (!question.mark_answer) { // Don't save results again, they were saved during the question page
 				if (question.type > 1) { // Don't save free questions
@@ -568,19 +577,19 @@ angular.module('app.learn', ['ui.slider'])
 						var correct = (question.correct_answer == question.given_result) ? 1 : 0;
 						if (question.correct_answer == 0) { correct = -1; }
 
-						var postData = {'correct': correct, 'question_id': question.question_id, 'user_id': $scope.user.user_id, 'given_answer': question.given_result};
-						API.post('/results', postData, function(data) { });
+						var post_data = {correct: correct, question_id: question.question_id, user_id: $scope.user.user_id, given_answer: question.given_result};
+						API.post('/results', post_data, function(data) { });
 					}
 				}
 				question.mark_answer = 'analysis';
 			}
 		}
 
-		$scope.workedQuestionList = $scope.questionList.list.getArrayByKey('given_result');
-		$scope.exam_id = $scope.questionList.exam_id;
+		$scope.workedquestion_list = $scope.question_list.list.getArrayByKey('given_result');
+		$scope.exam_id = $scope.question_list.exam_id;
 
-		$scope.all_question_count = $scope.questionList.list.length;
-		$scope.worked_question_count = $scope.workedQuestionList.length;
+		$scope.all_question_count = $scope.question_list.list.length;
+		$scope.worked_question_count = $scope.workedquestion_list.length;
 
 		$scope.correct_q_count = 0;
 		$scope.wrong_q_count = 0;
@@ -590,8 +599,8 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.no_answer_q_count = 0;
 
 		$scope.get_random = function(min, max) {
-			if(min > max) { return -1; }
-			if(min == max) { return min; }
+			if (min > max) { return -1; }
+			if (min == max) { return min; }
 
 			var r;
 			do {
@@ -604,7 +613,7 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.random = $scope.get_random(0, 1000);
 
 		for (var i = 0; i < $scope.worked_question_count; i++) {
-			var question = $scope.workedQuestionList[i];
+			var question = $scope.workedquestion_list[i];
 
 			if (question.correct_answer == question.given_result && question.given_result > 0 && question.correct_answer > 0) {
 				$scope.correct_q_count++;

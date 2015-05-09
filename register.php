@@ -7,8 +7,8 @@
 		
 		<script src="public/js/ui-bootstrap-tpls.min.js"></script>
 		<script>
-			var angularModule = angular.module('crucio.outside', ['ui.bootstrap']);
-			angularModule.controller('ctrl', function($scope, $http, $window, $modal, Validate) {
+			var module = angular.module('crucio.outside', ['ui.bootstrap']);
+			module.controller('ctrl', function($scope, $http, $window, $modal, Validate) {
 				// Check if user is in local storage
 				if (angular.isDefined(localStorage.user)) {
 					$window.location.replace('/questions');
@@ -25,61 +25,61 @@
 				$scope.register = function() {
 					
 					// Errors
-					$scope.noNameError = false;
-					$scope.duplicateNameError = false;
-					$scope.noMailError = false;
-					$scope.duplicateMailError = false;
-					$scope.noSemesterError = false;
-					$scope.noPasswordError = false;
-					$scope.noPasswordCError = false;
+					$scope.no_name_error = false;
+					$scope.duplicate_name_error = false;
+					$scope.no_mail_error = false;
+					$scope.duplicate_mail_error = false;
+					$scope.no_semester_error = false;
+					$scope.no_password_error = false;
+					$scope.no_passwordc_error = false;
 					
 					// Form Validation
 					var validation = true;
 					if (!$scope.username) {
-					    $scope.noNameError = true;
+					    $scope.no_name_error = true;
 					    validation = false;
 				    }
 				    if (!Validate.email($scope.email)) {
-					    $scope.noMailError = true;
+					    $scope.no_mail_error = true;
 					    validation = false;
 				    }
 				    if (!$scope.semester || $scope.semester <= 0) {
-					    $scope.noSemesterError = true;
+					    $scope.no_semester_error = true;
 					    validation = false;
 				    }
 				    if (!$scope.password) {
-					    $scope.noPasswordError = true;
+					    $scope.no_password_error = true;
 					    validation = false;
 				    }
 				    if ($scope.password != $scope.passwordc) {
-					    $scope.noPasswordCError = true;
+					    $scope.no_passwordc_error = true;
 					    validation = false;
 				    }
 				    if (!validation) { return false; }
 					
 					
-					var postData = { username: $scope.username, email: $scope.email, password: $scope.password, semester: $scope.semester, course: $scope.course };
-					$http.post('api/v1/users', postData).success(function(data) {
+					var post_data = { username: $scope.username, email: $scope.email, password: $scope.password, semester: $scope.semester, course: $scope.course };
+					$http.post('api/v1/users', post_data).success(function(data) {
 						if (data.status == 'success') {
 							$modal.open({ templateUrl: 'register-modal.html' });
 					
 						} else if (data['status'] == 'error_username_taken') {
-							$scope.duplicateNameError = true;
+							$scope.duplicate_name_error = true;
 					
 					    } else if (data.status == 'error_email_taken') {
-							$scope.duplicateMailError = true;
+							$scope.duplicate_mail_error = true;
 					    	
 					    } else {
-							$scope.noNameError = true;
-							$scope.noMailError = true;
-							$scope.noSemesterError = true;
-							$scope.noPasswordError = true;
+							$scope.no_name_error = true;
+							$scope.no_mail_error = true;
+							$scope.no_semester_error = true;
+							$scope.no_password_error = true;
 					    }
 					});
 				}
 			});
 			
-			angularModule.service('Validate', function($http) {
+			module.service('Validate', function($http) {
 				var whitelist = Array();
 				$http.get('api/v1/whitelist').success(function(data) {
 					whitelist = data.whitelist;
@@ -89,15 +89,11 @@
 					var regex = /[\wäüöÄÜÖ]*@studserv\.uni-leipzig\.de$/;
 					// var regex = /med\d\d\D\D\D@studserv\.uni-leipzig\.de/; // Nur Medi
 			
-					if (whitelist.length == 0)
-						return true;
-			
-					if (regex.test(email))
-						return true;
+					if (whitelist.length == 0) { return true; }
+					if (regex.test(email)) { return true; }
 			
 					for (var i = 0; i < whitelist.length; i++) {
-						if(whitelist[i].mail_address == email)
-							return true;
+						if(whitelist[i].mail_address == email) { return true; }
 					}
 					return false;
 				}
@@ -148,19 +144,19 @@
 			    	    <div class="form-group">
 			    	        <label class="col-sm-3 control-label">Name</label>
 			    	        <div class="col-sm-4">
-			    	    		<input class="form-control span5 form-control-out" type="text" placeholder="Vorname Nachname" ng-class="{'has-error': noNameError || duplicateNameError}" ng-model="username"/>
+			    	    		<input class="form-control span5 form-control-out" type="text" placeholder="Vorname Nachname" ng-class="{'has-error': no_name_error || duplicate_name_error}" ng-model="username"/>
 			    	        </div>
-			    	        <span class="label validation-error label-danger" ng-show="noNameError">Kein Name</span>
-			    	        <span class="label validation-error label-danger" ng-show="duplicateNameError">Name wird bereits verwendet</span>
+			    	        <span class="label validation-error label-danger" ng-show="no_name_error">Kein Name</span>
+			    	        <span class="label validation-error label-danger" ng-show="duplicate_name_error">Name wird bereits verwendet</span>
 			    	    </div>
 					
 			    	    <div class="form-group">
 			    	        <label class="col-sm-3 control-label">E-Mail</label>
 			    	        <div class="col-sm-4">
-			    	    		<input class="form-control span5 form-control-out" type="text" placeholder="________@studserv.uni-leipzig.de" ng-class="{'has-error': noMailError || duplicateMailError}" ng-model="email" />
+			    	    		<input class="form-control span5 form-control-out" type="text" placeholder="________@studserv.uni-leipzig.de" ng-class="{'has-error': no_mail_error || duplicate_mail_error}" ng-model="email" />
 			    	        </div>
-			    	        <span class="label label-danger validation-error" ng-show="noMailError">Keine gültige E-Mail-Adresse</span>
-			    	        <span class="label label-danger validation-error" ng-show="duplicateMailError">E-Mail-Adresse wird bereits verwendet</span>
+			    	        <span class="label label-danger validation-error" ng-show="no_mail_error">Keine gültige E-Mail-Adresse</span>
+			    	        <span class="label label-danger validation-error" ng-show="duplicate_mail_error">E-Mail-Adresse wird bereits verwendet</span>
 			    	    </div>
 					
 			    	    <hr>
@@ -177,9 +173,9 @@
 			    	    <div class="form-group">
 			    	        <label class="col-sm-3 control-label">Fachsemester</label>
 			    	        <div class="col-sm-2">
-			    	        	<input class="form-control form-control-out" type="number" ng-class="{'has-error': noSemesterError}" ng-model="semester">
+			    	        	<input class="form-control form-control-out" type="number" ng-class="{'has-error': no_semester_error}" ng-model="semester">
 			    	        </div>
-			    	        <span class="label validation-error label-danger" ng-show="noSemesterError">Kein gültiges Semester</span>
+			    	        <span class="label validation-error label-danger" ng-show="no_semester_error">Kein gültiges Semester</span>
 			    	    </div>
 					
 			    	    <hr>
@@ -187,17 +183,17 @@
 			    	    <div class="form-group">
 			    	        <label class="col-sm-3 control-label">Passwort</label>
 			    	        <div class="col-sm-4">
-			    	    		<input class="form-control span5 form-control-out" type="password" ng-class="{'has-error': noPasswordError}" ng-model="password"/>
+			    	    		<input class="form-control span5 form-control-out" type="password" ng-class="{'has-error': no_password_error}" ng-model="password"/>
 			    	        </div>
-			    	        <span class="label validation-error label-danger" ng-show="noPasswordError">Kein gültiges Passwort</span>
+			    	        <span class="label validation-error label-danger" ng-show="no_password_error">Kein gültiges Passwort</span>
 			    	    </div>
 					
 			    	    <div class="form-group">
 			    	        <label class="col-sm-3 control-label">Passwort bestätigen</label>
 			    	        <div class="col-sm-4">
-			    	    		<input class="form-control span5 form-control-out" type="password" ng-class="{'has-error': noPasswordCError}" ng-model="passwordc"/>
+			    	    		<input class="form-control span5 form-control-out" type="password" ng-class="{'has-error': no_passwordc_error}" ng-model="passwordc"/>
 			    	        </div>
-			    	        <span class="label validation-error label-danger" ng-show="noPasswordCError">Passwörter nicht gleich</span>
+			    	        <span class="label validation-error label-danger" ng-show="no_passwordc_error">Passwörter nicht gleich</span>
 			    	    </div>
 					</div>
 				</div>
