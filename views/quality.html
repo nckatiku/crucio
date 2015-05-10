@@ -1,0 +1,68 @@
+<div class="container">
+	<div class="row mtop-navbar-row">
+        <div class="col-md-3 sidebar">
+	    	<ul class="nav nav-pills nav-stacked mbottom-2x">
+	    		<li ng-class="{active: tab_active == 'format'}"><a ng-click="tab_active = 'format'"><i class="fa fa-inbox fa-fw"></i>  Formatierung Fragen</a></li>
+	    		<li ng-class="{active: tab_active == 'wrong'}"><a ng-click="tab_active = 'wrong'"><i class="fa fa-flask fa-fw"></i>  Falsche Fragen</a></li>
+			</ul>
+			<hr class="visible-xs visible-sm">
+	    </div>
+
+	    <div class="col-md-9">
+	    	<div class="tab-content">
+
+	    		<div ng-show="tab_active == 'format'">
+		    		<h3>Für Listen wurde nicht der Editor verwendet. <small>Nicht alle...</small></h3>
+		    		<table class="table">
+    					<thead>
+						    <th>Frage</th>
+						    <th>Bearbeiten</th>
+						</thead>
+
+						<tbody ng-repeat="question in format.list">
+						    <tr>
+						    	<td ng-bind-html="question.question"></td>
+								<td><a href="edit-exam?id={{ question.exam_id }}&question_id={{ question.question_id }}"><i class="fa fa-chevron-right"></i></a></td>
+						    </tr>
+						</tbody>
+    				</table>
+    				
+    				<h3>Aufgabennummer am Anfang. <small>Nicht alle...</small></h3>
+    				<table class="table">
+    					<thead>
+						    <th>Frage</th>
+						    <th>Bearbeiten</th>
+						</thead>
+
+						<tbody ng-repeat="question in format.number">
+						    <tr>
+						    	<td ng-bind-html="question.question"></td>
+								<td><a href="edit-exam?id={{ question.exam_id }}&question_id={{ question.question_id }}"><i class="fa fa-chevron-right"></i></a></td>
+						    </tr>
+						</tbody>
+    				</table>
+    				
+    				<!--h3>Kein Satzzeichen am Ende. <small>Nicht alle...</small></h3>
+    				<table class="table">
+    					<thead>
+						    <th>Frage</th>
+						    <th>Bearbeiten</th>
+						</thead>
+
+						<tbody ng-repeat="question in format.number">
+						    <tr>
+						    	<td ng-bind-html="question.question"></td>
+								<td><a href="edit-exam?id={{ question.exam_id }}&question_id={{ question.question_id }}"><i class="fa fa-chevron-right"></i></a></td>
+						    </tr>
+						</tbody>
+    				</table-->
+    			</div>
+
+
+	    		<div ng-show="tab_active == 'wrong'">
+		    		
+	    		</div>
+	    	</div>
+        </div>
+    </div>
+</div>

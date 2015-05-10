@@ -37,22 +37,27 @@ angular.module('app.learn', ['ui.slider'])
 
 		$scope.$watch('number_questions_in_choosen_subjects', function( newValue, oldValue ) {
 			var max = $scope.number_questions_in_choosen_subjects;
-			if (max > 200) { max = 200; }
+			var max_number_questions = 400;
+			if (max > max_number_questions) { max = max_number_questions; }
 				
-
-			var step = 10;
-			if (max < 40) { step = 4; }
+			var step = 20;
+			if (max < 400) { step = 20; }
+			if (max < 200) { step = 10; }
+			if (max < 40) { step = 2; }
 			if (max < 20) { step = 1; }
-				
 
-			if (max < 200)
-				if (max % step != 0)
+			if (max < max_number_questions) {
+				if (max % step != 0) {
 					max += step;
+				}
+			}
+					
 			$scope.slider = { step: step, min: 0, max: max}
 		}, true);
 		
 		API.get('/exams/user_id/' + $scope.user.user_id, function(data) {
-			$scope.exams = data.exam;
+			$scope.exams = data.exams;
+			console.log(data);
 			$scope.distinct_semesters = Selection.find_distinct($scope.exams, 'semester');
 			$scope.distinct_subjects = Selection.find_distinct($scope.exams, 'subject');
 

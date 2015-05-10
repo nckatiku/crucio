@@ -29,14 +29,11 @@ $app->group('/exams', function () use ($app) {
 
 	$app->get('/user_id/:user_id', function($user_id) use ($app) {
 		$mysql = start_mysql();
-		$response = get_each($mysql, "SELECT e.*, COUNT(*) AS 'question_count' FROM exams e, questions q WHERE e.visibility = 1 AND q.exam_id = e.exam_id GROUP BY q.exam_id ORDER BY e.semester ASC, e.subject ASC, e.date DESC", [], 'exam', function($row, $stmt, $mysql) use ($user_id) {
-			$tmp['answered_questions'] = get_count($mysql, "questions q, results r WHERE r.user_id = ? AND r.resetted = 0 AND r.attempt = 1 AND q.exam_id = ? AND r.question_id = q.question_id", [$user_id, $row['exam_id']]);
-			return $tmp;
-		});
+		$response = get_all($mysql, "SELECT e.*, IFNULL(r.answered_questions, 0) as answered_questions, IFNULL(qc.question_count, 0) as question_count FROM exams e LEFT JOIN (SELECT q.exam_id, COUNT(*) as answered_questions FROM questions q, results r WHERE q.question_id = r.question_id AND r.user_id = ? AND r.attempt = 1 GROUP BY q.exam_id) r ON r.exam_id = e.exam_id LEFT JOIN (SELECT q.exam_id, COUNT(*) as question_count FROM questions q GROUP BY q.exam_id ) qc ON qc.exam_id = e.exam_id ORDER BY e.semester, e.subject", [$user_id], 'exams');
+		
 		print_response($app, $response);
 	});
-	
-	/* SELECT e.*, COUNT(*) FROM exams e, questions q, results r WHERE e.exam_id = q.exam_id AND q.question_id = r.question_id AND r.user_id = 1 AND r.attempt = 1 GROUP BY q.exam_id */
+
 
 	$app->get('/:exam_id', function($exam_id) use ($app) {
 		$mysql = start_mysql();
@@ -44,12 +41,11 @@ $app->group('/exams', function () use ($app) {
 			$response['exam'] = $stmt->fetch(PDO::FETCH_ASSOC);
 			return $response;
 		});
-
 		$questions = get_each($mysql, "SELECT * FROM questions WHERE exam_id = ? ORDER BY question_id ASC", [$exam_id], 'questions', function($row, $stmt, $mysql) {
 			$tmp['answers'] = unserialize($row['answers']);
 			return $tmp;
 		});
-
+		
 		$response = $exam['exam'];
 		$response['questions'] = $questions['questions'];
 		$response['question_count'] = count($questions['questions']);
@@ -630,7 +626,6 @@ $app->group('/users', function () use ($app) {
 });
 
 
-
 $app->group('/comments', function () use ($app) {
 
     $app->get('', function () use ($app) {
@@ -755,7 +750,6 @@ $app->group('/results', function () use ($app) {
 });
 
 
-
 $app->group('/admin', function () use ($app) {
 
 	$app->post('/change-semester/:phrase', function($phrase) use ($app) {
@@ -816,11 +810,11 @@ $app->group('/stats', function () use ($app) {
 		// $stats['result_count_semester'] = $result_count_semester;
 
 
-		/* $result_dep_time = [];
+		$result_dep_time = [];
 		for ($i = 0; $i < 48; $i++) {
 			$result_dep_time[] = get_count($mysql, "results WHERE (?+1)*30*60 > (date % 60*60*24) AND (date % 60*60*24) >= ?*30*60", [$i, $i]);
 		}
-		$stats['result_dep_time'] = $result_dep_time; */
+		$stats['result_dep_time'] = $result_dep_time;
 
 
 		$resolution = 1.5 * 60;
@@ -918,6 +912,20 @@ $app->group('/stats', function () use ($app) {
 		$stats['tag_count'] = get_count($mysql, "tags WHERE user_id = ?", [$user_id]);
 		
 		$response['stats'] = $stats;
+		print_response($app, $response);
+	});
+});
+
+
+$app->group('/quality', function () use ($app) {
+
+	$app->get('', function() use ($app) {
+		$mysql = start_mysql();
+		$response = array();
+		$response['format'] = get_all($mysql, "SELECT q.* FROM questions q WHERE q.question LIKE '%1)%'", [], 'list');
+		$response['format'] = array_merge($response['format'], get_all($mysql, "SELECT q.* FROM questions q WHERE q.question regexp '^[0-9]. +'", [], 'number'));
+
+		// $response['wrong'] = get_all($mysql, "SELECT q.* FROM questions q, results r WHERE q.question = r.question_id LIMIT 100", [], 'wrong');
 		print_response($app, $response);
 	});
 });

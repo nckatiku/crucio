@@ -49,8 +49,6 @@ angular.module('app.admin', ['angles'])
 			$scope.distinct_semesters = Selection.find_distinct($scope.users, 'semester');
 			$scope.distinct_semesters.sort(function(a, b) {return a-b});
 			$scope.distinct_groups = ['Standard', 'Admin', 'Autor'];
-
-			$scope.ready = 1;
 		});
 		
 		API.get('/comments', function(data) {
@@ -168,6 +166,139 @@ angular.module('app.admin', ['angles'])
 		}
 	})
 	
+	.controller('liveStatisticsCtrl', function($scope, Page, Auth, API, $interval) {
+		Page.setTitleNav('Live Statistik | Crucio', 'Admin');
+		$scope.user = Auth.user();
+		$scope.tab_active = 'live-statistic';
+		
+		$scope.update_activity = false;
+		$scope.show_activity = {search_query: !true, result: !true, login: !true, register: !true, comment: !true, exam_new: !true, exam_update: !true};
+
+		var first = true;
+
+		function reloadData() {
+			API.get('/stats/general', function(data) {
+				$scope.stats = data.stats;
+
+				if (first) {
+					$scope.chart_users = [{value: parseInt($scope.stats.user_count_semester[0]), color: "#e74c3c", label: "1. Semester"},
+						{value: parseInt($scope.stats.user_count_semester[1]), color: "#e67e22", label: "2. Semester"},
+						{value: parseInt($scope.stats.user_count_semester[2]), color: "#f1c40f", label: "3. Semester"},
+						{value: parseInt($scope.stats.user_count_semester[3]), color: "#2ecc71", label: "4. Semester"},
+						{value: parseInt($scope.stats.user_count_semester[4]), color: "#1abc9c", label: "5. Semester"},
+						{value: parseInt($scope.stats.user_count_semester[5]), color: "#3498db", label: "6. Semester"},
+						{value: parseInt($scope.stats.user_count_semester[6]), color: "#34495e", label: ">6. Semester"}];
+
+					$scope.chart_exams = [{value: parseInt($scope.stats.exam_count_semester[0]), color: "#e74c3c", label: "1. Semester"},
+						{value: parseInt($scope.stats.exam_count_semester[1]), color: "#e67e22", label: "2. Semester"},
+						{value: parseInt($scope.stats.exam_count_semester[2]), color: "#f1c40f", label: "3. Semester"},
+						{value: parseInt($scope.stats.exam_count_semester[3]), color: "#2ecc71", label: "4. Semester"},
+						{value: parseInt($scope.stats.exam_count_semester[4]), color: "#1abc9c", label: "5. Semester"},
+						{value: parseInt($scope.stats.exam_count_semester[5]), color: "#3498db", label: "6. Semester"},
+						{value: parseInt($scope.stats.exam_count_semester[6]), color: "#34495e", label: ">6. Semester"}];
+
+					$scope.chart_questions = {
+					    labels: ["Gesamt", "Sichtbar", "Mit Lösung", "Mit Erklärung", "Mit Kategorie", "Freie Frage"],
+					    datasets: [{
+					        data: [$scope.stats.question_count, $scope.stats.visible_question_count, $scope.stats.question_count-$scope.stats.question_without_answer_count, $scope.stats.question_explanation_count, $scope.stats.question_topic_count, $scope.stats.question_free_count]
+					    }]
+					};
+
+					/* $scope.chart_time_user = {
+					    labels: [$scope.stats.result_dep_time_day[0], $scope.stats.result_dep_time_day[1]],
+						datasets: [
+						    {
+						        label: "Nutzer",
+						        fillColor: "rgba(220,220,120,0.2)",
+								strokeColor: "rgba(220,220,120,1)",
+								pointColor: "rgba(220,220,120,1)",
+								pointStrokeColor: "#fff",
+								pointHighlightFill: "#fff",
+						        data: [$scope.stats.result_dep_time_day[0], $scope.stats.result_dep_time_day[1]]
+						    }
+						]
+					};
+
+					$scope.chart_time_question = {
+					    labels: $scope.stats.date_name,
+						datasets: [
+						    {
+					        	label: "Fragen",
+						        fillColor: "rgba(151,187,205,0.2)",
+								strokeColor: "rgba(151,187,205,1)",
+								pointColor: "rgba(151,187,205,1)",
+								pointStrokeColor: "#fff",
+								pointHighlightFill: "#fff",
+								pointHighlightStroke: "rgba(151,187,205,1)",
+						        data: $scope.stats.question_count_time
+						    }
+						]
+					};
+
+					$scope.chart_time_result = {
+					    labels: $scope.stats.date_name,
+						datasets: [
+						    {
+						        label: "Antworten",
+						        fillColor: "rgba(251,127,105,0.2)",
+								strokeColor: "rgba(251,127,105,1)",
+								pointColor: "rgba(251,127,105,1)",
+								pointStrokeColor: "#fff",
+								pointHighlightFill: "#fff",
+								pointHighlightStroke: "rgba(251,187,205,1)",
+						        data: $scope.stats.result_count_time
+						    }
+						]
+					}; */
+
+					$scope.chart_time_result_today = {
+						labels: $scope.stats.result_dep_time_today_label,
+						datasets: [
+						    {
+						        label: "My Second dataset",
+						        fillColor: "rgba(151,187,205,0.2)",
+						        strokeColor: "rgba(151,187,205,1)",
+						        pointColor: "rgba(151,187,205,1)",
+						        pointStrokeColor: "#fff",
+						        pointHighlightFill: "#fff",
+						        pointHighlightStroke: "rgba(151,187,205,1)",
+						        data: $scope.stats.result_dep_time_today
+						    }
+						]
+					};
+
+					first = false;
+				}
+			});
+
+			API.get('/stats/search-queries', function(data) {
+			   $scope.search_queries = data.search_queries;
+			});
+
+			API.post('/stats/activities', $scope.show_activity, function(data) {
+			   $scope.activities = data.activities;
+			});
+		}
+
+		reloadData();
+		var timerData = $interval(function () {
+			if ($scope.update_activity) { reloadData(); }	
+		}, 2400);
+
+
+	})
+	
+	.controller('qualityCtrl', function($scope, Page, Auth, API) {
+		Page.setTitleNav('Verwaltung | Crucio', 'Admin');
+		$scope.user = Auth.user();
+		$scope.tab_active = 'format';
+		
+		API.get('/quality', function(data) {
+			$scope.format = data.format;
+		});
+
+	})
+	
 	.directive('crGroup', function(API) {
 		return {
 			restrict: 'E',
@@ -196,5 +327,82 @@ angular.module('app.admin', ['angles'])
 			},
 			templateUrl: 'public/html/cr-group.html',
 			transclude: true
+		};
+	})
+	
+	.directive('timeago', function() {
+		var strings = {
+			prefixAgo: "vor",
+			prefixFromNow: "in",
+			suffixAgo: "",
+			suffixFromNow: "",
+			seconds: "wenigen Sekunden",
+			seconds_2: "einigen Sekunden",
+			minute_2: "unter einer Minute",
+			minute: "etwa einer Minute",
+			minute_3: "über einer Minute",
+			minutes: "%d Minuten",
+			hour: "etwa einer Stunde",
+			hours: "%d Stunden",
+			day: "etwa einem Tag",
+			days: "%d Tagen",
+			month: "etwa einem Monat",
+			months: "%d Monaten",
+			year: "etwa einem Jahr",
+			years: "%d Jahren",
+			wordSeparator: " ",
+			numbers: []
+		}
+
+		return {
+	    	restrict:'A',
+			link: function(scope, element, attrs){
+				attrs.$observe("timeago", function(){
+					var given = parseInt(attrs.timeago);
+					var current = new Date().getTime();
+
+					var distance_millis = Math.abs(current - given);
+					var seconds = distance_millis / 1000;
+					var minutes = seconds / 60;
+					var hours = minutes / 60;
+					var days = hours / 24;
+					var years = days / 365;
+
+					var prefix = strings.prefixAgo;
+					var suffix = strings.suffixAgo;
+
+					function is_function(functionToCheck) {
+						var getType = {};
+						return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+					}
+
+					function substitute(stringOrFunction, number) {
+						var string = is_function(stringOrFunction) ? stringOrFunction(number, distance_millis) : stringOrFunction;
+						var value = (strings.numbers && strings.numbers[number]) || number;
+						return string.replace(/%d/i, value);
+					}
+
+					var words = seconds < 10 && substitute(strings.seconds, Math.round(seconds)) ||
+					  seconds < 30 && substitute(strings.seconds_2, Math.round(seconds)) ||
+					  seconds < 50 && substitute(strings.minute_2, 1) ||
+					  seconds < 70 && substitute(strings.minute, 1) ||
+					  seconds < 90 && substitute(strings.minute_3, 1) ||
+					  minutes < 55 && substitute(strings.minutes, Math.round(minutes)) ||
+					  minutes < 90 && substitute(strings.hour, 1) ||
+					  hours < 24 && substitute(strings.hours, Math.round(hours)) ||
+					  hours < 42 && substitute(strings.day, 1) ||
+					  days < 30 && substitute(strings.days, Math.round(days)) ||
+					  days < 45 && substitute(strings.month, 1) ||
+					  days < 365 && substitute(strings.months, Math.round(days / 30)) ||
+					  years < 1.5 && substitute(strings.year, 1) ||
+					  substitute(strings.years, Math.round(years));
+
+					var separator = strings.wordSeparator;
+
+					String.prototype.trim=function(){return this.replace(/^\s+|\s+$/g, '');};
+					var result = [prefix, words, suffix].join(separator).trim();
+					element.text(result);
+				});
+			}
 		};
 	});
