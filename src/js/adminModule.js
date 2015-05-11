@@ -313,9 +313,11 @@ angular.module('app.admin', ['angles'])
 					if (group_id == 1) {
 						group_id = 3;
 					} else if (group_id == 2) {
-						group_id = 1;
+						// Admins should not be changed
+						// group_id = 1;
 					} else if (group_id == 3) {
-						group_id = 2;
+						// group_id = 2;
+						group_id = 1;
 					}
 					
 					$scope.user.group_id = group_id;

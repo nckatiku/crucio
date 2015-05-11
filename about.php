@@ -63,7 +63,7 @@
 					    <dt>Entwicklung</dt>
 					    <dd>
 					    	<address>
-					    		Crucio wurde entwickelt von <a href="http://www.pantorix.de">Pantorix</a>. <strong>&copy; 2015 Pantorix.</strong>
+					    		Crucio ist ein Open-Source-Projekt. Weitere Infos gibt es auf der <a href="http://crucioproject.github.io">Hauptseite</a>. <strong>&copy; 2015 Lars Berscheid.</strong>
 					    	</address>
 					    </dd>
 					</dl>

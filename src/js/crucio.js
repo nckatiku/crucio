@@ -116,21 +116,45 @@ app.factory('Auth', function($window) {
 	};
 });
 
-app.factory('API', function($http) {
+app.factory('API', function($http, $location) {
 	var apiBase = 'api/v1';
 	
 	return {
 		get: function(path, successFunction) {
-			$http.get(apiBase + path).success(function(data) { successFunction(data); });
+			$http.get(apiBase + path).success(function(data, status) {
+				if (status == 200) {
+					successFunction(data);
+				} else if (status == 500) {
+					$location.path('/500');
+				}
+			});
 		},
 		post: function(path, post_data, successFunction) {
-			$http.post(apiBase + path, post_data).success(function(data) { successFunction(data); });
+			$http.post(apiBase + path, post_data).success(function(data, status) {
+				if (status == 200) {
+					successFunction(data);
+				} else if (status == 500) {
+					$location.path('/500');
+				}
+			});
 		},
 		put: function(path, post_data, successFunction) {
-			$http.put(apiBase + path, post_data).success(function(data) { successFunction(data); });
+			$http.put(apiBase + path, post_data).success(function(data, status) {
+				if (status == 200) {
+					successFunction(data);
+				} else if (status == 500) {
+					$location.path('/500');
+				}
+			});
 		},
 		delete: function(path, successFunction) {
-			$http.delete(apiBase + path, {}).success(function(data) { successFunction(data); });
+			$http.delete(apiBase + path, {}).success(function(data, status) {
+				if (status == 200) {
+					successFunction(data);
+				} else if (status == 500) {
+					$location.path('/500');
+				}
+			});
 		}
 	}
 });
