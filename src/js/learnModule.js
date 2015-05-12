@@ -1,6 +1,6 @@
 angular.module('app.learn', ['ui.slider'])
 
-	.controller('questionsCtrl', function($scope, Page, Auth, API, Exam, $location, Selection) {
+	.controller('learnCtrl', function($scope, Page, Auth, API, Exam, $location, Selection) {
 		Page.setTitleNav('Lernen | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 		$scope.tab_active = 'abstract';
@@ -57,7 +57,6 @@ angular.module('app.learn', ['ui.slider'])
 		
 		API.get('/exams/user_id/' + $scope.user.user_id, function(data) {
 			$scope.exams = data.exams;
-			console.log(data);
 			$scope.distinct_semesters = Selection.find_distinct($scope.exams, 'semester');
 			$scope.distinct_subjects = Selection.find_distinct($scope.exams, 'subject');
 
@@ -279,11 +278,11 @@ angular.module('app.learn', ['ui.slider'])
 	})
 
 
-	.controller('examCtrl', function($scope, $routeParams, Page, Auth, API, Exam, $location, $modal) {
+	.controller('examCtrl', function($scope, $stateParams, Page, Auth, API, Exam, $location, $modal) {
 		Page.setTitleNav('Klausur | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 		
-		$scope.exam_id = $routeParams.id;
+		$scope.exam_id = $stateParams.id;
 		$scope.question_list = {exam_id: $scope.exam_id, list: []};
 
 		$scope.Math = window.Math;
@@ -312,7 +311,9 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.open_image_model = function(file_name) {
 			var modalInstance = $modal.open({
 		    	templateUrl: 'imageModalContent.html',
-		    	controller: 'ModalInstanceCtrl',
+		    	controller: function ($scope, image_url) {
+					$scope.image_url = image_url;
+				},
 				resolve: {
 					image_url: function() { return file_name; }
 				}
@@ -321,7 +322,7 @@ angular.module('app.learn', ['ui.slider'])
 	})
 
 
-	.controller('questionCtrl', function($scope, Page, Auth, API, $routeParams, Exam, $location, $modal, $window) {
+	.controller('questionCtrl', function($scope, Page, Auth, API, $stateParams, Exam, $location, $modal, $window) {
 		Page.setTitleNav('Frage | Crucio', 'Lernen');
 		$scope.user = Auth.user();
 		
@@ -337,11 +338,11 @@ angular.module('app.learn', ['ui.slider'])
 		
 		$scope.question_list = Exam.currentQuestionList();
 
-		$scope.question_id = $routeParams.id;
-		$scope.reset_session = $routeParams.reset_session;
+		$scope.question_id = $stateParams.id;
+		$scope.reset_session = $stateParams.reset_session;
 		
 		// If Question does not exists, pass forward to the questions page
-		if (!$scope.question_id) { $window.location.replace('/questions'); }
+		if (!$scope.question_id) { $window.location.replace('/learn'); }
 
 		$scope.show_explanation = 0;
 		$scope.given_result = 0;
@@ -524,17 +525,14 @@ angular.module('app.learn', ['ui.slider'])
 		$scope.open_image_model = function() {
 			$modal.open({
 		    	templateUrl: 'imageModalContent.html',
-		    	controller: 'ModalInstanceCtrl',
+		    	controller: function ($scope, image_url) {
+					$scope.image_url = image_url;
+				},
 				resolve: {
 					image_url: function() { return $scope.question.question_image_url; }
 				}
 			});
 		};
-	})
-
-
-	.controller('ModalInstanceCtrl', function ($scope, $modalInstance, image_url) {
-		$scope.image_url = image_url;
 	})
 
 

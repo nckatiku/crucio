@@ -7,11 +7,28 @@
 		
 		<script src="public/js/ui-bootstrap-tpls.min.js"></script>
 		<script>
-			var module = angular.module('crucio.outside', ['ui.bootstrap']);
-			module.controller('ctrl', function($scope, $http, $window, $modal) {
+			var module = angular.module('crucio.outside', ['ui.bootstrap'], function($locationProvider) { $locationProvider.html5Mode(true); });
+			module.controller('ctrl', function($scope, $http, $window, $modal, $location) {
 				// Check if user is in local storage
 				if (angular.isDefined(localStorage.user)) {
 					$window.location.replace('/questions');
+				}
+
+				$scope.confirm = $location.search().confirm;
+				$scope.deny = $location.search().deny;
+
+				if ($scope.confirm) {
+					var post_data = {token: $scope.confirm};
+					$http.post('api/v1/users/password/confirm', post_data).success(function(data) {
+						$modal.open({ templateUrl: 'forgot-confirm-modal.html' });
+					});
+				}
+				
+				if ($scope.deny) {
+					var post_data = {token: $scope.deny};
+					$http.post('api/v1/users/password/deny', post_data).success(function(data) {
+						$modal.open({ templateUrl: 'forgot-deny-modal.html' });
+					});
 				}
 				
 				// Reset Password Function
@@ -29,7 +46,7 @@
 				    }
 				    if (!validation) { return false; }
 				    
-				    var post_data = { email: $scope.email };
+				    var post_data = {email: $scope.email};
 					$http.post('api/v1/users/password/reset', post_data).success(function(data) {
 						if (data.status == 'success') {
 							$modal.open({ templateUrl: 'forgot-succes-modal.html' });
@@ -103,11 +120,11 @@
 	    		<div class="container">
 		    		<div class="row">
 			    		<div class="col-sm-10">
-				    		<h1><a href="/"><i class="fa fa-check-square-o"></i> Crucio</a></h1>
+				    		<h1><a href="/" target="_self"><i class="fa fa-check-square-o"></i> Crucio</a></h1>
 			    		</div>
 
 			    		<div class="col-sm-2">
-				    		<a class="btn btn-index-top" href="/">
+				    		<a class="btn btn-index-top" href="/" target="_self">
 					        	<i class="fa fa-sign-in fa-fw"></i> Anmelden
 							</a>
 			    		</div>

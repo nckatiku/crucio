@@ -34,7 +34,7 @@
 				        	        <span class="icon-bar"></span>
 				        	    </button>
 			
-				        	    <a class="navbar-brand" href="/questions">
+				        	    <a class="navbar-brand" href="/learn">
 					        	    <i class="fa fa-check-square-o"></i>  Crucio
 					        	</a>
 				        	</div>
@@ -44,7 +44,7 @@
 							<div class="collapse navbar-collapse" id="navbar-collapse-1">
 								<ul class="nav navbar-nav navbar-right">
 								    <li class="navbar-element" ng-class="{ active: nav() == 'Lernen'}">
-								    	<a href="questions">Lernen</a>
+								    	<a href="learn">Lernen</a>
 								    </li>
 								    
 								    <!--li class="navbar-element" ng-class="{ active: nav() == 'Statistik'}">
@@ -78,7 +78,7 @@
 				</div>
 			</nav>
 
-			<div class="external-ctrl" ng-view></div>
+			<div class="external-ctrl" ui-view></div>
 		</div>
 
 		<div class="footer">
@@ -119,7 +119,8 @@
 	<script src="public/js/bootstrap.min.js"></script>
 	<script src="public/js/angular.min.js"></script>
 	
-	<script src="public/js/angular-route.min.js"></script>
+	<!--script src="public/js/angular-route.min.js"></script-->
+	<script src="public/js/angular-ui-router.min.js"></script>
 	<script src="public/js/angular-sanitize.min.js"></script>
 	<script src="public/js/angular-file-upload.min.js"></script>
 	

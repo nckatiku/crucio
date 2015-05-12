@@ -140,14 +140,14 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 	})
 
 
-	.controller('editCtrl', function($scope, $routeParams, Page, Auth, API, $location, FileUploader) {
+	.controller('editCtrl', function($scope, $stateParams, Page, Auth, API, $location, FileUploader, $modal) {
 		Page.setTitleNav('Klausur | Crucio', 'Autor');
 		$scope.user = Auth.user();
 		
 		$scope.ready = 0;
 
-		$scope.exam_id = $routeParams['id'];
-		$scope.open_question_id = $routeParams['question_id'];
+		$scope.exam_id = $stateParams.id;
+		$scope.open_question_id = $stateParams.question_id;
 
 		$scope.has_changed = 0;
 		$scope.number_changed = 0;
@@ -155,7 +155,7 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 
 		$scope.uploader = new FileUploader({url: '/public/php/upload-file.php'});
 		$scope.uploader.onSuccessItem = function(fileItem, response, status, headers) {
-			$scope.exam.file_name = response['upload_name'];
+			$scope.exam.file_name = response.upload_name;
 		};
 		$scope.uploader_array = [];
 
@@ -171,7 +171,7 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 				var question = $scope.exam.questions[i];
 				uploader.onSuccessItem = function(fileItem, response) {
 					var j = fileItem.formData;
-					$scope.exam.questions[j].question_image_url = response['upload_name'];
+					$scope.exam.questions[j].question_image_url = response.upload_name;
 				};
 				$scope.uploader_array.push(uploader);
 			}
@@ -185,13 +185,13 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 		}
 
 
-		var exam_watch = $scope.$watch("exam", function( newValue, oldValue ) {
+		var exam_watch = $scope.$watch('exam', function( newValue, oldValue ) {
 			if ($scope.number_changed > 1)
 				$scope.has_changed = 1;
 			$scope.number_changed += 1;
 		}, true);
 
-		$('body').on( 'shown.bs.tab', 'a[data-toggle="tab"]', function(e){
+		$('body').on('shown.bs.tab', 'a[data-toggle="tab"]', function(e){
 		    var previous = $(this).closest(".list-group").children(".active");
 		    previous.removeClass('active');
 		    $(e.target).addClass('active');
@@ -254,7 +254,7 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 
 
 		$scope.add_question = function(show, scroll_to_question) {
-			if (typeof(scroll_to_question)==='undefined') scroll_to_question = true;
+			if (typeof(scroll_to_question) === 'undefined') scroll_to_question = true;
 
 			var question = {};
 			question.question = "";
@@ -324,7 +324,7 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 			    			question.question_image_url = '';
 			    		}
 
-		    			var post_question_data = {'question': question.question, 'topic': question.topic, 'type': question.type, 'answers': question.answers, 'correct_answer': question.correct_answer, 'exam_id': $scope.exam.exam_id, 'user_id_added': $scope.user.user_id, 'explanation': question.explanation, 'question_image_url': question.question_image_url};
+		    			var post_question_data = {question: question.question, topic: question.topic, type: question.type, answers: question.answers, correct_answer: question.correct_answer, exam_id: $scope.exam.exam_id, user_id_added: $scope.user.user_id, explanation: question.explanation, question_image_url: question.question_image_url};
 
 		    			// Save new question
 		    			if (!question.question_id) {
@@ -345,10 +345,21 @@ angular.module('app.author', ['angularFileUpload', 'textAngular'])
 				alert('Es fehlen noch allgemeine Infos zur Klausur.');
 			}
 		}
-
-		$scope.delete_exam = function() {
-			API.delete('/exams/' + $scope.exam.exam_id, function(data) {
-				$location.url('/author');
+		
+		$scope.open_delete_exam_model = function() {
+			$modal.open({
+				templateUrl: 'delete-exam-modal.html',
+				controller: function ($scope, $modalInstance, exam_id) {
+					$scope.delete_exam = function() {
+						API.delete('/exams/' + exam_id, function(data) {
+							$modalInstance.close();
+							$location.url('/author');
+						});
+					}
+				},
+				resolve: {
+					exam_id: function () { return $scope.exam.exam_id; }
+				}
 			});
 		}
 	})

@@ -30,7 +30,7 @@
 					        	<i class="fa fa-sign-in fa-fw"></i> Anmelden
 							</a>
 							
-							<a class="btn btn-index-top" href="/questions" ng-if="user">
+							<a class="btn btn-index-top" href="/learn" ng-if="user">
 					        	<i class="fa fa-angle-left fa-fw"></i> Zurück
 							</a>
 			    		</div>

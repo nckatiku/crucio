@@ -60,7 +60,24 @@
 
 
 	    		<div ng-show="tab_active == 'wrong'">
-		    		
+		    		<h3>Dei häufigsten falsch beantworteten Fragen <small>Vielleicht falsche Antwort eingespeichert?</small></h3>
+    				<table class="table">
+    					<thead>
+						    <th>Frage ID</th>
+						    <th>Anzahl gegebener Antworten</th>
+						    <th>Anteil falscher Antworten</th>
+						    <th>Zur Frage</th>
+						</thead>
+
+						<tbody ng-repeat="question in wrong.wrong">
+						    <tr>
+						    	<td ng-bind="question.question_id"></td>
+						    	<td ng-bind="question.number"></td>
+						    	<td ng-bind="question.wrong * 100 + '%'"></td>
+								<td><a href="question&id={{ question.question_id }}&reset_session=1"><i class="fa fa-chevron-right"></i></a></td>
+						    </tr>
+						</tbody>
+    				</table>
 	    		</div>
 	    	</div>
         </div>

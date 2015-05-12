@@ -295,8 +295,8 @@ angular.module('app.admin', ['angles'])
 		
 		API.get('/quality', function(data) {
 			$scope.format = data.format;
+			$scope.wrong = data.wrong;
 		});
-
 	})
 	
 	.directive('crGroup', function(API) {

@@ -20,33 +20,9 @@
     							<div class="btn-group mtop">
     								<button class="btn btn-success" ng-click="send_mail()">Mail an Auswahl</button>
     							</div>
-
-    							<div class="btn-group mtop" dropdown>
-    								<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
-    									{{ user_search.semester ? user_search.semester + '. Semester' : 'Alle Semester' }} <span class="caret"></span>
-    								</button>
-
-    								<ul class="dropdown-menu" role="menu">
-    									<li ng-repeat="sem in distinct_semesters">
-    										<a href ng-click="$parent.user_search.semester = sem">{{ sem }}. Semester</a>
-    									</li>
-
-    							    	<li class="divider"></li>
-    							    	<li><a href ng-click="user_search.semester=''">Alle Semester</a></li>
-									</ul>
-    							</div>
     							
-    							<div class="btn-group mtop" dropdown>
-    								<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
-    									{{ user_search.group ? user_search.group : 'Alle Gruppen' }} <span class="caret"></span>
-    								</button>
-
-    								<ul class="dropdown-menu" role="menu">
-    									<li ng-repeat="group_child in distinct_groups"><a href ng-click="$parent.user_search.group=group_child">{{ group_child }}</a></li>
-    							    	<li class="divider"></li>
-    							    	<li><a href ng-click="user_search.group=''">Alle Gruppen</a></li>
-    								</ul>
-    							</div>
+    							<cr-select data="distinct_semesters" model="user_search.semester" suffix="'. Semester'" all="'Alle Semester'"></cr-select>
+    							<cr-select data="distinct_groups" model="user_search.group" suffix="" all="'Alle Gruppen'"></cr-select>
     						</div>
     					</div>
 

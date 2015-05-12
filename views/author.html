@@ -24,46 +24,10 @@
     							<div class="btn-group mtop">
     								<a class="btn btn-success" id="newfeedform" ng-click="new_exam()">Neue Klausur</a>
     							</div>
-
-    							<div class="btn-group mtop" dropdown>
-    								<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
-    									{{ exam_search.subject ? exam_search.subject : 'Alle Fächer' }} <span class="caret"></span>
-    								</button>
-    								<ul class="dropdown-menu" role="menu">
-
-    									<li ng-repeat="subject_child in distinct_subjects">
-    										<a href ng-click="$parent.exam_search.subject=subject_child">{{ subject_child }}</a>
-    									</li>
-    							    	<li class="divider"></li>
-    							    	<li><a href ng-click="exam_search.subject=''">Alle Fächer</a></li>
-    								</ul>
-    							</div>
-
-    							<div class="btn-group mtop">
-    								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-    									{{ exam_search.semester ? exam_search.semester + '. Semester' : 'Alle Semester' }} <span class="caret"></span>
-    								</button>
-    								<ul class="dropdown-menu" role="menu">
-    									<li ng-repeat="sem in distinct_semesters">
-    										<a href ng-click="$parent.exam_search.semester=sem">{{ sem }}. Semester</a>
-    									</li>
-    							    	<li class="divider"></li>
-    							    	<li><a href ng-click="exam_search.semester=''">Alle Semester</a></li>
-    								</ul>
-    							</div>
-
-    							<div class="btn-group mtop">
-    								<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
-    									{{ exam_search.author ? exam_search.author : 'Alle Autoren' }} <span class="caret"></span>
-    								</button>
-    								<ul class="dropdown-menu" role="menu">
-    									<li ng-repeat="author_child in distinct_authors">
-    										<a href ng-click="$parent.exam_search.author=author_child">{{ author_child }}</a>
-    									</li>
-    							    	<li class="divider"></li>
-    							    	<li><a href ng-click="exam_search.author=''">Alle Autoren</a></li>
-    								</ul>
-    							</div>
+    							
+    							<cr-select data="distinct_subjects" model="exam_search.subject" suffix="''" all="'Alle Fächer'"></cr-select>
+								<cr-select data="distinct_semesters" model="exam_search.semester" suffix="'. Semester'" all="'Alle Semester'"></cr-select>
+								<cr-select data="distinct_authors" model="exam_search.author" suffix="''" all="'Alle Autoren'"></cr-select>
     						</div>
     					</div>
 
@@ -116,28 +80,8 @@
 					<div class="row mmtop">
 						<div class="col-md-6 col-sm-6">
 							<div class="btn-toolbar" role="toolbar">
-								<div class="btn-group mtop" dropdown>
-									<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
-										{{ comment_search.username ? comment_search.username : 'Alle Benutzer' }} <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										<li ng-repeat="username_child in distinct_users">
-											<a href ng-click="$parent.comment_search.username=username_child">{{ username_child }}</a>
-										</li>
-								    	<li class="divider"></li>
-								    	<li><a href ng-click="comment_search.username=''">Alle Benutzer</a></li>
-									 </ul>
-								</div>
-								<div class="btn-group mtop" dropdown>
-									<button class="btn btn-default dropdown-toggle" type="button" dropdown-toggle>
-										{{ comment_search.username_added ? comment_search.username_added : 'Alle Autoren' }} <span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu">
-										<li ng-repeat="username_child in distinct_users_added"><a href ng-click="$parent.comment_search.username_added=username_child">{{ username_child }}</a></li>
-								    	<li class="divider"></li>
-								    	<li><a href ng-click="comment_search.username_added=''">Alle Autoren</a></li>
-									 </ul>
-								</div>
+								<cr-select data="distinct_users" model="comment_search.username" suffix="" all="'Alle Benutzer'"></cr-select>
+								<cr-select data="distinct_users_added" model="comment_search.author" suffix="''" all="'Alle Autoren'"></cr-select>
 							</div>
 						</div>
 

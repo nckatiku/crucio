@@ -12,6 +12,10 @@ $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"], 0, 5)) == 'https://' 
 $website_url = $protocol.$host_name.'/';
 
 
+$allow_whitelist = true;
+$allow_email_suffix = true;
+
+
 
 $app->group('/exams', function () use ($app) {
 
@@ -29,7 +33,7 @@ $app->group('/exams', function () use ($app) {
 
 	$app->get('/user_id/:user_id', function($user_id) use ($app) {
 		$mysql = start_mysql();
-		$response = get_all($mysql, "SELECT e.*, IFNULL(r.answered_questions, 0) as answered_questions, IFNULL(qc.question_count, 0) as question_count FROM exams e LEFT JOIN (SELECT q.exam_id, COUNT(*) as answered_questions FROM questions q, results r WHERE q.question_id = r.question_id AND r.user_id = ? AND r.attempt = 1 GROUP BY q.exam_id) r ON r.exam_id = e.exam_id LEFT JOIN (SELECT q.exam_id, COUNT(*) as question_count FROM questions q GROUP BY q.exam_id ) qc ON qc.exam_id = e.exam_id ORDER BY e.semester, e.subject", [$user_id], 'exams');
+		$response = get_all($mysql, "SELECT e.*, IFNULL(r.answered_questions, 0) as answered_questions, IFNULL(qc.question_count, 0) as question_count FROM exams e LEFT JOIN (SELECT q.exam_id, COUNT(*) as answered_questions FROM questions q, results r WHERE q.question_id = r.question_id AND r.user_id = ? AND r.attempt = 1 GROUP BY q.exam_id) r ON r.exam_id = e.exam_id LEFT JOIN (SELECT q.exam_id, COUNT(*) as question_count FROM questions q GROUP BY q.exam_id ) qc ON qc.exam_id = e.exam_id WHERE e.semester > 0  ORDER BY e.semester, e.subject", [$user_id], 'exams');
 		
 		print_response($app, $response);
 	});
@@ -366,26 +370,44 @@ $app->group('/users', function () use ($app) {
 		$data = json_decode($app->request()->getBody());
 		$username = $data->username;
 		$email = str_replace('(@)', '@', sanitize($data->email));
-		$clean_email = $email;
 		$clean_password = trim($data->password);
 		$clean_username = sanitize($username);
-		$semester = $_POST['semester'];
-		$course_id = $_POST['course'];
+		$semester = $data->semester;
+		$course_id = $data->course;
 		$activation_token = 0;
 
 		$mysql = start_mysql();
 		global $website_url;
+		global $allow_email_suffix;
+		global $allow_whitelist;
+
+		$whitelist = get_all($mysql, "SELECT w.*, IF(u.user_id IS NOT NULL, 1, 0) as 'used' FROM whitelist w LEFT JOIN users u ON u.email = w.mail_address", [], 'whitelist');
 
 		$validate = true;
 		if (!strlen($username)) {
 			$response['status'] = 'error';
 			$validate = false;
 		}
-		if (get_count($mysql, "users WHERE username_clean = ?", [sanitize($clean_username)]) > 0) {
+		if (!strlen($email)) {
+			$response['status'] = 'error';
+			$validate = false;
+		}
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$response['status'] = 'error_email_not_allowed';
+			$validate = false;
+		} else if (in_array($email, $whitelist['whitelist']) && $allow_whitelist) {
+			
+		} else if (preg_match("/[\wäüöÄÜÖ]*@studserv\.uni-leipzig\.de$/", $email) && $allow_email_suffix) {
+
+		} else {
+			$response['status'] = 'error_email_not_allowed';
+			$validate = false;
+		}
+		if (get_count($mysql, "users WHERE username_clean = ?", [$clean_username]) > 0) {
 			$response['status'] = 'error_username_taken';
 			$validate = false;
 		}
-		if (get_count($mysql, "users WHERE email = ?", [sanitize($clean_email)]) > 0) {
+		if (get_count($mysql, "users WHERE email = ?", [$email]) > 0) {
 			$response['status'] = 'error_email_taken';
 			$validate = false;
 		}
@@ -397,13 +419,11 @@ $app->group('/users', function () use ($app) {
 			$activation_message = $website_url.'activate-account?token='.$activation_token;
 			$hooks = ["searchStrs" => ["#ACTIVATION-MESSAGE", "#ACTIVATION-KEY", "#USERNAME#"],
 			    "subjectStrs" => [$activation_message, $activation_token, $username]];
-			send_template_mail('new-registration.php', $clean_email, 'Willkommen bei Crucio', $hooks);
-
-			$response = execute_mysql($mysql, "INSERT INTO users (username, username_clean, password, email, activationtoken, last_activation_request, sign_up_date, course_id, semester) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [$username, $clean_username, $secure_pass, $clean_email, $activation_token, time(), time(), $course_id, $semester]);
-
-		    $response['status'] = 'success';
+			send_template_mail('new-registration.php', $email, 'Willkommen bei Crucio', $hooks);
+			
+			$response = execute_mysql($mysql, "INSERT INTO users (username, username_clean, password, email, activationtoken, last_activation_request, sign_up_date, course_id, semester) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", [$username, $clean_username, $secure_pass, $email, $activation_token, time(), time(), $course_id, $semester]);
 		}
-
+		
 		print_response($app, $response, false);
 	});
 
@@ -465,7 +485,7 @@ $app->group('/users', function () use ($app) {
 
 		$mysql = start_mysql();
 
-		$response['token'] = get_count($mysql, "users WHERE activationtoken = ?", [$token]) ;
+		$response['token'] = $token;
 		if ((get_count($mysql, "users WHERE activationtoken = ?", [$token]) != 1)) {
 			$response['status'] = 'error_unknown';
 
@@ -925,7 +945,7 @@ $app->group('/quality', function () use ($app) {
 		$response['format'] = get_all($mysql, "SELECT q.* FROM questions q WHERE q.question LIKE '%1)%'", [], 'list');
 		$response['format'] = array_merge($response['format'], get_all($mysql, "SELECT q.* FROM questions q WHERE q.question regexp '^[0-9]. +'", [], 'number'));
 
-		// $response['wrong'] = get_all($mysql, "SELECT q.* FROM questions q, results r WHERE q.question = r.question_id LIMIT 100", [], 'wrong');
+		$response['wrong'] = get_all($mysql, "SELECT question_id, sum(case when correct = 1 then 1 else 0 end) / count(*) as 'right', sum(case when correct = 0 then 1 else 0 end) / count(*) as wrong, count(*) as number FROM results WHERE correct > -1 AND attempt = 1 GROUP BY question_id ORDER BY wrong desc, number desc LIMIT 100", [], 'wrong');
 		print_response($app, $response);
 	});
 });

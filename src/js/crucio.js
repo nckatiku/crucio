@@ -1,26 +1,26 @@
-var app = angular.module('app', ['ngRoute', 'ngSanitize', 'angular-loading-bar', 'ui.bootstrap', 'app.crucio', 'app.user', 'app.learn', 'app.author', 'app.admin']);
+var app = angular.module('app', ['ui.router', 'ngSanitize', 'angular-loading-bar', 'ui.bootstrap', 'app.crucio', 'app.user', 'app.learn', 'app.author', 'app.admin']);
 
-app.config(function($routeProvider, $locationProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
 	// Crucio Routing
-    $routeProvider
-		.when('/questions', { templateUrl : 'views/questions.html', controller: 'questionsCtrl' })
-		.when('/question', { templateUrl : 'views/question.html', controller: 'questionCtrl' })
-		.when('/exam', { templateUrl : 'views/exam.html', controller: 'examCtrl' })
-		.when('/analysis', { templateUrl : 'views/analysis.html', controller: 'analysisCtrl' })
-		.when('/statistics', { templateUrl : 'views/statistics.html', controller: 'statisticsCtrl' })
-    	.when('/account', { templateUrl : 'views/account.html', controller: 'accountCtrl' })
-    	.when('/settings', { templateUrl : 'views/settings.html', controller: 'settingsCtrl' })
-    	.when('/author', { templateUrl : 'views/author.html', controller: 'authorCtrl' })
-    	.when('/edit-exam', { templateUrl : 'views/edit-exam.html', controller: 'editCtrl' })
-    	.when('/admin', { templateUrl : 'views/admin.html', controller: 'adminCtrl' })
-    	.when('/live-statistics', { templateUrl : 'views/live-statistics.html', controller: 'liveStatisticsCtrl' })
-    	.when('/quality', { templateUrl : 'views/quality.html', controller: 'qualityCtrl' })
+    $stateProvider
+		.state('learn', { url: '/learn', templateUrl: 'views/learn.html', controller: 'learnCtrl' })
+		.state('question', { url: '/question?id', templateUrl: 'views/question.html', controller: 'questionCtrl' })
+		.state('exam', { url: '/exam?id', templateUrl: 'views/exam.html', controller: 'examCtrl' })
+		.state('analysis', { url: '/analysis', templateUrl: 'views/analysis.html', controller: 'analysisCtrl' })
+		.state('statistics', { url: '/statistics', templateUrl: 'views/statistics.html', controller: 'statisticsCtrl' })
+    	.state('account', { url: '/account', templateUrl: 'views/account.html', controller: 'accountCtrl' })
+    	.state('settings', { url: '/settings', templateUrl: 'views/settings.html', controller: 'settingsCtrl' })
+    	.state('author', { url: '/author', templateUrl: 'views/author.html', controller: 'authorCtrl' })
+    	.state('edit-exam', { url: '/edit-exam?id', templateUrl: 'views/edit-exam.html', controller: 'editCtrl' })
+    	.state('admin', { url: '/admin', templateUrl: 'views/admin.html', controller: 'adminCtrl' })
+    	.state('live-statistics', { url: '/live-statistics', templateUrl: 'views/live-statistics.html', controller: 'liveStatisticsCtrl' })
+    	.state('quality', { url: '/quality', templateUrl: 'views/quality.html', controller: 'qualityCtrl' })
     	
-		.when('/403', { templateUrl : 'views/403.html', controller: 'errorCtrl' })
-    	.when('/404', { templateUrl : 'views/404.html', controller: 'errorCtrl' })
-    	.when('/500', { templateUrl : 'views/500.html', controller: 'errorCtrl' })
-
-    	.otherwise({ redirectTo: '/404' });
+		.state('403', { url: '/403', templateUrl: 'views/403.html', controller: 'errorCtrl' })
+    	.state('404', { url: '/404', templateUrl: 'views/404.html', controller: 'errorCtrl' })
+    	.state('500', { url: '/500', templateUrl: 'views/500.html', controller: 'errorCtrl' });
+	
+    	// .otherwise({ redirectTo: '/404' });
 
     // Use the HTML5 history API
 	$locationProvider.html5Mode(true);
@@ -160,7 +160,14 @@ app.factory('API', function($http, $location) {
 });
 
 
-
+app.directive('crSelect', function() {
+	return {
+		restrict: 'E',
+		scope: { model: '=', suffix: '=', all: '=', data: '=' },
+		templateUrl: 'public/html/cr-select.html',
+		replace: true
+	};
+});
 
 
 

@@ -15,7 +15,8 @@
     "angular-bootstrap": "~0.12.1",
     "fontawesome": "~4.3.0",
     "angular-slider": "~0.2.14",
-    "smooth-scroll": "https://github.com/cferdinandi/smooth-scroll.git"
+    "smooth-scroll": "https://github.com/cferdinandi/smooth-scroll.git",
+    "angular-ui-router": "~0.2.14"
   },
   "resolutions": {
     "chartjs": "~1.0.2",

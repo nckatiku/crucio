@@ -8,6 +8,16 @@
 	spinner.spin(document.getElementById('spinner'));
 </script>
 
+<script id="delete-exam-modal.html" type="text/ng-template">
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">Klausur wirklich löschen?</h4>
+    </div>
+    <div class="modal-body">
+        <button class="btn btn-default" type="button" ng-click="$close()">Abbrechen</button>
+	    <button class="btn btn-danger pull-right" ng-click="delete_exam()">Löschen</button>
+    </div>
+</script>
+
 <div class="container" style="padding-top: 200px;" ng-show="ready==0">
 	<div class="spinner" id="spinner" style="margin-top:-60px;"></div>
 	<div class="spinner-text"><p class="text-muted">Klausur laden</p></div>
@@ -158,7 +168,7 @@
 						
 						<div class="form-group">
 							<label class="col-md-2 col-sm-3 control-label">Anzahl Fragen</label>
-							<div class="col-md-8 col-sm-9" style="margin-top:8px;">{{ exam.questions.length }}</div>
+							<div class="col-md-8 col-sm-9" style="margin-top:8px;" ng-bind="exam.questions.length"></div>
 						</div>
 
 						<div class="form-group">
@@ -180,7 +190,7 @@
 
 						<div class="form-group">
 							<div class="col-md-8 col-md-offset-2">
-								<button class="btn btn-danger mtop" data-toggle="modal" data-target="#myModal">
+								<button class="btn btn-danger mtop" ng-click="open_delete_exam_model()">
 									<i class="fa fa-fw fa-trash-o"></i> Klausur löschen
 								</button>
 							</div>
@@ -285,21 +295,6 @@
 					</div>
 				</div>
 			</div>
-	    </div>
-	</div>
-
-	<!-- Modals -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-		<div class="modal-dialog modal-sm">
-	    	<div class="modal-content">
-	    		<div class="modal-header">
-	    			<h4 class="modal-title" id="myModalLabel">Klausur wirklich löschen?</h4>
-	    		</div>
-	    		<div class="modal-body">
-	    			<button class="btn btn-default" data-dismiss="modal" type="button">Abbrechen</button>
-	    			<button class="btn btn-danger pull-right" data-dismiss="modal" ng-click="delete_exam()">Löschen</button>
-	    		</div>
-	    	</div>
 	    </div>
 	</div>
 </div>

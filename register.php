@@ -8,11 +8,13 @@
 		<script src="public/js/ui-bootstrap-tpls.min.js"></script>
 		<script>
 			var module = angular.module('crucio.outside', ['ui.bootstrap']);
-			module.controller('ctrl', function($scope, $http, $window, $modal, Validate) {
+			module.controller('ctrl', function($scope, $http, $window, $modal) {
 				// Check if user is in local storage
 				if (angular.isDefined(localStorage.user)) {
 					$window.location.replace('/questions');
 				}
+				
+				$scope.course = 1;
 				
 				/* $scope.$watch("username", function( newValue, oldValue ) {
 					if(newValue != oldValue) {
@@ -39,7 +41,7 @@
 					    $scope.no_name_error = true;
 					    validation = false;
 				    }
-				    if (!Validate.email($scope.email)) {
+				    if (!$scope.email) {
 					    $scope.no_mail_error = true;
 					    validation = false;
 				    }
@@ -58,8 +60,9 @@
 				    if (!validation) { return false; }
 					
 					
-					var post_data = { username: $scope.username, email: $scope.email, password: $scope.password, semester: $scope.semester, course: $scope.course };
+					var post_data = { username: $scope.username, email: $scope.email.replace('@','(@)'), password: $scope.password, semester: $scope.semester, course: $scope.course };
 					$http.post('api/v1/users', post_data).success(function(data) {
+						console.log(data);
 						if (data.status == 'success') {
 							$modal.open({ templateUrl: 'register-modal.html' });
 					
@@ -69,47 +72,16 @@
 					    } else if (data.status == 'error_email_taken') {
 							$scope.duplicate_mail_error = true;
 					    	
+					    } else if (data.status == 'error_email_not_allowed') {
+						    $scope.no_mail_error = true;
+						    
 					    } else {
-							$scope.no_name_error = true;
+						    $scope.no_name_error = true;
 							$scope.no_mail_error = true;
-							$scope.no_semester_error = true;
-							$scope.no_password_error = true;
 					    }
 					});
 				}
 			});
-			
-			module.service('Validate', function($http) {
-				var whitelist = Array();
-				$http.get('api/v1/whitelist').success(function(data) {
-					whitelist = data.whitelist;
-				});
-			
-				this.email = function(email) {
-					var regex = /[\wäüöÄÜÖ]*@studserv\.uni-leipzig\.de$/;
-					// var regex = /med\d\d\D\D\D@studserv\.uni-leipzig\.de/; // Nur Medi
-			
-					if (whitelist.length == 0) { return true; }
-					if (regex.test(email)) { return true; }
-			
-					for (var i = 0; i < whitelist.length; i++) {
-						if(whitelist[i].mail_address == email) { return true; }
-					}
-					return false;
-				}
-			});
-		</script>
-		
-		<script id="register-modal.html" type="text/ng-template">
-		    <div class="modal-header">
-		        <h3 class="modal-title">Registrierung</h3>
-		    </div>
-		    <div class="modal-body">
-		        <p><i class="fa fa-check"></i> Du hast dich erfolgreich registriert. Schau mal in deinen Mail Account.</p>
-		    </div>
-		    <div class="modal-footer">
-		        <button class="btn btn-default" type="button" ng-click="$close()">Zurück</button>
-		    </div>
 		</script>
 	</head>
 
@@ -146,7 +118,7 @@
 			    	        <div class="col-sm-4">
 			    	    		<input class="form-control span5 form-control-out" type="text" placeholder="Vorname Nachname" ng-class="{'has-error': no_name_error || duplicate_name_error}" ng-model="username"/>
 			    	        </div>
-			    	        <span class="label validation-error label-danger" ng-show="no_name_error">Kein Name</span>
+			    	        <span class="label validation-error label-danger" ng-show="no_name_error">Kein gültiger Name</span>
 			    	        <span class="label validation-error label-danger" ng-show="duplicate_name_error">Name wird bereits verwendet</span>
 			    	    </div>
 					
@@ -214,4 +186,16 @@
 
 		<?php include 'public/php/footer.php'; ?>
 	</body>
+	
+	<script id="register-modal.html" type="text/ng-template">
+	    <div class="modal-header">
+	        <h3 class="modal-title">Registrierung</h3>
+	    </div>
+	    <div class="modal-body">
+	        <p><i class="fa fa-check"></i> Du hast dich erfolgreich registriert. Schau mal in deinen Mail Account.</p>
+	    </div>
+	    <div class="modal-footer">
+	        <button class="btn btn-default" type="button" ng-click="$close()">Zurück</button>
+	    </div>
+	</script>
 </html>

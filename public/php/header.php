@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="apple-mobile-web-app-title" content="Crucio">
 
+<base href="http://<?php echo $_SERVER['SERVER_NAME']; ?>/">
+
 <link rel="shortcut icon" href="public/images/favicon.png" type="image/png" />
 <link rel="icon" href="public/images/favicon.png" type="image/png" />
 <link rel="apple-touch-icon" href="public/images/apple-icon.png" />

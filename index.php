@@ -13,12 +13,12 @@
 			module.controller('ctrl', function($scope, $http, $window) {
 				// Check if user is in session storage
 				if (angular.isDefined(localStorage.user)) {
-					$window.location.replace('/questions');
+					$window.location.replace('/learn');
 				
 				// Check if user is in local storage (persistant)
 				} else if (angular.isDefined(sessionStorage.user)) {
 					localStorage.user = sessionStorage.user;
-					$window.location.replace('/questions');
+					$window.location.replace('/learn');
 				}
 				
 				// Init Values
@@ -55,7 +55,7 @@
 						    }	
 							sessionStorage.user = angular.toJson(data.logged_in_user);
 							sessionStorage.fresh_login = true;
-			    			$window.location.replace('/questions');
+			    			$window.location.replace('/learn');
 						
 			    		} else {
 				    		$scope.has_error = true;
