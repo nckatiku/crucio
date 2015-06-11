@@ -1,8 +1,0 @@
-# Erzeugt am 05.02.2015
- 
-User-agent: *
-Allow: /$
-Allow: /contact
-Allow: /about
-Allow: /register
-Disallow: /
