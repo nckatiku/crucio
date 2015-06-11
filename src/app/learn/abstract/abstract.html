@@ -14,7 +14,7 @@
     <h1 class="md-display-1" style="color: #222; font-weight: 300;">Empfohlene Klausuren</h1>
 
     <div layout="row" layout-wrap>
-      <cr-collection-card collection="collection.data" collectionid="3" ng-repeat="exam in recommendedExams" flex-sm="95" flex-md="45" flex-gt-md="30"></cr-collection-card>
+      <cr-collection-card exam="exam" ng-repeat="exam in recommendedExams" flex-sm="95" flex-md="45" flex-gt-md="30"></cr-collection-card>
       <!--md-card class="collection-card" ng-repeat="exam in recommendedExams" flex-sm="95" flex-md="45" flex-gt-md="30">
         <md-toolbar>
           <div class="md-toolbar-tools">
