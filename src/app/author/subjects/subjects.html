@@ -1,0 +1,11 @@
+<div class="gray-background" layout="row" layout-align="center" flex>
+  <div flex-gt-md=66>
+    <div class="md-padding">
+
+      <div class="md-body-1" ng-repeat="(subject_id, subject) in categories">
+        <h2 class="md-headline">{{ subject.name }}</h2>
+        <span ng-repeat="category in subject.categories">{{category.name}}<br></span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="comment-voting" style="float: left;">
+	<div><a href ng-click="increase_user_voting()">
+		<i class="fa fa-chevron-up text-muted" ng-class="comment.user_voting == '1' ? 'text-success':''"></i>
+	</a></div>
+
+	<div class="comment-voting-number"><small class="text-muted" ng-bind="comment.voting + comment.user_voting"></small></div>
+
+	<div class="comment-voting-down">
+		<a href ng-click="decrease_user_voting()">
+			<i class="fa fa-chevron-down text-muted" ng-class="comment.user_voting == '-1' ? 'text-danger':''"></i>
+		</a>
+	</div>
+</div>

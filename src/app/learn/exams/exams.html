@@ -1,0 +1,59 @@
+<md-content class="md-primary md-hue-1 md-padding colored-content" >
+  <form layout="row" layout-align="center" ng-submit="reload()">
+    <md-select placeholder="Fach" ng-model="subject_id" ng-change="reload()">
+      <md-option value=""><b>Alle F&auml;cher</b></md-option>
+      <md-option ng-repeat="s in subjects" value="{{ s.subject_id }}">{{ s.subject_name }}</md-option>
+    </md-select>
+
+    <md-select placeholder="Semester" ng-model="semester" ng-change="reload()">
+      <md-option value=""><b>Alle Semester</b></md-option>
+      <md-option ng-repeat="s in semesters" value="{{ s.semester }}">{{ s.semester }}. Semester</md-option>
+    </md-select>
+  </form>
+</md-content>
+
+<div class="gray-background" layout-align="center start" layout="row" flex>
+  <md-content class="md-padding md-whiteframe-z2 white-content" flex="95" flex-gt-md="66">
+    <div ng-if="!exams" style="padding: 80px;">
+      <md-progress-linear class="md-accent" md-mode="indeterminate"></md-progress-linear>
+    </div>
+
+    <md-list ng-if="exams">
+      <md-subheader class="md-no-sticky">
+        <span ng-if="!exams.length">Keine Klausuren</span>
+        <span ng-if="exams.length == 1">{{ exams.length }} Klausur</span>
+        <span ng-if="1 < exams.length">{{ exams.length }} Klausuren</span>
+      </md-subheader>
+
+      <md-list-item class="md-3-line" layout="row" layout-align="center center" ng-repeat-start="exam in exams" >
+        <div class="md-list-item-text" layout="row" layout-align="center center">
+          <section flex="30">
+            <h3 style="line-height: 19px;"><i class="fa fa-fw fa-flask"></i> {{ exam.subject }}</h3>
+            <h4><i class="fa fa-fw"></i> {{ exam.semester }}. Semester</h4>
+          </section>
+
+          <section flex="20">
+            <span style="color: #666; font-size: 14px;">{{exam.question_count}} Fragen</span>
+          </section>
+
+          <section flex="20">
+            <span style="color: #666; font-size: 14px;"><i class="fa fa-fw fa-calendar"></i> {{ exam.date }}</span>
+          </section>
+
+          <section flex layout-gt-sm="row" layout-sm="column" layout-align="end center">
+            <md-select placeholder="Methode" ng-model="method" style="padding: 0px;">
+              <md-option value="question">Fragenansicht</md-option>
+              <md-option value="exam">Klausuransicht</md-option>
+              <md-option value="pdf">PDF Sammlung</md-option>
+              <md-option value="pdf-both">PDF Sammlung & Lösungen</md-option>
+              <md-option value="original" ng-if="exam.file_name">Originaldokument</md-option>
+            </md-select>
+
+            <md-button class="md-raised md-accent" ng-click="learnExam(exam.exam_id, method)">Lernen</md-button>
+          </section>
+        </div>
+      </md-list-item>
+      <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+    </md-list>
+  </md-content>
+</div>

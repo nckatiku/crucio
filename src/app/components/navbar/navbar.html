@@ -1,0 +1,11 @@
+<md-toolbar class="md-primary navbar" layout="row" layout-sm="column" layout-align="space-between start" layout-align-sm="end center" ng-controller="NavbarCtrl">
+
+  <md-button class="navbar-brand" ui-sref="learn.abstract" flex-order-sm="2" style="margin-left: 10%"><i class="fa fa-check-square-o"></i> Crucio</md-button>
+
+  <div class="navbar-links" layout="row" layout-align="end" flex flex-order-sm="1">
+    <md-button ui-sref="author.exams" ng-if="user.group_id == 2 || user.group_id == 3">Autor</md-button>
+    <md-button ui-sref="admin.users" ng-if="user.group_id == 2">Admin</md-button>
+    <md-button ui-sref="user.settings">{{ user.username }}</md-button>
+    <md-button ng-click="logout()" aria-label="Ausloggen"><i class="fa fa-fw fa-sign-out"></i></md-button>
+  </div>
+</md-toolbar>

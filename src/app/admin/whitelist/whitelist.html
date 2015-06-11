@@ -1,0 +1,43 @@
+<md-content class="md-accent md-hue-1 md-padding colored-content" layout="column" layout-align="center center">
+  <h2 class="md-headline">E-Mail-Adressen, die nicht ______@studserv.uni-leipzig.de entsprechen</h2>
+
+  <form ng-submit="addMail()" layout="row">
+    <md-input-container style="min-width: 300px;">
+      <label>E-Mail-Adresse</label>
+      <input ng-model="mail" type="text" required>
+      <div ng-messages="mail.$error">
+        <div ng-message="required">This is required.</div>
+        <div ng-message="md-maxlength">The name has to be less than 30 characters long.</div>
+      </div>
+    </md-input-container>
+
+    <md-button class="md-fab" type="submit"><i class="fa fa-plus"></i></md-button>
+  </form>
+</md-content>
+
+<div class="gray-background" layout-align="center start" layout="row" flex>
+  <md-content class="md-padding md-whiteframe-z2 white-content" flex="95" flex-gt-md="66">
+    <md-list>
+      <md-subheader class="md-no-sticky">{{ whitelist.length }} E-Mail-Adressen</md-subheader>
+      <md-list-item class="md-3-line" ng-repeat-start="mail in whitelist">
+        <div class="md-list-item-text" layout="row">
+          <section flex-gt-sm="10" flex-sm="20">
+            <center>
+              <span class="analyze-list-flag success-answer" ng-if="mail.used != 0">
+                <i class="fa fa-user"></i>
+              </span>
+              <span class="analyze-list-flag error-answer" ng-if="mail.used == 0">
+                <i class="fa fa-times"></i>
+              </span>
+            </center>
+          </section>
+
+          <h3 flex>{{ mail.mail_address }}</h3>
+        </div>
+
+        <md-button class="md-warn" ng-click="deleteMail($index)"><i class="fa fa-trash"></i></md-button>
+      </md-list-item>
+      <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+    </md-list>
+  </md-content>
+</div>

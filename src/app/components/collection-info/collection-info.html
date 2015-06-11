@@ -1,0 +1,43 @@
+<div class="md-whiteframe-z2">
+  <md-toolbar class="md-padding md-accent">
+    <span class="md-headline"><i class="fa fa-fw fa-flask"></i>  {{ questionInfo.subject }}</span>
+    <span class="md-subhead">{{ questionInfo.semester }}. Semester<span ng-if="question.info.sort">, {{ questionInfo.sort }}</span></span>
+    <span class="md-subhead"><i class="fa fa-fw fa-calendar"></i> {{ questionInfo.date }}</span>
+    <span class="md-subhead" ng-if="questionInfo.professor"><i class="fa fa-fw fa-user-md"></i> {{ questionInfo.professor }}</span>
+  </md-toolbar>
+
+  <md-content class="md-padding" ng-if="isCollection">
+    <p class="strong" style="text-align: center; margin-bottom: 4px;">Frage {{ index + 1 }} von {{ length }} </p>
+    <md-progress-linear  style="margin-bottom: 34px;" class="md-accent" md-mode="determinate" ng-value="(index + 1) / length * 100"></md-progress-linear>
+
+    <div ng-if="collection.info.type == 'exam'" layout="column" layout-align="center start">
+      <span></span>
+    </div>
+
+    <div ng-if="collection.info.type == 'subject'" layout="column" layout-align="center start">
+      <span>
+        <i class="fa fa-fw fa-flask"></i>
+        <span ng-repeat="(subject, category) in collection.info.categories">{{ subject }}</span>
+      </span>
+      <!--span>
+        <i class="fa fa-fw"></i>
+        <span ng-if="collection.info.condition == 'default'">Zufällig</span>
+      </span-->
+    </div>
+
+    <div ng-if="collection.info.type == 'search'" layout="column" layout-align="center start">
+      <span><i class="fa fa-fw fa-search"></i> {{ collection.info.query }}</span>
+      <span ng-if="collection.info.semester"><i class="fa fa-fw"></i> {{ collection.info.semester }}. Semester</span>
+      <span ng-if="collection.info.subject"><i class="fa fa-fw fa-flask"></i> {{ collection.info.subject }}</span>
+    </div>
+
+    <div ng-if="collection.info.type == 'tag'" layout="column" layout-align="center start">
+      <span><i class="fa fa-fw fa-tag"></i> {{ collection.info.tag }}</span>
+    </div>
+  </md-content>
+
+  <md-content class="md-padding" layout="row" layout-align="space-between" ng-if="length">
+    <md-button ng-click="saveCollection()">Speichern</md-button>
+    <md-button class="md-raised md-accent" ng-click="handIn()">Abgeben</md-button>
+  </md-content>
+</div>

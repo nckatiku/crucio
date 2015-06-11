@@ -1,0 +1,419 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:300,400,700,700italic,400italic);
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+@-webkit-keyframes zoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.9, .9, .9);
+    transform: scale3d(.9, .9, .9);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes zoomIn {
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.9, .9, .9);
+    transform: scale3d(.9, .9, .9);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@mixin transition($time) {
+  -o-transition: all $time;
+	-moz-transition: all $time;
+	-webkit-transition: all $time;
+	-ms-transition: all $time;
+	transition: all $time;
+}
+
+.body-animated {
+	-webkit-animation-name: zoomIn;
+	animation-name: zoomIn;
+	-webkit-animation-duration: 0.5s;
+	animation-duration: 0.5s;
+	-webkit-animation-fill-mode: both;
+	animation-fill-mode: both;
+}
+
+.loading-screen {
+  background-color: #eee;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  top: 0px;
+  right: 0px;
+  padding: 20%;
+}
+
+
+
+.full-height {
+  height: 100%;
+}
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+md-tabs.md-default-theme {
+  border-radius: 0px;
+}
+
+md-toolbar.white {
+  background-color: white;
+}
+
+.navbar-links {
+  margin-right: 30px;
+}
+
+.navbar-links .md-button {
+  font-size: 12px;
+  font-weight: 400;
+  min-width: 10px;
+  min-height: 10px;
+  line-height: 12px;
+  padding: 6px 10px;
+  letter-spacing: 0.05em;
+  margin: 8px 2px;
+  font-family: Lato;
+}
+
+.md-button.navbar-brand {
+  padding: 16px;
+  font-size: 36px;
+  font-weight: 700;
+  text-transform: inherit;
+  font-family: Lato;
+}
+
+.gray-background {
+  background-color: #f8f8f8;
+}
+
+.background-content {
+  padding-top: 70px;
+  padding-bottom: 110px;
+
+  background-image: url('../assets/images/background.jpg');
+  background-position-x: 50%;
+
+  color: white;
+  font-family: Lato;
+
+  h4 {
+    letter-spacing: 0.2em;
+		text-transform: uppercase;
+		font-weight: 400;
+		padding-top: 26px;
+    font-size: 20px;
+  }
+}
+
+.colored-content {
+  padding-top: 30px;
+  padding-bottom: 90px;
+}
+
+.white-content {
+  margin-top: -60px;
+  margin-bottom: 30px;
+  z-index: 3;
+}
+
+.brand {
+	margin: 20px auto;
+	text-align: center;
+
+	color: white;
+
+	h1 {
+	  margin-top: 10px;
+		margin-bottom: 15px;
+    font-family: 'Lato', 'Roboto';
+
+		font-size: 70px;
+	  font-weight: 700;
+	}
+
+	p {
+		max-width: 600px;
+		margin: 30px auto;
+
+		line-height: 26px;
+	}
+
+  .btn-brand {
+    padding: 5px 16px;
+  	margin: 5px;
+  	margin-top: 20px;
+
+    color: green !important;
+  }
+
+}
+
+
+.image-med-exam {
+	margin-top: 0px;
+	margin-bottom: -110px;
+}
+
+.sturamed {
+	margin: 30px auto;
+  margin-bottom: 40px;
+	max-width: 360px;
+
+	p {
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		text-align: center;
+		font-family: 'Lato', sans-serif;
+    font-size: 14px;
+		font-weight: 300;
+		margin-bottom: 12px;
+	}
+}
+
+p.answer,span.answer {
+  padding: 5px;
+  margin: 0px;
+}
+.success-answer {
+  font-weight: bold;
+  color: #3c763d;
+  background-color: #dff0d8;
+}
+.error-answer {
+  font-weight: bold;
+  color: #a94442;
+  background-color: #f2dede;
+}
+.info-answer {
+  font-weight: bold;
+  color: #1b5cc4;
+  background-color: #aecbf9;
+}
+
+.text-success {
+  color: #3c763d;
+}
+.text-danger {
+  color: #a94442;
+}
+
+
+
+.cite {
+  margin: 0px auto;
+  margin-bottom: 60px;
+	max-width: 600px;
+
+	font-family: 'Lato', sans-serif;
+
+	h3 {
+		font-size: 32px;
+		font-weight: 300;
+		color: #69767F;
+		text-align: center;
+	}
+
+	i {
+		color: #d35400;
+		margin-left: 120px;
+    margin-top: -24px;
+	}
+
+	i a {
+		font-size: 14px;
+		font-weight: 400;
+		color: #596068;
+    text-decoration: none;
+	}
+}
+
+$info-block-color: #6d9bb5;
+.info-block {
+	text-align: center;
+  margin: 40px 0px;
+
+	h2 {
+		font-size: 30px;
+		font-weight: 300;
+    color: #222;
+    margin: 10px 10px;
+	}
+
+	p {
+		font-size: 15px;
+    line-height: 22px;
+		color: #777;
+		padding: 0px 8%;
+	}
+
+	i {
+		width: 142px;
+		height: 104px;
+		margin: 10px auto;
+		padding-top: 38px;
+
+		background-color: $info-block-color;
+		border: 1px solid $info-block-color;
+		-moz-border-radius: 85px;
+		-webkit-border-radius: 85px;
+		border-radius: 85px;
+
+		font-size: 56px;
+		color: white;
+
+		&:hover {
+			background: white;
+			color: $info-block-color;
+      @include transition(0.4s);
+		}
+	}
+}
+
+md-chips.md-default-theme {
+  .md-chips {
+    box-shadow: none;
+  }
+  .md-chip {
+    font-weight: bold;
+    color: #a94442;
+    background-color: #f2dede;
+  }
+}
+
+.exam-question {
+  margin-top: 10px;
+  margin-bottom: 50px;
+  padding: 10px;
+}
+
+.exam-question.active {
+  background-color: #fffafa;
+}
+
+
+.analyze-list-flag {
+  padding: 5px 8px;
+  height: 24px;
+  width: 24px;
+  border-radius: 12px;
+  line-height: 18px;
+  font-size: 14px;
+  font-weight: 400;
+
+  i {
+    margin-top: -20px;
+    font-size: 16px;
+  }
+}
+
+.stats-card {
+  background: #6d9bb5;
+  color: white;
+
+  h1 {
+    font-weight: 300;
+  }
+}
+
+md-card.collection-card {
+  md-toolbar.md-default-theme {
+    background-color: #6d9bb5;
+  }
+
+  md-card-content {
+    background-color: #6d9bb5;
+    color: white;
+    padding: 8px;
+    margin: 0px;
+  }
+
+  .progress-linear-label {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .md-actions {
+    background-color: #6d9bb5;
+    color: white;
+
+    md-select {
+      padding: 0px 20px;
+    }
+  }
+}
+
+
+
+md-list-item.md-clickable.active {
+  background-color: #6d9bb5;
+  color: #eee;
+
+  p {
+    color: #eee;
+  }
+}
+
+
+md-toolbar.white.navbar {
+
+  min-height: 80px;
+
+  a {
+    color: #2c3e50;
+
+    &:hover {
+      color: #0c1e30;
+    }
+  }
+
+  button.md-button.md-default-theme, a.md-raised.md-primary.md-button.md-default-theme {
+    background-color: #2c3e50;
+    color: white;
+
+    &:hover {
+      background-color: #2c3e50;
+    }
+  }
+
+  a.navbar-brand.md-primary.md-button.md-default-theme {
+    color: #2c3e50;
+  }
+
+}
+
+
+
+.footer {
+  padding: 7px;
+  background-color: #2c3e50;
+  color: white;
+  min-height: 60px;
+}
+
+.footer .md-button {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  font-family: Lato;
+}
+
+/* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
+   all your sass files automatically */
+// injector
+// endinjector

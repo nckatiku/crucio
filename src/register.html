@@ -1,0 +1,142 @@
+<!doctype html>
+<html ng-app="crucio.register">
+  <head>
+    <meta charset="utf-8">
+    <title>Crucio | Registrieren</title>
+
+    <base href="http://localhost:3000/">
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
+    <link rel="stylesheet" href="app/vendor.css">
+    <!-- bower:css -->
+    <!-- run `gulp inject` to automatically populate bower styles dependencies -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css({.tmp/serve,src}) styles/app.css -->
+    <!-- inject:css -->
+    <!-- css files will be automatically insert here -->
+    <!-- endinject -->
+    <!-- endbuild -->
+  </head>
+  <body ng-controller="ctrl">
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <md-toolbar class="white navbar" layout="row" layout-align="center center">
+      <md-button class="navbar-brand md-primary md-hue-2" href="/login"><i class="fa fa-check-square-o"></i> Crucio</md-button>
+
+      <span flex-gt-sm="50" flex-sm></span>
+
+      <md-button href="/login" class="md-raised md-primary md-hue-2">Anmelden</md-button>
+    </md-toolbar>
+
+    <md-content class="md-padding background-content" layout="column" layout-align="center center" style="min-height: 400px;">
+      <div layout="column" layout-align="center center">
+        <i class="fa fa-pencil-square-o fa-5x"></i>
+        <h4>Registrieren</h4>
+      </div>
+    </md-content>
+
+
+    <div class="gray-background" layout-align="center start" layout="row">
+      <md-content class="md-padding md-whiteframe-z2 white-content" flex-sm="95" flex-md="80" flex-gt-md="60">
+        <form layout="column" name="registerForm" ng-submit="register()">
+          <div layout="row" layout-margin>
+            <md-input-container flex>
+              <label>Name</label>
+              <input ng-model="username" type="text" required name="username">
+              <div ng-messages="registerForm.username.$error" ng-if="registerForm.username.$dirty">
+                <div ng-message="required">Bitte Namen angeben...</div>
+                <div ng-message="taken">Name wird bereits verwendet...</div>
+              </div>
+            </md-input-container>
+
+            <md-input-container flex>
+              <label>E-Mail-Adresse</label>
+              <input ng-model="mail" type="email" required name="mail">
+              <div ng-messages="registerForm.mail.$error" ng-if="registerForm.mail.$dirty">
+                <div ng-message="required">Bitte E-Mail-Adresse angeben...</div>
+                <div ng-message="email">Keine richtige E-Mail-Adresse...</div>
+                <div ng-message="taken">E-Mail-Adresse bereits vergeben...</div>
+                <div ng-message="notAllowed">E-Mail-Adresse ist nicht erlaubt ('______@studserv.uni-leipzig.de' oder Bescheid geben)...</div>
+              </div>
+            </md-input-container>
+          </div>
+
+          <div layout="row" layout-margin>
+            <md-input-container flex>
+              <label>Fachsemester</label>
+              <input ng-model="semester" type="number" required name="semester" min="1" max="20">
+              <div ng-messages="registerForm.semester.$error" ng-if="registerForm.semester.$dirty">
+                <div ng-message="required">Bitte Semester angeben...</div>
+                <div ng-message="min">Kein wirkliches Semester...</div>
+                <div ng-message="max">So spät schon?</div>
+              </div>
+            </md-input-container>
+
+            <md-select ng-model="course_id" placeholder="Studienfach" flex required name="course">
+              <md-option ng-repeat="c in courses" value="{{ c.course_id }}">{{ c.course_name }}</md-option>
+            </md-select>
+          </div>
+
+          <div layout="row" layout-margin>
+            <md-input-container flex>
+              <label>Passwort</label>
+              <input ng-model="password" type="password" required name="password">
+              <div ng-messages="registerForm.password.$error" ng-if="registerForm.password.$dirty">
+                <div ng-message="required">Bitte Passwort angeben...</div>
+              </div>
+            </md-input-container>
+
+            <md-input-container flex>
+              <label>Passwort best&auml;tigen</label>
+              <input ng-model="passwordc" type="password" required name="passwordc">
+              <div ng-messages="registerForm.passwordc.$error" ng-if="registerForm.passwordc.$dirty">
+                <div ng-message="required">Bitte Passwort nochmal zur Kontrolle angeben...</div>
+                <div ng-message="different">Passwörter sind nicht identisch...</div>
+              </div>
+            </md-input-container>
+          </div>
+
+          <div layout="row" layout-align="end">
+            <md-button class="md-fab" type="submit" aria-label="Registrieren"><i class="fa fa-pencil-square-o"></i></md-button>
+          </div>
+        </div>
+      </md-content>
+    </div>
+
+    <div class="footer md-default-theme md-primary" layout="row"  layout-align="space-around">
+      <md-button href="http://www.sturamed-leipzig.de">Sturamed</md-button>
+
+      <section>
+        <md-button href="contact" target="_self">Kontakt</md-button> | <md-button href="/about" target="_self">Impressum</md-button>
+      </section>
+    </div>
+
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');
+    </script>
+
+    <!-- build:js(src) scripts/vendor.js -->
+    <!-- bower:js -->
+    <!-- run `gulp inject` to automatically populate bower script dependencies -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <script src="js/register.controller.js"></script>
+  </body>
+</html>

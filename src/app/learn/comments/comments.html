@@ -1,0 +1,29 @@
+<div class="gray-background" layout-align="center start" layout="row" flex>
+  <md-content class="md-padding md-whiteframe-z2" flex="95" flex-gt-md="66" style="margin-top: 30px; margin-bottom: 30px;">
+    <md-list>
+      <md-subheader class="md-no-sticky">
+        <span ng-if="!comments.length">Keine Kommentare</span>
+        <span ng-if="comments.length == 1">{{ comments.length }} Kommentar</span>
+        <span ng-if="1 < comments.length && comments.length < limit">{{ comments.length }} Kommentare</span>
+        <span ng-if="comments.length == limit">Neueste Kommentare</span>
+      </md-subheader>
+
+      <md-list-item class="md-3-line" ng-repeat-start="comment in comments" ng-click="showQuestion(comment.question_id)">
+        <div class="md-list-item-text" layout="row">
+          <section flex="30">
+            <h3><i class="fa fa-fw fa-flask"></i> {{ comment.subject }}</h3>
+            <h4><i class="fa fa-fw"></i> {{ comment.semester }}. Semester</h4>
+          </section>
+
+          <p flex ng-bind-html="comment.comment"></p>
+
+          <section flex="10">
+            <span class="md-caption"><i class="fa fa-fw fa-clock-o"></i> <cr-timeago date="{{ comment.date * 1000 }}"></cr-timeago></span>
+          </section>
+        </div>
+      </md-list-item>
+
+      <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+    </md-list>
+  </md-content>
+</div>

@@ -1,0 +1,18 @@
+<div layout="column" layout-fill>
+  <md-content>
+    <div ng-include="'app/components/navbar/navbar.html'"></div>
+
+    <md-tabs class="md-primary" md-selected="getIndexOfCurrentState()">
+      <md-tab ui-sref="user.settings">
+        <md-tab-label><i class="fa fa-fw fa-inbox"></i> Einstellungen</md-tab-label>
+      </md-tab>
+      <md-tab ui-sref="user.account">
+        <md-tab-label><i class="fa fa-fw fa-flask"></i> Account</md-tab-label>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+
+  <div ui-view flex layout="column" layout-fill></div>
+
+  <div ng-include="'app/components/footer/footer.html'"></div>
+</div>

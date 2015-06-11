@@ -1,0 +1,69 @@
+<md-content class="md-primary md-hue-1 md-padding colored-content">
+  <form layout="row" layout-align="center" ng-submit="reload()">
+    <md-input-container>
+      <label><i class="fa fa-fw fa-search"></i> Suche</label>
+      <input ng-model="query" type="text">
+    </md-input-container>
+
+    <md-select placeholder="Grupppe" ng-model="group_id" ng-change="reload()">
+      <md-option value=""><b>Alle Gruppen</b></md-option>
+      <md-option ng-repeat="g in groups" value="{{ g.group_id }}">{{ g.name }}</md-option>
+    </md-select>
+
+    <md-select placeholder="Semester" ng-model="semester" ng-change="reload()">
+      <md-option value=""><b>Alle Semester</b></md-option>
+      <md-option ng-repeat="s in semesters" value="{{ s.semester }}">{{ s.semester }}. Semester</md-option>
+    </md-select>
+  </form>
+</md-content>
+
+<div class="gray-background" layout-align="center start" layout="row" flex>
+  <md-content class="md-padding md-whiteframe-z2 white-content" flex="95" flex-gt-md="66">
+    <md-list>
+      <md-subheader class="md-no-sticky">
+        <span ng-if="!users.length">Keine Benutzer</span>
+        <span ng-if="0 < users.length && users.length < limit">{{ users.length }} Benutzer</span>
+        <span ng-if="users.length == limit">Admins / Autoren / Neueste Benutzer</span>
+      </md-subheader>
+
+      <md-list-item class="md-3-line" ng-repeat-start="user in users" ng-click="showUser(user.user_id)">
+        <div class="md-list-item-text" layout="row" layout-align="center center">
+          <section flex="15">
+            <span class="analyze-list-flag error-answer" ng-if="user.group_id == 1">
+              Standard
+            </span>
+            <span class="analyze-list-flag success-answer" ng-if="user.group_id == 2">
+              Admin
+            </span>
+            <span class="analyze-list-flag info-answer" ng-if="user.group_id == 3">
+              Autor
+            </span>
+          </section>
+
+          <section flex>
+            <h3>{{ user.username }}</h3>
+            <h4>{{ user.semester }}. Semester</h4>
+          </section>
+
+          <section flex="25">
+            <span style="color: #666; font-size: 14px;">
+              <i class="fa fa-fw fa-sign-in"></i>
+              <span ng-if="user.last_sign_in == 0">Noch nie angemeldet</span>
+              <cr-timeago style="color: #666; font-size: 14px;" date="{{ user.last_sign_in * 1000 }}" ng-if="0 < user.last_sign_in"></cr-timeago>
+            </span>
+          </section>
+
+          <section flex="25">
+            <span style="color: #666; font-size: 14px;">
+              <i class="fa fa-fw fa-user-plus"></i>
+              <span ng-if="user.active == 0">Nicht aktiviert</span>
+              <span ng-if="user.active == 1">{{ ::user.sign_up_date * 1000 | date: 'dd.MM.yyyy' }}</span>
+            </span>
+          </section>
+        </div>
+      </md-list-item>
+
+      <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+    </md-list>
+  </md-content>
+</div>

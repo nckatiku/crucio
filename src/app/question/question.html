@@ -1,0 +1,107 @@
+
+<div layout="column" layout-fill>
+  <div ng-include="'app/components/navbar/navbar.html'"></div>
+
+  <div layout="row" flex layout-align="center">
+    <div layout="column" flex-gt-md="85">
+      <div layout-gt-md="row" layout-md="column" layout-align="center center" class="md-padding">
+        <div flex-md="60" flex-gt-md="66" style="margin: 20px;">
+          <h3 ng-bind-html="::question.question" class="md-title"></h3>
+
+          <span class="label-info" ng-if="question.type == 1"> Freie Frage</span>
+	  			<span class="label-warning" ng-if="question.type > 1 && question.correct_answer == 0"> Keine Antwort</span>
+
+          <md-radio-group ng-model="checkedAnswer" ng-click="saveAnswer()">
+            <md-radio-button ng-value="$index+1" ng-repeat="answer in question.answers track by $index" ng-show="question.type>1 && answer">
+              <p class="answer" ng-class="{'error-answer': $index+1 == checkedAnswer && checkedAnswer != question.correct_answer && markAnswerBool, 'success-answer': $index+1 == question.correct_answer && markAnswerBool}" ng-bind-html="answer"></p>
+            </md-radio-button>
+          </md-radio-group>
+        </div>
+
+        <div layout="column" layout-align="center" flex>
+          <cr-collection-info question-info="question.info" group="user.group_id" index="current_index" length="collection.question_id_list.length" is-collection="true"></cr-collection-info>
+
+          <!--md-chips ng-model="tags" placeholder="hinzufügen..."  secondary-placeholder="Markierungen..."></md-chips-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="gray-background md-padding" style="padding-top: 30px; padding-bottom: 60px; margin-top: 40px;" layout="column">
+    <div layout-gt-sm="row" layout-sm="column" layout-align="center center">
+      <md-button ng-click="prevQuestion()" ng-disabled="current_index == 0" aria-label="Letzte Frage"><i class="fa fa-backward"></i></md-button>
+      <md-button ng-click="showSolutionButtonClicked()">L&ouml;sung anzeigen</md-button>
+      <md-button ng-click="showExplanation()" ng-if="question.explanation">Erkl&auml;rung anzeigen</md-button>
+      <md-button ng-click="reportQuestion()">Melden</md-button>
+      <md-button ng-click="editQuestion()" ng-if="user.group_id > 1">Bearbeiten</md-button>
+      <md-button class="md-fab" ng-click="nextQuestion()" ng-disabled="current_index == collection.question_id_list.length - 1" aria-label="N&auml;chste Frage"><i class="fa fa-forward"></i></md-button>
+    </div>
+  </div>
+
+  <div class="gray-background" layout-align="center start" layout="row" flex>
+    <div layout="column" flex="95" flex-gt-md="60">
+      <md-content class="md-padding md-whiteframe-z2 white-content" style="margin-top: -20px;">
+        <md-subheader class="md-no-sticky">
+          <span>Deine Markierungen</span>
+        </md-subheader>
+
+        <md-chips ng-model="question.tags" placeholder="hinzufügen..."  secondary-placeholder="hinzufügen..." ng-change="saveTags()">
+          <md-autocomplete md-search-text="searchText" md-items="tag in querySearch(searchText)" md-autoselect>
+            <span md-highlight-text="searchText">{{tag}}</span>
+          </md-autocomplete>
+        </md-chips>
+      </md-content>
+
+      <md-content class="md-padding md-whiteframe-z2 white-content" style="margin-top: 0px;">
+        <div layout="row">
+          <md-subheader class="md-no-sticky">
+            <span ng-if="!question.comments.length">Keine Kommentare</span>
+            <span ng-if="question.comments.length == 1">{{ question.comments.length }} Kommentar</span>
+            <span ng-if="question.comments.length > 1">{{ question.comments.length }} Kommentare</span>
+          </md-subheader>
+        </div>
+
+        <md-list flex="95" flex-gt-md="60">
+          <div layout="row">
+            <div layout="column">
+              <md-subheader>{{ user.username }}</md-subheader>
+
+              <md-button class="md-accent md-raised" ng-click="addComment()">
+                Kommentieren
+              </md-button>
+            </div>
+            <md-input-container flex>
+              <label><i class="fa fa-fw fa-comment"></i> Neuer Kommentar</label>
+              <textarea ng-model="qwer" required rows="3"></textarea>
+            </md-input-container>
+          </div>
+
+          <md-divider></md-divider>
+
+          <md-list-item class="md-3-line" ng-repeat-start="comment in question.comments" layout="row">
+            <section flex="5" flex-sm="10" layout="row" layout-align="end center">
+              <cr-comment-vote comment="comment" user="user"></cr-comment-vote>
+            </section>
+
+            <div class="md-list-item-text" layout="row" flex>
+              <section flex="20">
+                <h4><h4><i class="fa fa-user fa-fw"></i> {{ comment.username }}</h4>
+                <span class="md-caption"><i class="fa fa-fw fa-clock-o"></i> <cr-timeago date="{{ comment.date * 1000 }}"></cr-timeago></span>
+              </section>
+
+              <p>{{ comment.comment }}</p>
+            </div>
+
+            <section flex="10" layout="row" layout-align="end center" ng-if="comment.user_id == user.user_id || user.group_id == 2">
+              <md-button ng-click="deleteComment($index)" class="md-warn" aria-label="Kommentar l&ouml;schen"><i class="fa fa-fw fa-trash-o"></i></md-button>
+            </section>
+          </md-list-item>
+
+          <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+        </md-list>
+      </md-content>
+    </div>
+  </div>
+
+  <div ng-include="'app/components/footer/footer.html'"></div>
+</div>

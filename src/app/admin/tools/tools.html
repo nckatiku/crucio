@@ -1,0 +1,39 @@
+<div layout-align="center start" layout="row" class="gray-background" flex>
+  <div class="md-padding" flex-sm="95" flex-gt-md="66">
+    <h1 class="md-display-1" style="color: #222; font-weight: 300; margin-bottom: 0px;">Tools zur Verwaltung</h1>
+
+    <md-list>
+      <md-list-item>
+        <p>Erh&ouml;ht oder senkt das Semester <strong>aller</strong> Benutzer.</p>
+        <md-button class="md-raised md-accent" ng-click="changeSemester('1')">+1</md-button>
+				<md-button class="md-raised md-accent" ng-click="changeSemester('-1')">-1</md-button>
+    	</md-list-item>
+
+			<md-divider></md-divider>
+
+			<md-list-item>
+				<p>L&ouml;scht den Account mit der E-Mail-Adresse 'siasola@gmail.com'.</p>
+				<md-button class="md-raised md-accent" ng-click="deleteTestAccount()">L&ouml;schen</md-button>
+			</md-list-item>
+
+			<md-divider></md-divider>
+
+			<md-list-item>
+				<p>Die Live Statistik zeigt Infos &uuml;ber die Benutzung von Crucio live an.</p>
+				<md-button ui-sref="admin.statistic">Live Statistik</md-button>
+			</md-list-item>
+
+			<md-divider></md-divider>
+
+			<md-list-item>
+				<p>Auf Google Analytics kann man noch mehr &uuml;ber Seitenaufrufe, etc... erfahren.</p>
+				<md-button href="https://www.google.com/analytics/web/#report/visitors-overview/a47836301w79202201p81910001/"><i class="fa fa-fw fa-external-link"></i> Google Analytics</md-button>
+			</md-list-item>
+
+			<md-list-item>
+				<p>Auf GitHub findet alles organisatorische zur Entwicklung statt.</p>
+				<md-button href="https://github.com/crucioproject/Crucio"><i class="fa fa-fw fa-external-link"></i> Github</md-button>
+			</md-list-item>
+    </md-list>
+  </div>
+</div>

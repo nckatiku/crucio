@@ -1,0 +1,57 @@
+<md-content class="md-accent md-hue-1 md-padding colored-content" layout="row" layout-align="center center">
+  <form ng-submit="search()" layout="row" layout-align="center">
+    <md-input-container>
+      <label><i class="fa fa-fw fa-search"></i> Suche</label>
+      <input ng-model="query" type="text" autofocus>
+    </md-input-container>
+
+    <md-select placeholder="Fach" ng-model="subject_id" ng-change="search()">
+      <md-option value=""><b>Alle F&auml;cher</b></md-option>
+      <md-option ng-repeat="s in subjects" value="{{ s.subject_id }}">{{ s.subject_name }}</md-option>
+    </md-select>
+
+    <md-select placeholder="Semester" ng-model="semester" ng-change="search()">
+      <md-option value=""><b>Alle Semester</b></md-option>
+      <md-option ng-repeat="s in semesters" value="{{ s.semester }}">{{ s.semester }}. Semester</md-option>
+    </md-select>
+  </form>
+
+  <span flex="5"></span>
+
+  <div layout="row" layout-align="start center">
+    <md-select placeholder="Methode" ng-model="method" ng-disabled="disabled">
+      <md-option value="question">Fragenansicht</md-option>
+      <md-option value="exam">Klausuransicht</md-option>
+      <md-option value="pdf">PDF Sammlung</md-option>
+      <md-option value="pdf-both">PDF Sammlung & Lösungen</md-option>
+    </md-select>
+
+    <md-button class="md-raised md-accent" ng-click="learnSearch(method)" ng-disabled="!results.length">Lernen</md-button>
+  </div>
+</md-content>
+
+
+<div class="gray-background" layout-align="center start" layout="row" flex>
+  <md-content class="md-padding md-whiteframe-z2 white-content" flex="95" flex-gt-md="66">
+    <md-list>
+      <md-subheader class="md-no-sticky">
+        <span ng-if="!results.length">Kein Ergebnis</span>
+        <span ng-if="results.length == 1">{{ results.length }} Ergebnis</span>
+        <span ng-if="1 < results.length && results.length < limit">{{ results.length }} Ergebnisse</span>
+        <span ng-if="results.length == limit">Beste Ergebnisse</span>
+      </md-subheader>
+
+      <md-list-item class="md-3-line" ng-repeat-start="question in results" ng-click="showQuestion(question.question_id)">
+        <div class="md-list-item-text" layout="row">
+          <section flex="20">
+            <h3><i class="fa fa-fw fa-flask"></i> {{ question.subject }}</h3>
+            <h4><i class="fa fa-fw"></i> {{ question.semester }}. Semester</h4>
+          </section>
+          <p flex ng-bind-html="question.question"></p>
+        </div>
+      </md-list-item>
+
+      <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+    </md-list>
+  </md-content>
+</div>

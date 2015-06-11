@@ -1,0 +1,69 @@
+<div class="gray-background" layout="row" layout-align="center" flex>
+  <div flex="90" flex-gt-md="60">
+    <md-content class="md-padding md-whiteframe-z2" style="margin-top: 30px;">
+      <form ng-submit="saveAccount()" name="accountForm">
+        <md-input-container>
+          <label>E-Mail-Adresse</label>
+          <input ng-model="user.email" name="mail" type="email" required>
+          <div ng-messages="accountForm.mail.$error">
+            <div ng-message="required">Bitte E-Mail-Adresse angeben...</div>
+            <div ng-message="email">Keine richtige E-Mail-Adresse...</div>
+            <div ng-message="taken">E-Mail-Adresse bereits vergeben...</div>
+            <div ng-message="notAllowed">E-Mail-Adresse ist nicht erlaubt ('______@studserv.uni-leipzig.de' oder Bescheid geben)...</div>
+          </div>
+        </md-input-container>
+
+        <md-select ng-model="user.course_id" placeholder="Studienfach">
+          <md-option ng-repeat="c in courses" value="{{ c.course_id }}">{{ c.course_name }}</md-option>
+        </md-select>
+
+        <md-input-container>
+          <label>Semester</label>
+          <input required type="number" ng-model="user.semester" name="semester" min="1" max="20">
+          <div ng-messages="accountForm.semester.$error">
+            <div ng-message="required">Bitte Semester angeben...</div>
+            <div ng-message="min">Kein wirkliches Semester...</div>
+            <div ng-message="max">So spät schon?</div>
+          </div>
+        </md-input-container>
+
+        <md-button class="md-raised md-accent" type="submit">Daten Speichern</md-button>
+      </form>
+    </md-content>
+
+
+    <md-content class="md-padding md-whiteframe-z2" style="margin-top: 30px; margin-bottom: 30px;">
+      <form ng-submit="savePassword()" name="passwordForm">
+        <md-input-container>
+          <label>Altes Passwort</label>
+          <input ng-model="user.old_password" type="password" name="old_password" required>
+          <div ng-messages="passwordForm.old_password.$error" ng-if="passwordForm.old_password.$dirty">
+            <div ng-message="required">Bitte altes Passwort angeben...</div>
+            <div ng-message="wrong">Passwort stimmt nicht...</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Neues Passwort</label>
+          <input ng-model="user.new_password" type="password" name="new_password" minlength="6" maxlength="100" required>
+          <div ng-messages="passwordForm.new_password.$error" ng-if="passwordForm.new_password.$dirty">
+            <div ng-message="required">Bitte neues Passwort angeben...</div>
+            <div ng-message="minlength">Bitte mindestens 6 Zeichen eingeben...</div>
+            <div ng-message="maxlength">Huiui, nicht so viel...</div>
+          </div>
+        </md-input-container>
+
+        <md-input-container>
+          <label>Neues Passwort (Wiederholung)</label>
+          <input ng-model="user.new_password_c" type="password" name="new_password_c" required>
+          <div ng-messages="passwordForm.new_password_c.$error" ng-if="passwordForm.new_password_c.$dirty">
+            <div ng-message="required">Bitte Passwort nochmal zur Kontrolle angeben...</div>
+            <div ng-message="different">Passwörter sind nicht identisch...</div>
+          </div>
+        </md-input-container>
+
+        <md-button class="md-raised md-accent" type="submit">Passwort Speichern</md-button>
+      </form>
+    </md-content>
+  </div>
+</div>

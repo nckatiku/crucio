@@ -1,0 +1,155 @@
+<style>
+	sup { vertical-align: super; }
+	sub { vertical-align: sub; }
+</style>
+
+<div layout="column" style="height: 100%;">
+	<div ng-include="'app/components/navbar/navbar.html'"></div>
+
+	<section layout="row" flex layout-fill style="margin-top: 81px;">
+    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
+      <md-content>
+				<md-button ng-click="close()" class="md-primary" hide-gt-md>
+					Fragenleiste Ausblenden
+				</md-button>
+
+				<div layout="row" layout-align="space-between center">
+					<md-button class="md-accent">Speichern</md-button>
+					<md-button class="md-accent"><i class="fa fa-fw fa-plus"></i> Frage</md-button>
+				</div>
+
+				<md-list>
+	        <md-list-item ng-click="showInfo()" ng-class="{'active': active == 'tab'}">
+	          <div class="md-list-item-text">
+		          <span class="md-title">Allgemeine Infos</span>
+		          <p class="md-body-2" style="margin-top: -4px;">
+								<i class="fa fa-fw fa-flask"></i> {{ exam.subject }}
+								<i class="fa fa-fw fa-calendar"></i> {{ exam.date }}
+							</p>
+	        	</div>
+	        </md-list-item>
+
+	        <md-subheader class="md-no-sticky">{{ exam.questions.length }} Fragen</md-subheader>
+
+	        <md-list-item ng-repeat-start="q in exam.questions" ng-click="showQuestion($index)" ng-class="{'active': active == $index}">
+	          <p ng-bind-html="q.question | limitTo:60" style="font-size: 14px; line-height: 18px;"></p>
+	        </md-list-item>
+					<md-divider ng-if="!$last" ng-repeat-end></md-divider>
+	      </md-list>
+      </md-content>
+    </md-sidenav>
+
+    <div class="gray-background" flex layout-padding>
+      <div layout="column" layout-fill layout-padding layout-align="top center">
+        <div>
+          <md-button ng-click="toggleLeft()"
+            class="md-primary" hide-gt-md>
+            Fragenleiste einblenden
+          </md-button>
+        </div>
+
+				<div class="edit-exam-question" ng-if="active == 'tab'">
+					<h1 class="md-display-1" style="color: #222; font-weight: 300;">Allgemeine Informationen</h1>
+
+					<form name="examInfoForm">
+						<md-select placeholder="Fach" ng-model="exam.subject_id" required name="subject_id">
+							<md-option ng-repeat="s in subjects" value="{{ s.subject_id }}">{{ s.subject_name }}</md-option>
+						</md-select>
+
+						<md-input-container>
+							<label>Semester</label>
+							<input type="number" ng-model="exam.semester" min="1" max="20" required name="semester">
+							<div ng-messages="examInfoForm.semester.$error" ng-if="examInfoForm.semester.$dirty">
+								<div ng-message="required">Bitte Semester angeben...</div>
+								<div ng-message="number">Bitte Zahl angeben</div>
+								<div ng-message="min">So früh schon?</div>
+								<div ng-message="max">So hohes Semester?</div>
+							</div>
+						</md-input-container>
+
+						<md-input-container>
+							<label>Termin (z.B. WS 2010/11)</label>
+							<input type="text" ng-model="exam.date" required name="date">
+							<div ng-messages="examInfoForm.date.$error" ng-if="examInfoForm.date.$dirty">
+                <div ng-message="required">Bitte Termin angeben...</div>
+              </div>
+						</md-input-container>
+
+						<md-select placeholder="Art" ng-model="exam.sort" required>
+							<md-option value='Erstklausur'>Erstklausur</md-option>
+							<md-option value='Wiederholungsklausur'>Wiederholungsklausur</md-option>
+							<md-option value='Leistungskontrolle'>Leistungskontrolle</md-option>
+							<md-option value='Fragensammlung'>Fragensammlung</md-option>
+							<md-option value='Testat'>Testat</md-option>
+							<md-option value='Sonstiges'>Sonstiges</md-option>
+						</md-select>
+
+						<md-input-container>
+							<label>Professor</label>
+							<input type="text" ng-model="exam.professor">
+						</md-input-container>
+
+						<md-input-container>
+							<label>Bearbeitungszeit (Minuten)</label>
+							<input type="text" ng-model="exam.duration">
+						</md-input-container>
+
+						<md-input-container>
+							<label>Anmerkungen</label>
+							<textarea rows="3"  ng-model="exam.notes"></textarea>
+						</md-input-container>
+
+						<div class="form-group">
+							<label class="col-md-2 col-sm-3 control-label">Dokument</label>
+							<div class="col-md-8 col-sm-9">
+								<div style="margin-top: 8px;margin-bottom: 10px;">
+										<input type="file" nv-file-select uploader="uploader" accept="application/pdf"/><br/>
+											<a href="/public/files/{{ exam.file_name }}" target="_self" class="btn btn-primary" ng-show="exam.file_name">
+										<i class="fa fa-external-link fa-fw"></i> Originaldokument
+								</a>
+								<md-button ng-disabled="uploader.queue.length == 0" ng-click="uploader.queue[uploader.queue.length-1].upload()">
+									<i class="fa fa-fw fa-upload"></i> Hochladen
+								</md-button>
+								<md-button ng-click="exam.file_name=''">Dokument löschen</md-button>
+							</div>
+						</div>
+					</form>
+
+					<md-switch ng-model="exam.visibility">
+						Sichtbar
+					</md-switch>
+
+					<div class="form-group">
+						<label class="col-md-2 col-sm-3 control-label">Anzahl Fragen</label>
+						<div class="col-md-8 col-sm-9" style="margin-top:8px;" ng-bind="exam.questions.length"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 col-sm-3 control-label">Autor</label>
+						<div class="col-md-8 col-sm-9" style="margin-top:8px;">{{ ::exam.username }}</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-2 col-sm-3 control-label">Eingetragen</label>
+						<div class="col-md-8 col-sm-9" style="margin-top:8px;">{{ exam.date_added * 1000 | date:'dd.MM.yyyy' }}</div>
+					</div>
+
+					<div class="form-group" ng-show="exam.exam_id">
+						<label class="col-md-2 col-sm-3 control-label">Aktualisiert</label>
+						<div class="col-md-8 col-sm-9" style="margin-top:8px;">{{ exam.date_updated * 1000 | date:'dd.MM.yyyy, HH:mm' }}</div>
+					</div>
+
+					<md-button class="md-raised md-warn" ng-click="openDeleteExamDialog()">Klausur löschen</md-button>
+				</div>
+				</div>
+
+				<div class="edit-exam-question" ng-repeat="q in exam.questions" ng-if="active == $index">
+					{{exam.questions[$index].question_id}}
+				</div>
+      </div>
+      <div flex></div>
+    </div>
+  </section>
+
+	<div ng-include="'app/components/footer/footer.html'"></div>
+</div>

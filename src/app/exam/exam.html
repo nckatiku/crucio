@@ -1,0 +1,30 @@
+<div layout="column" layout-fill>
+  <div ng-include="'app/components/navbar/navbar.html'"></div>
+
+  <div layout="row" flex layout-align="center">
+    <div layout="column" flex-gt-md="85">
+      <div layout-gt-md="row" layout-md="column" class="md-padding" >
+        <div flex-md="60" flex-gt-md="66" style="margin: 20px;">
+          <div layout="column">
+            <div class="exam-question" ng-class="{'active': current_index == $index}" ng-repeat-start="(question_id, question) in collection.questions">
+              <h3 ng-bind-html="::question.question" class="md-title" id="{{$index}}" data-scrollspy-broadcast></h3>
+
+              <span class="label-info" ng-if="question.type == 1"> Freie Frage</span>
+    	  			<span class="label-warning" ng-if="question.type > 1 && question.correct_answer == 0"> Keine Antwort</span>
+
+              <md-radio-group ng-model="checkedAnswer" ng-click="saveAnswer(question.question_id, checkedAnswer)">
+                <md-radio-button ng-value="$index+1" ng-repeat="answer in question.answers track by $index" ng-show="question.type>1 && answer"><p class="answer" ng-class="{'error-answer': $index+1 == checkedAnswer && checkedAnswer != question.correct_answer && markAnswerBool, 'success-answer': $index+1 == question.correct_answer && markAnswerBool}"><span ng-bind-html="answer"></span></p></md-radio-button>
+              </md-radio-group>
+            </div>
+            <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+          </div>
+        </div>
+
+        <cr-collection-info question-info="collection.questions[collection.question_id_list[current_index]].info" group="user.group_id" index="current_index" length="collection.question_id_list.length" is-collection="true" flex style="position: fixed;"></cr-collection-info>
+      </div>
+    </div>
+  </div>
+
+  <div ng-include="'app/components/footer/footer.html'"></div>
+</div>
+<span scrollspy-listen="3420"></span>

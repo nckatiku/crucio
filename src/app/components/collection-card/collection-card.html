@@ -1,0 +1,84 @@
+<md-card class="collection-card" layout="column" layout-align="center">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h3 class="md-title" flex>
+        <span ng-if="collection.info.type == 'subject'">
+          <i class="fa fa-fw fa-flask"></i>
+          <span ng-repeat="(subject, category) in collection.info.categories">{{ subject }}</span>
+        </span>
+
+        <span ng-if="collection.info.type == 'exam'" style="width: 100%;">
+          <i class="fa fa-fw fa-flask"></i> {{ collection.info.subject }}
+        </span>
+
+        <span ng-if="collection.info.type == 'search'">
+          <i class="fa fa-fw fa-search"></i> {{ collection.info.query }}
+        </span>
+
+        <span ng-if="collection.info.type == 'tag'">
+          <i class="fa fa-fw fa-tag"></i> {{ collection.info.tag }}
+        </span>
+      </h3>
+
+      <md-button class="md-icon-button" ng-click="deleteCollection($index)" aria-label="Sammlung löschen">
+        <i class="fa fa-trash-o"></i>
+      </md-button>
+    </div>
+  </md-toolbar>
+
+  <md-card-content layout="column" ng-if="collection.info.type == 'subject'" flex>
+    <div>
+      <i class="fa fa-fw fa-question"></i>
+      <span>{{ collection.question_id_list.length }} Fragen</span>
+    </div>
+  </md-card-content>
+
+  <md-card-content layout="column" ng-if="collection.info.type == 'exam'" flex>
+    <div>
+      <span class="md-subhead">{{ collection.info.semester }}. Semester<span ng-if="collection.info.sort">, {{ collection.info.sort }}</span></span>
+    </div>
+
+    <div>
+      <i class="fa fa-fw fa-calendar"></i>
+      <span class="md-subhead">{{ collection.info.date }}</span>
+    </div>
+
+    <div>
+      <i class="fa fa-fw fa-question"></i>
+      <span>{{ collection.question_id_list.length }} Fragen</span>
+    </div>
+  </md-card-content>
+
+  <md-card-content layout="column" ng-if="collection.info.type == 'search'" flex>
+    <div>
+      <ul style="margin-top: 0px;">
+        <li ng-if="collection.info.semester">Nur {{ collection.info.semester }}. Semester</li>
+        <li ng-if="collection.info.subject">Nur {{ collection.info.subject }}</li>
+      </ul>
+    </div>
+
+    <div class="progress-linear-label">
+      <center>{{ getUserDataLength(collection.question_id_list, collection.user_datas) }} von {{ collection.question_id_list.length }} Fragen</center>
+    </div>
+
+    <md-progress-linear class="" md-mode="determinate" value="{{100 * getUserDataLength(collection.question_id_list, collection.user_datas)  / collection.question_id_list.length  }}"></md-progress-linear>
+  </md-card-content>
+
+  <md-card-content layout="column" ng-if="collection.info.type == 'tag'" flex>
+    <div>
+      <i class="fa fa-fw fa-question"></i>
+      <span>{{ collection.question_id_list.length }} Fragen</span>
+    </div>
+  </md-card-content>
+
+  <div class="md-actions" layout="row" layout-align="end center" layout-padding>
+    <md-select placeholder="Methode" ng-model="method">
+      <md-option value="question">Fragenansicht</md-option>
+      <md-option value="exam">Klausuransicht</md-option>
+      <md-option value="pdf">PDF Sammlung</md-option>
+      <md-option value="pdf-solution">PDF Sammlung & Lösungen</md-option>
+    </md-select>
+    <md-button class="md-raised" ng-click="learnCollection(collectionID, method)">Lernen</md-button>
+  </div>
+</md-card>
+</div>

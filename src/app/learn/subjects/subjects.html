@@ -1,0 +1,82 @@
+<div layout-align="center start" layout="row" class="gray-background" flex>
+  <div class="md-padding" flex-gt-md="66">
+    <p class="md-body-1">Hier kannst du deine eigene Klausur nach Fächern zusammenstellen...</p>
+
+    <md-divider></md-divider>
+
+    <div layout="column" class="md-padding">
+      <md-subheader style="background-color: rgba(1,1,1,0);">
+        <span ng-if="!questionCountInCategories && !getSelectedCategoriesCount()">Keine Fragen ausgewählt</span>
+        <span ng-if="!questionCountInCategories && getSelectedCategoriesCount()">Keine Fragen vorhanden</span>
+        <span ng-if="questionCountInCategories == 1">{{ questionCountInCategories }} mögliche Frage ausgewählt</span>
+        <span ng-if="1 < questionCountInCategories">{{ questionCountInCategories }} mögliche Fragen ausgewählt</span>
+      </md-subheader>
+
+      <md-list-item ng-repeat="(subject_id, subject) in categories">
+        <md-checkbox ng-click="toggleSelectedSubject(subject.name)"></md-checkbox>
+        <p>{{ subject.name }}</p>
+      </md-list-item>
+    </div>
+
+    <md-divider></md-divider>
+
+    <div layout="column">
+      <md-subheader style="background-color: rgba(1,1,1,0);">
+        <span ng-if="!questionCountInCondition">Keine Fragen in deiner Auswahl</span>
+        <span ng-if="questionCountInCondition == 1">{{ questionCountInCondition }} Frage in deiner Auswahl</span>
+        <span ng-if="1 < questionCountInCondition">{{ questionCountInCondition }} Fragen in deiner Auswahl</span>
+      </md-subheader>
+
+      <div layout="row" class="md-padding">
+        <span flex="20"><b>Auswahl</b></span>
+
+        <md-radio-group ng-model="condition" flex ng-change="reloadQuestionCountInCondition()">
+          <md-radio-button value="default">
+            Zuf&auml;llig
+          </md-radio-button>
+
+          <!--md-radio-button value="unsolved_and_wrong_questions">
+            Ungel&ouml;ste und falsch beantwortete Fragen
+          </md-radio-button-->
+
+          <md-radio-button value="only_unsolved_questions">
+            Nur ungel&ouml;ste Fragen
+          </md-radio-button>
+        </md-radio-group>
+      </div>
+    </div>
+
+    <md-divider></md-divider>
+
+    <div layout="row" class="md-padding">
+      <span flex="20"><b>Anzahl Fragen</b></span>
+
+      <div layout flex>
+        <div flex="20" layout layout-align="center center">
+          <span ng-if="!selectedQuestionCount">Keine Fragen</span>
+          <span ng-if="selectedQuestionCount==1">{{ selectedQuestionCount }} Frage</span>
+          <span ng-if="1 < selectedQuestionCount">{{ selectedQuestionCount }} Fragen</span>
+        </div>
+
+        <md-slider flex min="{{maxSliderQuestionCount > 0 ? 1 : 0}}" max="{{maxSliderQuestionCount}}" ng-model="selectedQuestionCount" aria-label="red" class></md-slider>
+      </div>
+    </div>
+
+    <md-divider></md-divider>
+
+    <div layout="row" class="md-padding">
+      <span flex="20"></span>
+
+      <div layout="row" layout-align="start center" flex>
+        <md-select placeholder="Methode" ng-model="method">
+          <md-option value="question">Fragenansicht</md-option>
+          <md-option value="exam">Klausuransicht</md-option>
+          <md-option value="pdf">PDF Sammlung</md-option>
+          <md-option value="pdf-both">PDF Sammlung & Lösungen</md-option>
+        </md-select>
+
+        <md-button class="md-raised md-accent" ng-click="learnSubjects(method)" ng-disabled="!selectedQuestionCount">Lernen</md-button>
+      </div>
+    </div>
+  </div>
+</div>

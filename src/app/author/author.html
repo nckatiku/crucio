@@ -1,0 +1,24 @@
+<div layout="column" layout-fill>
+  <md-content>
+    <div ng-include="'app/components/navbar/navbar.html'"></div>
+
+    <md-tabs class="md-primary" md-selected="getIndexOfCurrentState()">
+      <md-tab ui-sref="author.exams">
+        <md-tab-label><i class="fa fa-fw fa-inbox"></i> Klausuren</md-tab-label>
+      </md-tab>
+      <md-tab ui-sref="author.comments">
+        <md-tab-label><i class="fa fa-fw fa-flask"></i> Kommentare</md-tab-label>
+      </md-tab>
+      <md-tab ui-sref="author.subjects">
+        <md-tab-label><i class="fa fa-fw fa-flask"></i> F&auml;cher</md-tab-label>
+      </md-tab>
+      <md-tab ui-sref="author.advice">
+        <md-tab-label><i class="fa fa-fw fa-flask"></i> Hinweise</md-tab-label>
+      </md-tab>
+    </md-tabs>
+  </md-content>
+
+  <div ui-view flex layout="column" layout-fill></div>
+
+  <div ng-include="'app/components/footer/footer.html'"></div>
+</div>

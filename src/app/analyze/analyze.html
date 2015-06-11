@@ -1,0 +1,69 @@
+<div layout="column" layout-fill>
+  <div>
+    <div ng-include="'app/components/navbar/navbar.html'"></div>
+  </div>
+  <div layout="row" flex layout-align="center">
+    <div layout="column" flex="75">
+      <div layout="row" class="md-padding">
+        <div flex="66">
+          <h1 class="md-display-1">Analyse</h1>
+          <h3 class="md-title">Zusammenfassung</h3>
+          <p ng-bind-html="analysisDescription"></p>
+
+          <div ng-if="answeredQuestionIDList.length > 0">
+            <h3 class="md-title">Details</h3>
+            <md-list>
+              <md-subheader class="md-no-sticky">Beantwortete Fragen</md-subheader>
+
+              <md-list-item class="md-3-line" ng-repeat-start="questionID in answeredQuestionIDList">
+                <div class="md-list-item-text" layout="row">
+                  <section flex="10">
+                    <span class="analyze-list-flag success-answer" ng-if="correct_answer(questionID) == 0">
+                      Keine Antwort
+                    </span>
+		    						<span class="analyze-list-flag success-answer" ng-if="correct_answer(questionID) == given_result(questionID) && given_result(questionID) > 0 && correct_answer(questionID) > 0">
+                      <i class="fa fa-check"></i>
+                    </span>
+		    						<span class="analyze-list-flag error-answer" ng-if="correct_answer(questionID) != given_result(questionID) && given_result(questionID) > 0 && correct_answer(questionID) > 0">
+                      <i class="fa fa-times"></i>
+                    </span>
+		    						<span class="analyze-list-flag success-answer" ng-if="collection.questions[questionID].type == 1">
+                      Freie Frage
+                    </span>
+                  </section>
+                  <div flex layout="column" layout-align="center start">
+                    <p ng-bind-html="collection.questions[questionID].question"></p>
+
+                    <p ng-show="correct_answer(questionID) != given_result(questionID) && given_result(questionID) > 0 && correct_answer(id) > 0">
+			    						<span class="answer error-answer" ng-bind-html="collection.questions[questionID].answers[given_result(questionID) - 1]"></span>
+			    					</p>
+
+		    						<p ng-show="correct_answer(questionID) > 0 && show_correct_answer(questionID) == 1 || correct_answer(questionID) == given_result(questionID)">
+			    						<span class="answer success-answer"  ng-show="collection.user_datas[questionID].show_correct_answer == 1 || correct_answer(questionID) == given_result(questionID)" ng-bind-html="collection.questions[questionID].answers[correct_answer(questionID) - 1]"></span>
+			    					</p>
+
+			    					<md-button class="md-raised" ng-click="collection.user_datas[questionID].show_correct_answer = 1" ng-show="show_correct_answer(questionID) != 1 && correct_answer(questionID) != given_result(questionID) && correct_answer(questionID) > 0">L&ouml;sung anzeigen</md-button>
+                  </div>
+                </div>
+              </md-list-item>
+
+              <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+            </md-list>
+          </div>
+        </div>
+
+        <div flex>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <md-content class="md-primary md-hue-1 md-padding" style="padding-top: 30px; padding-bottom: 30px;" layout="column">
+    <div layout="row" layout-align="center center">
+      <md-button ng-click="backToAbstract()" class="md-raised md-accent">Zur Übersicht</md-button>
+    </div>
+  </md-content>
+
+  <div ng-include="'app/components/footer/footer.html'"></div>
+</div>

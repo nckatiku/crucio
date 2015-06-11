@@ -1,0 +1,79 @@
+<md-dialog style="min-width: 480px;">
+  <md-toolbar class="md-accent">
+    <div class="md-toolbar-tools">
+      <h3 class="md-title"><i class="fa fa-fw fa-user"></i> {{ user.username }}</h3>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content>
+    <div layout="row" class="md-padding">
+      <div flex layout="column">
+        <div layout="row" layout="start center" style="margin: 5px;">
+          <span flex="33"><b>Fachsemester</b></span>
+          <span>{{ user.semester }}</span>
+        </div>
+        <div layout="row" layout="start center" style="margin: 5px;">
+          <span flex="33"><b>E-Mail-Adresse</b></span>
+          <span>{{ user.email }}</span>
+        </div>
+
+        <div layout="row" layout="start center" style="margin: 5px;">
+          <span flex="33"><b>Gruppe</b></span>
+          <div style="margin-top: -15px;">
+            <md-radio-group ng-model="user.group_id" >
+              <md-radio-button ng-value="group.group_id" class="md-primary" ng-repeat="group in groups">{{ group.name }}</md-radio-button>
+            </md-radio-group>
+          </div>
+        </div>
+
+
+
+        <md-divider></md-divder>
+
+        <div layout="row" layout="start center" style="margin: 5px; margin-top: 30px;">
+          <span flex="33"><b>Aktiv</b></span>
+          <span>
+            <i class="fa fa-check" ng-if="user.active == 1"></i>
+            <i class="fa fa-minus" ng-if="user.active == 0"></i>
+          </span>
+        </div>
+
+        <div layout="row" layout="start center" style="margin: 5px; margin-bottom: 30px;">
+          <span flex="33"><b>Passwort zur&uuml;ckgesetzt</b></span>
+          <span>
+            <i class="fa fa-check" ng-if="user.LostpasswordRequest == 1"></i>
+            <i class="fa fa-minus" ng-if="user.LostpasswordRequest == 0"></i>
+          </span>
+        </div>
+
+        <md-divider></md-divder>
+
+        <div layout="row" layout="start center" style="margin: 5px; margin-top: 30px;">
+          <span flex="33"><b>Zuletzt Angemeldet</b></span>
+          <span>
+            <span ng-if="user.last_sign_in == 0">Noch nie angemeldet</span>
+            <cr-timeago style="color: #666; font-size: 14px;" date="{{ user.last_sign_in * 1000 }}" ng-if="0 < user.last_sign_in"></cr-timeago>
+          </span>
+        </div>
+
+        <div layout="row" layout="start center" style="margin: 5px; margin-bottom: 30px;">
+          <span flex="33"><b>Registriert</b></span>
+          <span>
+            {{ ::user.sign_up_date * 1000 | date: 'dd.MM.yyyy' }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+  </md-dialog-content>
+
+  <div class="md-actions" layout="row" layout-align="space-between center">
+    <md-button class="md-warn" ng-click="deleteUser()">L&ouml;schen</md-button>
+
+    <section layout="row" layout-align="end center" flex>
+      <md-button class="md-primary" ng-click="cancel()">Zur&uuml;ck</md-button>
+      <md-button class="md-accent" ng-click="saveGroup()">Speichern</md-button>
+    </section>
+  </div>
+</md-dialog>

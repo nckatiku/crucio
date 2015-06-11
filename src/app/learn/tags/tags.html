@@ -1,0 +1,46 @@
+<md-content class="md-accent md-hue-1 md-padding colored-content" layout="row" layout-align="center center">
+  <form ng-submit="reload()" layout="row" layout-align="center">
+    <md-select placeholder="Markierungen" ng-model="selectedTag" ng-change="reload()">
+      <md-option value=""><b>Alle Markierungen</b></md-option>
+      <md-option ng-repeat="t in distinct_tags" value="{{ t }}">{{ t }}</md-option>
+    </md-select>
+  </form>
+
+  <span flex="5"></span>
+
+  <div layout="row" layout-align="start center">
+    <md-select placeholder="Methode" ng-model="method" ng-disabled="disabled">
+      <md-option value="question">Fragenansicht</md-option>
+      <md-option value="exam">Klausuransicht</md-option>
+      <md-option value="pdf">PDF Sammlung</md-option>
+      <md-option value="pdf-both">PDF Sammlung & Lösungen</md-option>
+    </md-select>
+
+    <md-button class="md-raised md-accent" ng-click="learnTag(method)" ng-disabled="!questions.length || !selectedTag">Lernen</md-button>
+  </div>
+</md-content>
+
+
+<div class="gray-background" layout-align="center start" layout="row" flex>
+  <md-content class="md-padding md-whiteframe-z2 white-content" flex="95" flex-gt-md="66">
+    <md-list>
+      <md-subheader class="md-no-sticky">
+        <span ng-if="!questions.length">Keine Fragen mit Markierungen</span>
+        <span ng-if="questions.length == 1">{{ questions.length }} Frage mit Markierungen</span>
+        <span ng-if="1 < questions.length && questions.length < limit">{{ questions.length }} Fragen mit Markierungen</span>
+        <span ng-if="questions.length == limit">Neueste Fragen mit Markierungen</span>
+      </md-subheader>
+
+      <md-list-item class="md-3-line" ng-repeat-start="question in questions" ng-click="showQuestion(question.question_id)" layout="row" layout-align="center center" aria-label="Frage mit Markierung anzeigen">
+        <div class="md-list-item-text" layout="row">
+          <div flex="20">
+            <md-chips ng-model="question.tags" readonly="1"></md-chips>
+          </div>
+          <p flex ng-bind-html="question.question"></p>
+        </div>
+      </md-list-item>
+
+      <md-divider ng-if="!$last" ng-repeat-end></md-divider>
+    </md-list>
+  </md-content>
+</div>

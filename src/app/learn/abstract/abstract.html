@@ -1,0 +1,44 @@
+<div class="loading-screen" layout="column" layout-align="center center" ng-if="!ready">
+  <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+</div>
+
+<div class="md-padding gray-background" layout-align="start start" layout="row" flex ng-if="ready">
+  <div flex-gt-md="10"></div>
+  <div layout="column" flex>
+    <h1 class="md-display-1" style="color: #222; font-weight: 300;" ng-if="collections.length">Gespeicherte Sammlungen</h1>
+
+    <div layout="row" layout-wrap ng-if="collections.length">
+      <cr-collection-card collection="collection.data" collectionid="3" ng-repeat="collection in collections" flex-sm="95" flex-md="45" flex-gt-md="30"></cr-collection-card>
+    </div>
+
+    <h1 class="md-display-1" style="color: #222; font-weight: 300;">Empfohlene Klausuren</h1>
+
+    <div layout="row" layout-wrap>
+      <md-card class="collection-card" ng-repeat="exam in recommendedExams" flex-sm="95" flex-md="45" flex-gt-md="30">
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h3 class="md-title"><i class="fa fa-fw fa-flask"></i>{{ exam.subject }}</h3>
+          </div>
+        </md-toolbar>
+
+        <md-card-content layout="column">
+          <span class="md-subhead">{{ exam.semester }}. Semester</span>
+          <span class="md-subhead"><i class="fa fa-fw fa-calendar"></i> {{ exam.date }}</span>
+          <span class="md-subhead" ng-if="exam.professor"><i class="fa fa-fw fa-user-md"></i> {{ exam.professor }}</span>
+          <span class="md-subhead"><i class="fa fa-fw fa-question"></i> {{ exam.question_count }} Fragen</span>
+        </md-card-content>
+
+        <div class="md-actions" layout="row" layout-align="end center" layout-padding>
+          <md-select placeholder="Methode" ng-model="method">
+            <md-option value="question">Fragenansicht</md-option>
+            <md-option value="exam">Klausuransicht</md-option>
+            <md-option value="pdf">PDF Sammlung</md-option>
+            <md-option value="pdf-solution">PDF Sammlung & Lösungen</md-option>
+            <md-option value="original" ng-if="exam.file_name">Originaldokument</md-option>
+          </md-select>
+          <md-button class="md-raised" ng-click="learnExam(exam.exam_id, method)">Lernen</md-button>
+        </div>
+      </md-card>
+    </div>
+  </div>
+</div>
