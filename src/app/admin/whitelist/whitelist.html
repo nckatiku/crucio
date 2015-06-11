@@ -11,7 +11,7 @@
       </div>
     </md-input-container>
 
-    <md-button class="md-fab" type="submit"><i class="fa fa-plus"></i></md-button>
+    <md-button class="md-fab" type="submit" aria-label="E-Mail-Adresse hinzufügen"><i class="fa fa-plus"></i></md-button>
   </form>
 </md-content>
 
@@ -35,7 +35,7 @@
           <h3 flex>{{ mail.mail_address }}</h3>
         </div>
 
-        <md-button class="md-warn" ng-click="deleteMail($index)"><i class="fa fa-trash"></i></md-button>
+        <md-button class="md-warn" ng-click="deleteMail($index)" aria-label="E-Mail-Adresse entfernen"><i class="fa fa-trash"></i></md-button>
       </md-list-item>
       <md-divider ng-if="!$last" ng-repeat-end></md-divider>
     </md-list>

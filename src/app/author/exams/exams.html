@@ -14,7 +14,7 @@
     <md-option ng-repeat="a in authors" value="{{ a.user_id }}">{{ a.username }}</md-option>
   </md-select>
 
-  <md-button class="md-fab md-accent" ng-click="newExam()"><i class="fa fa-plus"></i></md-button>
+  <md-button class="md-fab md-accent" ng-click="newExam()" aria-label="Klausur erstellen"><i class="fa fa-plus"></i></md-button>
 </md-content>
 
 <div class="gray-background" layout-align="center start" layout="row" flex>
