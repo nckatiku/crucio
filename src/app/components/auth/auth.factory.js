@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('crucio')
-  .factory('Auth', function($window) {
+  .factory('Auth', function($window, Analytics) {
     var user; // Current user object
 
     return {
