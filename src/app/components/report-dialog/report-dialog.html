@@ -2,30 +2,32 @@
   <md-toolbar class="md-padding">
     <span class="md-headline"><i class="fa fa-fw fa-bullhorn"></i> Frage melden</span>
   </md-toolbar>
+  <form name="reportForm" ng-submit="send()">
+    <md-dialog-content layout="column" layout-align="start start" style="min-width: 500px">
+      <div layout="row" layout-align="center center" style="min-width: 500px">
+        <md-subheader>Zur Frage {{ questionID }}</md-subheader>
 
-  <md-dialog-content layout="column" layout-align="start start" style="min-width: 500px">
-    <md-subheader>Zur Frage {{ questionID }}</md-subheader>
+        <span flex></span>
 
-    <div layout="row" layout-align="center center" style="min-width: 500px">
-      <md-label flex="10">Art</md-label>
+        <md-select ng-model="concern" placeholder="Details..." required>
+          <md-option ng-value="c" ng-repeat="c in concerns">{{ c }}</md-option>
+        </md-select>
+      </div>
 
-      <md-select ng-model="concern" placeholder="Details...">
-        <md-option ng-value="c" ng-repeat="c in concerns">{{ c }}</md-option>
-      </md-select>
+      <md-input-container style="width: 100%;">
+        <label>Bemerkungen</label>
+        <textarea ng-model="comment" rows="4" required></textarea>
+      </md-input-container>
+    </md-dialog-content>
+
+    <div class="md-actions" layout="row">
+      <md-button ng-click="cancel()">
+        Abbrechen
+      </md-button>
+
+      <md-button type="submit" class="md-primary">
+        Melden
+      </md-button>
     </div>
-
-    <md-input-container style="width: 100%;">
-      <label>Bemerkungen</label>
-      <textarea ng-model="comment" rows="4"></textarea>
-    </md-input-container>
-  </md-dialog-content>
-
-  <div class="md-actions" layout="row">
-    <md-button ng-click="cancel()">
-      Abbrechen
-    </md-button>
-    <md-button ng-click="report()" class="md-primary">
-      Melden
-    </md-button>
-  </div>
+  </form>
 </md-dialog>

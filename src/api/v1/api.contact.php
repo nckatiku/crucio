@@ -6,7 +6,7 @@ $app->group('/contact', function () use ($app) {
 		$data = json_decode($app->request()->getBody());
 
 		$name = trim($data->name);
-		$email = str_replace('(@)', '@', trim($data->email));
+		$email = str_replace('(@)', '@', trim($data->mail));
 		$subject = 'Allgemeine Anfrage';
 
 		$text = trim($data->text);
@@ -29,7 +29,7 @@ $app->group('/contact', function () use ($app) {
 		$data = json_decode($app->request()->getBody());
 
 		$name = trim($data->name);
-		$email = str_replace('(@)', '@', trim($data->email));
+		$email = str_replace('(@)', '@', trim($data->mail));
     $subject = 'Zur Frage #'.$data->question_id;
     $mail_subject_html = '';
     
@@ -40,7 +40,7 @@ $app->group('/contact', function () use ($app) {
 		$sender_name = $name.' - Kontakt Crucio';
 		$sender_email = 'kontaktfeld@crucio-leipzig.de';
 
-		$destination = 'kontakt@crucio-leipzig.de, '.$data->author_email;
+		$destination = 'kontakt@crucio-leipzig.de, '.$data->author_mail;
 
 		$hooks = [
 		  "searchStrs" => ["#MESSAGE#", "#MAIL#", "#USERNAME#", "#AUTHOR#", "#QUESTION#", "#QUESTION_ID#", "#SUBJECT#", "#DATE2#", "#EXAM_ID#", "#MAIL_SUBJECT#"],

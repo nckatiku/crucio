@@ -31,7 +31,7 @@ angular.module('crucio')
       $mdDialog.show({
         controller: 'ReportDialogController',
         templateUrl: 'app/components/report-dialog/report-dialog.html',
-        locals: {questionID: questionID}
+        locals: {questionID: questionID, examID: $scope.question.info.exam_id}
       });
     };
 

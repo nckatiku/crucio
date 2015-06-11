@@ -141,9 +141,11 @@ $app->group('/exams', function () use ($app) {
     }
     unset($question);
 
-		$response = $exam;
-		$response['questions'] = $questions['questions'];
-		$response['question_count'] = count($questions['questions']);
+		
+		$exam['questions'] = $questions['questions'];
+		$exam['question_count'] = count($questions['questions']);
+		
+		$response['exam'] = $exam;
 		print_response($app, $response);
 	});
 
