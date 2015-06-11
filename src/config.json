@@ -1,4 +1,7 @@
 {
+  "crucio": {
+    "version": "0.9.0"
+  },
   "fachschaft": {
     "name": "StuRaMed",
     "fullName": "StuRaMed Leipzig",
@@ -8,8 +11,5 @@
       "zip": "04103",
       "city": "Leipzig"
     }
-  },
-  "crucio": {
-    "version": "0.9"
   }
 }

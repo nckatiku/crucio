@@ -27,7 +27,7 @@ Falls ihr Bugs entfernen oder neue Features einbauen möchtet, seid ihr herzlich
 
 
 ### Programmiersprachen
-Crucio ist in PHP, HTML, Javascript, [LESS](http://lesscss.org) und MySQL geschrieben.
+Crucio ist in PHP, HTML, Javascript, [SASS](http://sass-lang.com) und MySQL geschrieben.
 
 ### Frameworks
 Die wichtigsten Frameworks, auf denen Crucio basiert, sind [AngularJS](https://angularjs.org), [Angular Material](http://material.angularjs.org) und [SLIM](http://www.slimframework.com). Für Icons wird [FontAwesome](http://fontawesome.io) verwendet.
