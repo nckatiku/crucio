@@ -7,6 +7,10 @@ angular.module('crucio')
       scope: { collection: '=', collectionid: '=', exam: '=' },
       controller: function($scope, $location, $mdToast, Collection) {
         $scope.getUserDataLength = function(question_id_list, user_datas) {
+          if (!user_datas) {
+            return 0;
+          }
+
           var result = 0;
           question_id_list.forEach(function (question_id) {
             if (user_datas[question_id]) {
