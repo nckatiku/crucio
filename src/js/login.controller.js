@@ -1,6 +1,18 @@
 'use strict';
 
-angular.module('crucio.login', ['ngMaterial', 'ngMessages'])
+angular.module('crucio.login', ['ngMaterial', 'ngMessages', 'angular-google-analytics'])
+  .config(function ($mdThemingProvider, AnalyticsProvider) {
+    $mdThemingProvider.theme('default')
+      .primaryPalette('deep-orange')
+      .accentPalette('indigo');
+
+    AnalyticsProvider.setAccount('UA-47836301-1');
+    AnalyticsProvider.trackPages(true);
+    AnalyticsProvider.useAnalytics(true);
+  })
+
+  .run(function (Analytics) { })
+
   .controller('login.ctrl', function($scope, $http, $window) {
     $scope.login = function() {
       $scope.loginForm.mail.$setDirty();

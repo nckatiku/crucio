@@ -53,6 +53,7 @@ $app->group('/exams', function () use ($app) {
 		  ORDER BY e.semester ASC, e.subject ASC, e.date DESC "
 		    .$limit_sql_limit
 		, [], 'exams');
+		
 		print_response($app, $response);
 	});
 	
@@ -92,12 +93,12 @@ $app->group('/exams', function () use ($app) {
 	});
 
 
-	$app->get('/user_id/:user_id', function($user_id) use ($app) {
+	/* $app->get('/user_id/:user_id', function($user_id) use ($app) {
 		$mysql = start_mysql();
 		$response = get_all($mysql, "SELECT e.*, IFNULL(r.answered_questions, 0) as answered_questions, IFNULL(qc.question_count, 0) as question_count FROM exams e LEFT JOIN (SELECT q.exam_id, COUNT(*) as answered_questions FROM questions q, results r WHERE q.question_id = r.question_id AND r.user_id = ? AND r.resetted = 0 AND r.attempt = 1 GROUP BY q.exam_id) r ON r.exam_id = e.exam_id LEFT JOIN (SELECT q.exam_id, COUNT(*) as question_count FROM questions q GROUP BY q.exam_id ) qc ON qc.exam_id = e.exam_id WHERE e.semester > 0 ORDER BY e.semester, e.subject", [$user_id], 'exams');
 
 		print_response($app, $response);
-	});
+	}); */
 	
 	
 	$app->get('/recommended', function() use ($app) {
@@ -132,16 +133,15 @@ $app->group('/exams', function () use ($app) {
 	
 	$app->get('/:exam_id', function($exam_id) use ($app) {
 		$mysql = start_mysql();
-		$exam = execute_mysql($mysql, "SELECT e.*, u.username, u.email FROM exams e, users u WHERE e.exam_id = ? AND u.user_id = e.user_id_added", [$exam_id], function($stmt, $mysql) {
-			$response['exam'] = $stmt->fetch(PDO::FETCH_ASSOC);
-			return $response;
-		});
-		$questions = get_each($mysql, "SELECT * FROM questions WHERE exam_id = ? ORDER BY question_id ASC", [$exam_id], 'questions', function($row, $stmt, $mysql) {
-			$tmp['answers'] = unserialize($row['answers']);
-			return $tmp;
-		});
+		$exam = get_fetch($mysql, "SELECT e.*, u.username, u.email FROM exams e INNER JOIN users u ON u.user_id = e.user_id_added WHERE e.exam_id = ?", [$exam_id]);
+		
+		$questions = get_all($mysql, "SELECT * FROM questions WHERE exam_id = ? ORDER BY question_id ASC", [$exam_id]);
+		foreach ($questions as &$question) {
+      $question['answers'] = unserialize($question['answers']);
+    }
+    unset($question);
 
-		$response = $exam['exam'];
+		$response = $exam;
 		$response['questions'] = $questions['questions'];
 		$response['question_count'] = count($questions['questions']);
 		print_response($app, $response);

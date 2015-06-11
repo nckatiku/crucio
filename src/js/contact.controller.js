@@ -1,6 +1,18 @@
 'use strict';
 
-angular.module('crucio.contact', ['ngMaterial', 'ngMessages'])
+angular.module('crucio.contact', ['ngMaterial', 'ngMessages', 'angular-google-analytics'])
+  .config(function ($mdThemingProvider, AnalyticsProvider) {
+    $mdThemingProvider.theme('default')
+      .primaryPalette('deep-orange')
+      .accentPalette('indigo');
+
+    AnalyticsProvider.setAccount('UA-47836301-1');
+    AnalyticsProvider.trackPages(true);
+    AnalyticsProvider.useAnalytics(true);
+  })
+
+  .run(function (Analytics) { })
+
   .controller('ctrl', function($scope, $http, $mdDialog) {
     $scope.send = function() {
       if ($scope.contactForm.$valid) {
@@ -9,7 +21,7 @@ angular.module('crucio.contact', ['ngMaterial', 'ngMessages'])
           mail: $scope.mail.replace('@','(@)'),
           text: $scope.text
         };
-        
+
         $http.post('http://dev.crucio-leipzig.de/api/v1/contact/send-mail', params).success(function() {
           $mdDialog.show(
             $mdDialog.alert()

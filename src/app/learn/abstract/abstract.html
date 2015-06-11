@@ -8,13 +8,14 @@
     <h1 class="md-display-1" style="color: #222; font-weight: 300;" ng-if="collections.length">Gespeicherte Sammlungen</h1>
 
     <div layout="row" layout-wrap ng-if="collections.length">
-      <cr-collection-card collection="collection.data" collectionid="3" ng-repeat="collection in collections" flex-sm="95" flex-md="45" flex-gt-md="30"></cr-collection-card>
+      <cr-collection-card collection="collection.data" collectionid="collection.collection_id" ng-repeat="collection in collections" flex-sm="95" flex-md="45" flex-gt-md="30"></cr-collection-card>
     </div>
 
     <h1 class="md-display-1" style="color: #222; font-weight: 300;">Empfohlene Klausuren</h1>
 
     <div layout="row" layout-wrap>
-      <md-card class="collection-card" ng-repeat="exam in recommendedExams" flex-sm="95" flex-md="45" flex-gt-md="30">
+      <cr-collection-card collection="collection.data" collectionid="3" ng-repeat="exam in recommendedExams" flex-sm="95" flex-md="45" flex-gt-md="30"></cr-collection-card>
+      <!--md-card class="collection-card" ng-repeat="exam in recommendedExams" flex-sm="95" flex-md="45" flex-gt-md="30">
         <md-toolbar>
           <div class="md-toolbar-tools">
             <h3 class="md-title"><i class="fa fa-fw fa-flask"></i>{{ exam.subject }}</h3>
@@ -36,9 +37,10 @@
             <md-option value="pdf-solution">PDF Sammlung & Lösungen</md-option>
             <md-option value="original" ng-if="exam.file_name">Originaldokument</md-option>
           </md-select>
+
           <md-button class="md-raised" ng-click="learnExam(exam.exam_id, method)">Lernen</md-button>
         </div>
-      </md-card>
+      </md-card-->
     </div>
   </div>
 </div>

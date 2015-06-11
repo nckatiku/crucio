@@ -1,9 +1,19 @@
 'use strict';
 
-angular.module('crucio.forgot-password', ['ngMaterial', 'ngMessages'])
+angular.module('crucio.forgot-password', ['ngMaterial', 'ngMessages', 'angular-google-analytics'])
+  .config(function ($mdThemingProvider, AnalyticsProvider) {
+    $mdThemingProvider.theme('default')
+      .primaryPalette('deep-orange')
+      .accentPalette('indigo');
+
+    AnalyticsProvider.setAccount('UA-47836301-1');
+    AnalyticsProvider.trackPages(true);
+    AnalyticsProvider.useAnalytics(true);
+  })
+
+  .run(function (Analytics) { })
+
   .controller('ctrl', function($scope, $http, $mdDialog, $location) {
-
-
 		// Reset Password Function
 		$scope.reset = function() {
       if ($scope.forgotPasswordForm.$valid) {

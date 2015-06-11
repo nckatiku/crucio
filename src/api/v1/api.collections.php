@@ -66,10 +66,10 @@ $app->group('/collections', function () use ($app) {
   			$question_id = $question_id_list[$i];
   			
   			if ($load_questions OR ($i == 0 AND $load_first_question)) {
-  				$questions[$question_id] = execute_mysql($mysql, "SELECT q.* FROM questions q WHERE q.question_id = ?", [$question_id], function($stmt, $mysql) {
+  				$questions[$question_id] = execute_mysql($mysql, "SELECT * FROM questions WHERE question_id = ?", [$question_id], function($stmt, $mysql) {
   					$response = $stmt->fetch(PDO::FETCH_ASSOC);
   					$response['answers'] = unserialize($response['answers']);
-  					$response['info'] = get_fetch($mysql, "SELECT e.* FROM exams e WHERE e.exam_id = ?", [ $response['exam_id'] ]);
+  					$response['info'] = get_fetch($mysql, "SELECT * FROM exams WHERE exam_id = ?", [$response['exam_id']]);
   					return $response;
   				});
   			}
@@ -142,10 +142,10 @@ $app->group('/collections', function () use ($app) {
   			$question_id = $question_id_list[$i];
   			
   			if ($load_questions OR ($i == 0 AND $load_first_question)) {
-  				$questions[$question_id] = execute_mysql($mysql, "SELECT q.* FROM questions q WHERE q.question_id = ?", [$question_id], function($stmt, $mysql) {
+  				$questions[$question_id] = execute_mysql($mysql, "SELECT * FROM questions WHERE question_id = ?", [$question_id], function($stmt, $mysql) {
   					$response = $stmt->fetch(PDO::FETCH_ASSOC);
   					$response['answers'] = unserialize($response['answers']);
-  					$response['info'] = get_fetch($mysql, "SELECT e.* FROM exams e WHERE e.exam_id = ?", [ $response['exam_id'] ]);
+  					$response['info'] = get_fetch($mysql, "SELECT * FROM exams WHERE exam_id = ?", [$response['exam_id']]);
   					return $response;
   				});
   			}
@@ -208,10 +208,10 @@ $app->group('/collections', function () use ($app) {
   			$question_id = $question_id_list[$i];
   			
   			if ($load_questions OR ($i == 0 AND $load_first_question)) {
-  				$questions[$question_id] = execute_mysql($mysql, "SELECT q.* FROM questions q WHERE q.question_id = ?", [$question_id], function($stmt, $mysql) {
+  				$questions[$question_id] = execute_mysql($mysql, "SELECT * FROM questions WHERE question_id = ?", [$question_id], function($stmt, $mysql) {
   					$response = $stmt->fetch(PDO::FETCH_ASSOC);
   					$response['answers'] = unserialize($response['answers']);
-  					$response['info'] = get_fetch($mysql, "SELECT e.* FROM exams e WHERE e.exam_id = ?", [ $response['exam_id'] ]);
+  					$response['info'] = get_fetch($mysql, "SELECT * FROM exams WHERE exam_id = ?", [$response['exam_id']]);
   					return $response;
   				});
   			}
@@ -252,10 +252,10 @@ $app->group('/collections', function () use ($app) {
   			$question_id = $question_id_list[$i];
   			
   			if ($load_questions OR ($i == 0 AND $load_first_question)) {
-  				$questions[$question_id] = execute_mysql($mysql, "SELECT q.* FROM questions q WHERE q.question_id = ?", [$question_id], function($stmt, $mysql) {
+  				$questions[$question_id] = execute_mysql($mysql, "SELECT * FROM questions WHERE question_id = ?", [$question_id], function($stmt, $mysql) {
   					$response = $stmt->fetch(PDO::FETCH_ASSOC);
   					$response['answers'] = unserialize($response['answers']);
-  					$response['info'] = get_fetch($mysql, "SELECT e.* FROM exams e WHERE e.exam_id = ?", [ $response['exam_id'] ]);
+  					$response['info'] = get_fetch($mysql, "SELECT * FROM exams WHERE exam_id = ?", [$response['exam_id']]);
   					return $response;
   				});
   			}
@@ -299,10 +299,10 @@ $app->group('/collections', function () use ($app) {
   			$question_id = $question_id_list[$i];
   			
   			if ($load_questions OR ($i == 0 AND $load_first_question)) {
-  				$questions[$question_id] = execute_mysql($mysql, "SELECT q.* FROM questions q WHERE q.question_id = ?", [$question_id], function($stmt, $mysql) {
+  				$questions[$question_id] = execute_mysql($mysql, "SELECT * FROM questions WHERE question_id = ?", [$question_id], function($stmt, $mysql) {
   					$response = $stmt->fetch(PDO::FETCH_ASSOC);
   					$response['answers'] = unserialize($response['answers']);
-  					$response['info'] = get_fetch($mysql, "SELECT e.* FROM exams e WHERE e.exam_id = ?", [ $response['exam_id'] ])['result'];
+  					$response['info'] = get_fetch($mysql, "SELECT * FROM exams WHERE exam_id = ?", [$response['exam_id']]);
   					return $response;
   				});
   			}

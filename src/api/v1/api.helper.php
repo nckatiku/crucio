@@ -188,7 +188,7 @@ function send_mail($destination, $subject, $message, $sender_name = 'Crucio', $s
 
 function send_template_mail($template, $destination, $subject, $additionalHooks, $sender_name = 'Crucio', $sender_email = 'noreply@crucio-leipzig.de') {
 	$emailDate = date('l \\t\h\e jS');
-	$message = file_get_contents('../../public/mail-templates/'.$template);
+	$message = file_get_contents('../mail-templates/'.$template);
 	$message = str_replace(array("#WEBSITENAME#", "#WEBSITEURL#", "#DATE#"), array('Crucio', $website_url, $emailDate), $message);
 	$message = str_replace($additionalHooks["searchStrs"], $additionalHooks["subjectStrs"], $message);
 

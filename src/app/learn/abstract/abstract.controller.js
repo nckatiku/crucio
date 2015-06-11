@@ -11,8 +11,6 @@ angular.module('crucio')
       }
     };
 
-
-
     $scope.learnExam = function(examID, method) {
       if (method === 'original') {
         $window.location.replace('http://www.crucio-leipzig.de/public/files/' + $scope.exam.file_name);
@@ -21,8 +19,6 @@ angular.module('crucio')
       var params = {random: 1};
       Collection.learnCollection(method, '/exam/' + examID, params);
     };
-
-
 
     $scope.deleteCollection = function(index) {
       var collectionID = $scope.collections[index].collection_id;

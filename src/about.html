@@ -43,35 +43,39 @@
 
     <div class="gray-background" layout-align="center start" layout="row" flex style="min-height: 400px;">
       <md-content class="md-padding md-whiteframe-z2 white-content" flex="95" flex-gt-md="66">
-        <md-list>
-          <div>
-            <h3 class="md-title">Inhaber</h3>
-            <div>
-              <strong><%= fachschaft.fullName %></strong>
-              <strong><%= fachschaft.address.street %></strong>
-              <strong><%= fachschaft.address.zip %></strong>
-              <strong><%= fachschaft.address.city %></strong>
+        <div layout="column" layout-align="start center" layout-fill layout-padding>
+          <!--strong><%= fachschaft.fullName %></strong>
+          <strong><%= fachschaft.address.street %></strong>
+          <strong><%= fachschaft.address.zip %></strong>
+          <strong><%= fachschaft.address.city %></strong>
+          <div layout="row" layout-align="center center"-->
+          <div layout="row" layout-align="center start" flex layout-fill style="margin: 14px;">
+            <span flex="10"></span>
+            <span flex="20" style="font-weight: 700;">Inhaber</span>
+            <div flex class="md-body-1">
+              <span  style="font-weight: 700;"><%= fachschaft.fullName %></span> <br>
+              <%= fachschaft.address.street %> <br>
+              <%= fachschaft.address.zip %> <%= fachschaft.address.city %>
             </div>
           </div>
 
-          <md-divider></md-divider>
-
-          <div>
-            <h3 class="md-title">Entwicklung</h3>
-
-            <p class="md-body-1">Crucio ist ein Open-Source-Projekt. Weitere Infos gibt es auf der <a class="md-accent" href="http://crucioproject.github.io">Hauptseite</a>.
-              <strong>&copy; 2015 Lars Berscheid.</strong></p>
+          <div layout="row" layout-align="center start" flex layout-fill style="margin: 14px;">
+            <span flex="10"></span>
+            <span flex="20" style="font-weight: 700;">Entwicklung</span>
+            <div flex class="md-body-1">
+              Crucio ist ein Open-Source-Projekt. Weitere Infos gibt es auf der <a class="md-accent" href="http://crucioproject.github.io">Hauptseite</a>. <br>
+                <strong>&copy; 2015 Lars Berscheid.</strong>
+            </div>
           </div>
 
-          <md-divider></md-divider>
-
-          <div>
-            <h3 class="md-title">Version</h3>
-
-            <p class="md-body-1">Crucio ist noch in der <strong><%= crucio.version %></strong>-Version, daher werdet ihr sicherlich einige Fehler entdecken. Die k&ouml;nnt ihr in <a href="https://github.com/crucioproject/Crucio/issues" class="md-accent">Github</a> eintragen; und zwar m&ouml;glichst so, dass wir den Fehler reproduzieren k&ouml;nnen. Oder euch einfach bei uns melden...
-            </p>
+          <div layout="row" layout-align="center start" flex layout-fill style="margin: 14px;">
+            <span flex="10"></span>
+            <span flex="20" style="font-weight: 700;">Version</span>
+            <div flex class="md-body-1">
+              Crucio ist noch in der <strong><%= crucio.version %></strong>-Version, daher werdet ihr sicherlich einige Fehler entdecken. Die k&ouml;nnt ihr in <a href="https://github.com/crucioproject/Crucio/issues" class="md-accent">Github</a> eintragen; und zwar m&ouml;glichst so, dass wir den Fehler reproduzieren k&ouml;nnen. Oder euch einfach bei uns melden...
+            </div>
           </div>
-        </md-list>
+        </div>
       </md-content>
     </div>
 
@@ -84,16 +88,6 @@
     </div>
 
 
-
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
-    <script>
-      (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
-      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
-      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-      e.src='//www.google-analytics.com/analytics.js';
-      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
-      ga('create','UA-XXXXX-X');ga('send','pageview');
-    </script>
 
     <!-- build:js(src) scripts/vendor.js -->
     <!-- bower:js -->

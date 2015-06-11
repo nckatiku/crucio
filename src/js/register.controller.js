@@ -1,6 +1,18 @@
 'use strict';
 
-angular.module('crucio.register', ['ngMaterial', 'ngMessages'])
+angular.module('crucio.register', ['ngMaterial', 'ngMessages', 'angular-google-analytics'])
+  .config(function ($mdThemingProvider, AnalyticsProvider) {
+    $mdThemingProvider.theme('default')
+      .primaryPalette('deep-orange')
+      .accentPalette('indigo');
+
+    AnalyticsProvider.setAccount('UA-47836301-1');
+    AnalyticsProvider.trackPages(true);
+    AnalyticsProvider.useAnalytics(true);
+  })
+
+  .run(function (Analytics) { })
+
   .controller('ctrl', function($scope, $http, $mdDialog) {
 		// Register Function
 		$scope.register = function() {
