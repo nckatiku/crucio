@@ -1,0 +1,15 @@
+{
+  "fachschaft": {
+    "name": "StuRaMed",
+    "fullName": "StuRaMed Leipzig",
+    "url": "http://www.sturamed-leipzig.de",
+    "address": {
+      "street": "Liebigstraße 27",
+      "zip": "04103",
+      "city": "Leipzig"
+    }
+  },
+  "crucio": {
+    "version": "0.9"
+  }
+}
