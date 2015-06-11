@@ -95,13 +95,39 @@ $app->group('/tags', function () use ($app) {
 
 		$mysql = start_mysql();
 		if ($tags == '') {
-  		execute_mysql($mysql, "DELETE FROM tags WHERE question_id = ? AND user_id = ?", [$data->question_id, $data->user_id], 'result');
+  		execute_mysql($mysql, "DELETE FROM tags WHERE question_id = ? AND user_id = ?", [$data->question_id, $data->user_id]);
 		
 		} else {
   		execute_mysql($mysql, "INSERT INTO tags (question_id, user_id, tags) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE tags = ?", [$data->question_id, $data->user_id, $tags, $tags]);
 		}
 		
 		$response = [];
+		print_response($app, $response);
+	});
+	
+	$app->delete('', function() use ($app) {
+		$data = json_decode($app->request()->getBody());
+		
+		$tag = $app->request()->params('tag');
+		$user_id = $app->request()->params('user_id');
+		
+		$mysql = start_mysql();
+		$tags = get_all($mysql, 
+		  "SELECT t.*
+		  FROM tags t 
+		  INNER JOIN users u ON t.user_id = u.user_id 
+		  WHERE t.tags != '' AND t.user_id = ?"
+		, [$user_id]);
+		
+		foreach ($tags as $question_tag) {
+  		$tags_array = explode(",", $question_tag['tags']);
+  		if (in_array($tag, $tags_array)) {
+    		$new_tag_array = array_diff($tags_array, [$tag]);
+    		$new_tags = implode($new_tag_array, ",");
+    		execute_mysql($mysql, "UPDATE tags SET tags = ? WHERE question_id = ? AND user_id = ?", [$new_tags, $question_tag['question_id'], $user_id]);
+  		}
+		}
+
 		print_response($app, $response);
 	});
 });

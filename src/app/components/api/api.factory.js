@@ -14,8 +14,8 @@ angular.module('crucio')
   		put: function(path, data) {
         return $http.put(apiBase + path, data);
   		},
-  		delete: function(path) {
-        return $http.delete(apiBase + path, {});
+  		delete: function(path, data) {
+        return $http.delete(apiBase + path, {params: data});
   		}
   	};
   });

@@ -1,7 +1,13 @@
 'use strict';
 
 angular.module('crucio')
-  .controller('LearnTagsCtrl', function ($scope, $mdDialog, $location, $window, API, Auth, Collection) {
+  .controller('LearnTagsCtrl', function ($scope, $mdDialog, $location, $window, API, Auth, Collection, Analytics) {
+    $scope.reloadDistinctTags = function() {
+      API.get('/tags/distinct', {user_id: $scope.user.user_id}).success(function(data) {
+        $scope.distinct_tags = data.tags;
+      });
+    };
+
     $scope.reload = function() {
       var params = {
         user_id: $scope.user.user_id,
@@ -38,13 +44,33 @@ angular.module('crucio')
       Collection.learnCollection(method, '/tag', params);
     };
 
+    $scope.deleteTag = function() {
+      var deleteUserDialog = $mdDialog.confirm()
+        .parent(angular.element(document.body))
+        .title($scope.selectedTag + ' entfernen?')
+        .content('Die Markierung wird von allen Fragen entfernt.')
+        .ok('Entfernen!')
+        .cancel('Abbrechen');
+
+      $mdDialog.show(deleteUserDialog).then(function() {
+        var params = {tag: $scope.selectedTag, user_id: $scope.user.user_id};
+        API.delete('/tags', params).success(function() {
+          $mdDialog.cancel();
+          $scope.selectedTag = '';
+          $scope.reloadDistinctTags();
+          $scope.reload();
+      	});
+        Analytics.trackEvent('tag', 'delete');
+      }, function() {
+
+      });
+    };
+
     $scope.user = Auth.getUser();
     $scope.limit = 400;
     $scope.method = 'question';
 
-    API.get('/tags/distinct', {user_id: $scope.user.user_id}).success(function(data) {
-      $scope.distinct_tags = data.tags;
-    });
 
+    $scope.reloadDistinctTags();
     $scope.reload();
   });
