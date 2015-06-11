@@ -3,3 +3,9 @@ bower_components/
 .sass-cache/
 .tmp/
 dist/
+e2e/
+
+src/robots.txt
+src/google*.html
+src/api/config.php
+src/config.json
