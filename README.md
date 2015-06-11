@@ -10,13 +10,14 @@ Wenn ihr Fehler in Crucio gefunden habt, tragt sie bitte unter Issues ein. Dafü
 
 
 ## Installation
-Falls du/ihr Crucio bei euch einführen möchtet, braucht ihr einen Server mit PHP und einer MySQL-Datenbank; diese kann man ab 70€ im Jahr mieten. Folgende Schritte sind zur Installation notwendig:
+Falls du/ihr Crucio bei euch einführen möchtet, braucht ihr einen Server mit PHP und einer MySQL-Datenbank; diese kann man ab ca. 70€ im Jahr mieten. Folgende Schritte sind zur Installation notwendig:
 
 1. Ladet dieses Repository z.B. unter `Download ZIP` auf der rechten Seite herunter.
-2. Ladet über euren FTP-Zugang die Dateien aus dem Repository auf euren Server hoch. (Den `src`-Ordner braucht ihr dabei nicht hochzuladen.)
-3. Tragt in die Datei `config.example.php` im Ordner `api` eure Zugangsdaten für die MySQL-Datenbank ein und ändert den Namen in `config.php`.
-4. Ladet die leere MySQL-Datenbank `src/sql/database-structure.sql` in eure Datenbank hoch. 
-5. Ändert das Impressum in `about.php` auf euren Namen.
+2. Tragt in die Datei `config.example.php` im Ordner `app/api` eure Zugangsdaten für die MySQL-Datenbank ein und ändert den Namen in `config.php`.
+3. Tragt in die Datei `config.example.json` im Ordner `app` eure Daten ein und ändert den Namen der Datei in `config.json`.
+4. Installiert [NodeJS](https://nodejs.org), und führt dann `npm install` und `bower install` im Ordner aus. Ihr könnt dann über `gulp build` Crucio einrichten
+5. Ladet über euren FTP-Zugang den Inhalt des Ordners `dist` auf euren Server hoch.
+6. Ladet die leere MySQL-Datenbank `src/sql/database-structure.sql` in eure Datenbank hoch. 
  
 Falls ihr Hilfe bei der Einrichtung und Wartung braucht, könnt ihr euch gerne melden.
 
@@ -29,14 +30,15 @@ Falls ihr Bugs entfernen oder neue Features einbauen möchtet, seid ihr herzlich
 Crucio ist in PHP, HTML, Javascript, [LESS](http://lesscss.org) und MySQL geschrieben.
 
 ### Frameworks
-Die wichtigsten Frameworks, auf denen Crucio basiert, sind [AngularJS](https://angularjs.org), [Bootstrap](http://getbootstrap.com) und [SLIM](http://www.slimframework.com). Für Icons wird [FontAwesome](http://fontawesome.io) verwendet.
+Die wichtigsten Frameworks, auf denen Crucio basiert, sind [AngularJS](https://angularjs.org), [Angular Material](http://material.angularjs.org) und [SLIM](http://www.slimframework.com). Für Icons wird [FontAwesome](http://fontawesome.io) verwendet.
 
 ### Workflow
-Zur Entwicklung wird [Gulp](http://gulpjs.com) verwendet; hauptsächlich für den LESS-Compiler und für Minify- & Concat-Aktionen. Es muss zunächst [NodeJS](https://nodejs.org) installiert werden, danach kann Gulp über den Befehl `npm install -g gulp` installiert werden. Es müssen einmalig die benötigten Pakete für Crucio heruntergeladen werden (die in `package.json` aufgelistet sind), dies passiert über `npm install`. Über `gulp` wird dann eine Umgebung gestartet, bei der Änderungen sofort verarbeitet werden. Für die einmalige Installation aller Dependencies kann [Bower](http://bower.io) genutzt werden.
+Zur Entwicklung wird [Gulp](http://gulpjs.com) verwendet, den lokalen Webserver könnt ihr über `gulp serve` starten. Es muss zunächst [NodeJS](https://nodejs.org) installiert werden, danach könnt ihr alle Dependencies über die beiden Befehle `npm install` und `bower install` installiert werden. [Bower](http://bower.io) installiert die Dependencies für die Crucio selber.
+
 
 ### Code Style
 
-Im gesamten Projekt wird CamelCase für Namen verwendet; ebenso 4-Space Tabs, Englisch als Sprache. Ansonsten sind als grobe Richtlinien
+Im gesamten Projekt wird CamelCase für Namen verwendet; ebenso 2-Space Tabs, Englisch als Sprache. Ansonsten sind als grobe Richtlinien
 - [HTML / CSS](http://mdo.github.io/code-guide/#html-attribute-order)
 - [JavaScript](http://google-styleguide.googlecode.com/svn/trunk/javascriptguide.xml)
 - [AngularJS](https://github.com/mgechev/angularjs-style-guide/blob/master/README-de-de.md)
