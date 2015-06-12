@@ -43,7 +43,7 @@
     </div>
 
     <div class="gray-background" layout-align="center start" layout="row" flex>
-      <div layout="column" flex="95" flex-gt-md="60">
+      <div layout="column" flex="95" flex-gt-md="75">
         <md-content class="md-padding md-whiteframe-z2 white-content" style="margin-top: -20px;">
           <md-subheader class="md-no-sticky">
             <span>Deine Markierungen</span>
@@ -83,23 +83,23 @@
 
             <md-divider></md-divider>
 
-            <md-list-item class="md-3-line" ng-repeat-start="comment in question.comments" layout="row">
-              <section flex="5" flex-sm="10" layout="row" layout-align="end center">
-                <cr-comment-vote comment="comment" user="user"></cr-comment-vote>
-              </section>
+            <md-list-item class="md-3-line" ng-repeat-start="comment in question.comments" layout="row" layout-align="space-between center" layout-fill>
+              <div class="md-list-item-text" flex layout="row" layout-align="space-between center">
+                <section layout="row" layout-align="end center">
+                  <cr-comment-vote comment="comment" user="user"></cr-comment-vote>
+                </section>
 
-              <div class="md-list-item-text" layout="row" flex>
-                <section flex="20">
-                  <h4><h4><i class="fa fa-user fa-fw"></i> {{ comment.username }}</h4>
+                <section flex="25">
+                  <h4><i class="fa fa-user fa-fw"></i> {{ comment.username }}</h4>
                   <span class="md-caption"><i class="fa fa-fw fa-clock-o"></i> <cr-timeago date="{{ comment.date * 1000 }}"></cr-timeago></span>
                 </section>
 
-                <p>{{ comment.comment }}</p>
-              </div>
+                <p flex>{{ comment.comment }}</p>
 
-              <section flex="10" layout="row" layout-align="end center" ng-if="comment.user_id == user.user_id || user.group_id == 2">
-                <md-button ng-click="deleteComment($index)" class="md-warn" aria-label="Kommentar l&ouml;schen"><i class="fa fa-fw fa-trash-o"></i></md-button>
-              </section>
+                <section layout="row" layout-align="end center" ng-if="comment.user_id == user.user_id || user.group_id == 2">
+                  <md-button ng-click="deleteComment($index)" class="md-warn md-icon-button" aria-label="Kommentar l&ouml;schen"><i class="fa fa-fw fa-trash-o"></i></md-button>
+                </section>
+              </div>
             </md-list-item>
 
             <md-divider ng-if="!$last" ng-repeat-end></md-divider>
