@@ -7,9 +7,6 @@ $app->group('/questions', function () use ($app) {
 		
 		$user_id = $app->request()->params('user_id');
 		$query = urldecode($app->request()->params('query'));
-    if ($query) {
-  		execute_mysql($mysql, "INSERT INTO search_queries (user_id, query, date) VALUES (?, ?, ?)", [$user_id, $query, time()]);
-		}
 		
 		$limit = $app->request()->params('limit');
 		$limit_sql_limit = "";
