@@ -28,7 +28,7 @@ module.exports = function(options) {
     
     var buildConfig = require('../src/config.json');
 
-    return gulp.src(options.src + '/*.html')
+    return gulp.src(options.src + '/**/*.html')
       .pipe(template(buildConfig))
       .pipe($.inject(injectStyles, injectOptions))
       .pipe($.inject(injectScripts, injectOptions))
