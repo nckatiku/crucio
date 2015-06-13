@@ -23,7 +23,7 @@ $app->group('/subjects', function () use ($app) {
   		$result[ $category['subject_id'] ]['categories'][] = $category;
 		}
 
-		$response['categories'] = $result;
+		$response['subjects'] = $result;
 		print_response($app, $response);
 	});
 

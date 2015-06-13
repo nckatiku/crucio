@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('crucio', ['ngSanitize', 'ui.router', 'ngMaterial', 'ngMessages', 'ngScrollSpy', 'angular-google-analytics'])
+angular.module('crucio', ['ngSanitize', 'ui.router', 'ngMaterial', 'ngMessages', 'ngScrollSpy', 'angular-google-analytics', 'textAngular'])
   .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider, $locationProvider, AnalyticsProvider) {
     $stateProvider
       .state('learn', {url: '/learn', templateUrl: 'app/learn/learn.html', controller: 'LearnCtrl'})

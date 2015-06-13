@@ -3,10 +3,10 @@
 	sub { vertical-align: sub; }
 </style>
 
-<div layout="column" style="height: 100%;">
+<div layout="column" flex>
 	<div ng-include="'app/components/navbar/navbar.html'"></div>
 
-	<section layout="row" flex layout-fill style="margin-top: 81px;">
+	<section layout="row" flex layout-fill>
     <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
       <md-content>
 				<md-button ng-click="close()" class="md-primary" hide-gt-md>
@@ -19,7 +19,7 @@
 				</div>
 
 				<md-list>
-	        <md-list-item ng-click="showInfo()" ng-class="{'active': active == 'tab'}">
+	        <md-list-item ng-click="showInfo()" ng-class="{'active': active == 'tab'}" aria-label="Infos anzeigen">
 	          <div class="md-list-item-text">
 		          <span class="md-title">Allgemeine Infos</span>
 		          <p class="md-body-2" style="margin-top: -4px;">
@@ -31,7 +31,7 @@
 
 	        <md-subheader class="md-no-sticky">{{ exam.questions.length }} Fragen</md-subheader>
 
-	        <md-list-item ng-repeat-start="q in exam.questions" ng-click="showQuestion($index)" ng-class="{'active': active == $index}">
+	        <md-list-item ng-repeat-start="q in exam.questions" ng-click="showQuestion($index)" ng-class="{'active': active == $index}" aria-label="Frage anzeigen">
 	          <p ng-bind-html="q.question | limitTo:60" style="font-size: 14px; line-height: 18px;"></p>
 	        </md-list-item>
 					<md-divider ng-if="!$last" ng-repeat-end></md-divider>
@@ -53,7 +53,7 @@
 
 					<form name="examInfoForm">
 						<md-select placeholder="Fach" ng-model="exam.subject_id" required name="subject_id">
-							<md-option ng-repeat="s in subjects" value="{{ s.subject_id }}">{{ s.subject_name }}</md-option>
+							<md-option ng-repeat="subject in subjects" value="{{ subject.subject_id }}">{{ subject.name }}</md-option>
 						</md-select>
 
 						<md-input-container>
@@ -103,10 +103,11 @@
 							<label class="col-md-2 col-sm-3 control-label">Dokument</label>
 							<div class="col-md-8 col-sm-9">
 								<div style="margin-top: 8px;margin-bottom: 10px;">
-										<input type="file" nv-file-select uploader="uploader" accept="application/pdf"/><br/>
-											<a href="/public/files/{{ exam.file_name }}" target="_self" class="btn btn-primary" ng-show="exam.file_name">
+									<input type="file" nv-file-select uploader="uploader" accept="application/pdf"/><br/>
+									<a href="/public/files/{{ exam.file_name }}" target="_self" class="btn btn-primary" ng-show="exam.file_name">
 										<i class="fa fa-external-link fa-fw"></i> Originaldokument
-								</a>
+									</a>
+								</div>
 								<md-button ng-disabled="uploader.queue.length == 0" ng-click="uploader.queue[uploader.queue.length-1].upload()">
 									<i class="fa fa-fw fa-upload"></i> Hochladen
 								</md-button>
@@ -141,12 +142,98 @@
 
 					<md-button class="md-raised md-warn" ng-click="openDeleteExamDialog()">Klausur löschen</md-button>
 				</div>
-				</div>
 
-				<div class="edit-exam-question" ng-repeat="q in exam.questions" ng-if="active == $index">
-					{{exam.questions[$index].question_id}}
-				</div>
-      </div>
+
+
+				<div class="edit-exam-question" ng-if="active != 'tab'">
+
+					<p>Typ</p>
+					<md-radio-group ng-model="q.type">
+			      <md-radio-button value="1">Freie Frage</md-radio-button>
+						<md-radio-button value="2">2</md-radio-button>
+						<md-radio-button value="3">3</md-radio-button>
+						<md-radio-button value="4">4</md-radio-button>
+						<md-radio-button value="5">5</md-radio-button>
+						<md-radio-button value="6">6 Antworten</md-radio-button>
+			    </md-radio-group>
+
+					<md-divider></md-divider>
+
+					<div>
+						<p>Kategorie</p>
+						<div>
+							<md-select placeholder="Kategorie" ng-model="q.topic">
+								<option ng-if="q.topic != 'Sonstiges'" ng-value="Sonstiges">Sonstiges</option>
+								<option ng-if="subject_list[exam.subject].indexOf(q.topic) == -1" ng-value="q.topic">{{ q.topic }}</option>
+								<option ng-repeat="c in getCategoriesOfSubjectID(exam.subject_id)" ng-value="c">{{ c }}</option>
+							</md-select>
+						</div>
+					</div>
+
+					<md-divider></md-divider>
+
+					<div>
+						<p>Frage</p>
+						<div class="col-sm-10">
+							<text-angular ng-model="q.question" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
+
+							<!--div style="margin-top: 8px;margin-bottom: 10px;">
+									<input type="file" nv-file-select uploader="uploader_array[$index]" accept="image/jpeg, image/png"/><br/>
+									<md-button ng-disabled="uploader_array[$index].queue.length == 0" ng-click="uploader_array[$index].queue[0].upload()">
+										<i class="fa fa-fw fa-upload"></i> Hochladen
+									</md-button>
+									<md-button ng-click="q.question_image_url=''">Bild l&ouml;schen</md-button>
+							</div>
+
+							<img ng-if="q.question_image_url" class="img-thumbnail questionImagePreview" src="/public/files/{{ q.question_image_url }}"/-->
+						</div>
+					</div>
+
+					<md-divider></md-divider>
+
+					<label class="col-sm-2">
+					</label>
+					<div class="col-sm-10" style="margin-bottom: -10px;">
+						<text-angular-toolbar name="toolbarf" ta-toolbar="[['subscript', 'superscript'], ['times', 'sdot', 'asymp', 'radic'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega']]"></text-angular-toolbar>
+					</div>
+
+					<div class="form-group" ng-repeat="i in [1,2,3,4,5,6]" ng-show="i - 1 < q.type">
+						<p ng-class="{'answer success-answer': q.correct_answer == i}">
+							Antwort <span ng-show="q.type > 1">{{ i }}</span>
+						</p>
+
+						<div class="col-sm-10">
+							<text-angular ng-model="q.answers[i-1]" ta-disabled="false" ta-target-toolbars="toolbarf"></text-angular>
+						</div>
+					</div>
+
+					<div ng-if="q.type > 1">
+						<p>L&ouml;sung</p>
+						<md-radio-group ng-model="q.correct_answer">
+							<md-radio-button value="0">Unbekannt</md-radio-button>
+				      <md-radio-button value="{{ i }}" ng-if="i - 1 < q.type" ng-repeat="i in [1,2,3,4,5,6]">{{ i }}</md-radio-button>
+				    </md-radio-group>
+					</div>
+
+					<md-divider></md-divider>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label" for="explanation">Erklärung</label>
+						<div class="col-sm-10">
+							<text-angular ng-model="q.explanation" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
+						</div>
+					</div>
+
+					<md-divider></md-divider>
+
+					<div class="form-group">
+						<div class="col-md-8 col-md-offset-2">
+							<md-button class="md-warn md-raised" ng-click="deleteQuestion($index)"><i class="fa fa-trash-o"></i> Frage löschen</md-button>
+						</div>
+					</div>
+	      </div>
+			</div>
+
       <div flex></div>
     </div>
   </section>

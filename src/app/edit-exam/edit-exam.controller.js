@@ -4,16 +4,18 @@ angular.module('crucio')
   .controller('EditExamCtrl', function ($scope, $stateParams, $location, $mdDialog, $mdSidenav, API, Auth) {
     $scope.showInfo = function() {
       $scope.active = 'tab';
-    }
+      $scope.q = null;
+    };
 
     $scope.showQuestion = function(index) {
       $scope.active = index;
-    }
+      $scope.q = $scope.exam.questions[index];
+    };
 
 
     $scope.toggleLeft = function() {
       $mdSidenav('left').toggle();
-    }
+    };
 
 
     $scope.addQuestion = function(show) {
@@ -38,7 +40,7 @@ angular.module('crucio')
 			$scope.exam.questions.splice(index, 1);
 
 			if ($scope.exam.questions.length === 0) {
-				$scope.add_question(true);
+				$scope.addQuestion(true);
 			}
 		};
 
@@ -105,20 +107,34 @@ angular.module('crucio')
       });
 		};
 
+    /* $scope.getCategoriesOfSubjectID = function(subjectID) {
+
+      for(var key in $scope.subjects) {
+        console.log($scope.subjects[key].subject_id, subjectID);
+        if ($scope.subjects[key].subject_id == subjectID) {
+          return $scope.subjects[key].categories;
+        }
+      }
+    }; */
+
 
 
     $scope.user = Auth.getUser();
     $scope.exam_id = $stateParams.id;
+    $scope.question_id = $stateParams.question_id;
 
     $scope.has_changed = 0;
     $scope.number_changed = 0;
   	$scope.is_saving = 0;
 
     $scope.active = 'tab';
+    if ($scope.question_id) {
+      $scope.active = $scope.question_id;
+    }
 
 
     API.get('/exams/' + $scope.exam_id).success(function(data) {
-			$scope.exam = data;
+			$scope.exam = data.exam;
       $scope.exam.semester = parseInt($scope.exam.semester);
 
 			for (var i = 0; i < $scope.exam.questions.length; i++) {
@@ -127,12 +143,12 @@ angular.module('crucio')
 				}
 			}
 
-			if ($scope.exam.questions.length === 0) {
+			if (!$scope.exam.questions.length) {
 				$scope.add_question(false, false);
 			}
 		});
 
-    API.get('/exams/distinct/subject', {visbility: 1}).success(function(data) {
-      $scope.subjects = data.subject;
+    API.get('/subjects/categories').success(function(data) {
+      $scope.subjects = data.subjects;
     });
   });

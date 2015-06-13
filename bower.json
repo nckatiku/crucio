@@ -6,10 +6,11 @@
     "angular-ui-router": "~0.2.13",
     "angular-material": "~0.9.7",
     "angular": "~1.4.0",
-    "fontawesome": "~4.3.0",
+    "font-awesome": "~4.3.0",
     "angular-messages": "~1.4.0",
     "ng-ScrollSpy.js": "~3.2.1",
-    "angular-google-analytics": "~0.0.16"
+    "angular-google-analytics": "~0.0.16",
+    "textAngular": "~1.4.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0"
