@@ -2,7 +2,6 @@
   "name": "crucio",
   "version": "0.9.0",
   "dependencies": {
-    "angular-sanitize": "~1.4.0",
     "angular-ui-router": "~0.2.13",
     "angular-material": "~0.9.7",
     "angular": "~1.4.0",

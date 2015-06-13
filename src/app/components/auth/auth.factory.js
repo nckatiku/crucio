@@ -21,7 +21,7 @@ angular.module('crucio')
 
         // If there is no user data, return to login page
         } else {
-          $window.location.replace('/login');
+          $window.location.replace('/');
         }
 
         user.semester = parseInt(user.semester);

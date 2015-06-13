@@ -11,7 +11,7 @@ $app->group('/pdf', function () use ($app) {
 		$question_id_list = explode(",", $question_id_list_string);
 		
 		$collection_info_string =  urldecode($app->request()->params('collection_info'));
-		$collection_info = json_decode(",", $collection_info_string);
+		$collection_info = json_decode($collection_info_string, true);
 		
 		$questions = get_all($mysql, "SELECT * FROM questions WHERE question_id IN ($question_id_list_string)", []);
 		
@@ -24,10 +24,41 @@ $app->group('/pdf', function () use ($app) {
 		
 		
 		class crucioPDF extends TCPDF {
+  		
+  		public $info;
+  		
       function Header() {
         $this->Ln(14);
         $this->SetFont('helvetica', '', 22);
         $this->MultiCell(0, 0, 'Crucio', 0, 'C', false, 1, PDF_MARGIN_LEFT, $this->y);
+        $this->SetFont('helvetica', '', 11);
+        
+        $info = $this->info;
+        $info_string = "";
+        if ($info['type'] == 'search') {
+          $info_string = "Fragen zur Suche: ".$info['query'];
+          if ($info['subject']) {
+            $info_string .= ", ".$info['subject'];
+          }
+          if ($info['semester']) {
+            $info_string .= ", ".$info['semester'].". Semester";
+          }
+        
+        } else if ($info['type'] == 'exam') {
+          $info_string = "Klausur ".$info['subject'].", ".$info['semester'].". Semester, ".$info['date'];
+          if ($info['sort']) {
+            $info_string .= ", ".$info['sort'];
+          }
+          
+        } else if ($info['type'] == 'tag') {
+          $info_string = "Fragen zur Markierung: ".$info['tag'];
+          
+        } else if ($info['type'] == 'subject') {
+          $info_string = "Fragen aus den Fächern: ";
+          
+        }
+        
+        $this->MultiCell(0, 0, $info_string, 0, 'C', false, 1, PDF_MARGIN_LEFT, $this->y);
     	}
     
       function Footer() {
@@ -49,6 +80,7 @@ $app->group('/pdf', function () use ($app) {
 		$pdf = new crucioPDF('P', PDF_UNIT, 'A4', true, 'UTF-8', false, true);
     $pdf->SetCreator(PDF_CREATOR);
     $pdf->SetAuthor('Crucio');
+    $pdf->info = $collection_info;
     
     $pdf->SetTitle('Sammlung PDF');
     $pdf->SetMargins(PDF_MARGIN_LEFT, 35, PDF_MARGIN_RIGHT);

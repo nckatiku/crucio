@@ -25,12 +25,14 @@ module.exports = function(options) {
       baseDir: baseDir,
       middleware: [
         modRewrite([
-          '^/login$ /login.html',
-          '^/about$ /about.html',
-          '^/contact$ /contact.html',
-          '^/register$ /register.html',
-          '^/forgot-password$ /forgot-password.html',
-          '^/activate-account$ /activate-account.html'
+          '^/$ /index.html [L]',
+          '^/login$ /index.html [L]',
+          '^/about$ /about.html [L]',
+          '^/contact$ /contact.html [L]',
+          '^/register$ /register.html [L]',
+          '^/forgot-password$ /forgot-password.html [L]',
+          '^/activate-account$ /activate-account.html [L]',
+          '!/api|/assets|\\.html|\\.js|\\.css|\\woff|\\ttf|\\swf$ /template.html'
         ])
       ],
       routes: routes

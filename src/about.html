@@ -4,8 +4,6 @@
     <meta charset="utf-8">
     <title>Crucio | Impressum</title>
 
-    <base href="http://localhost:3000/">
-
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -23,13 +21,14 @@
     <!-- endinject -->
     <!-- endbuild -->
   </head>
+
   <body layout="column" layout-fill ng-controll="ctrl">
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
 
     <md-toolbar class="white navbar" layout="row" layout-align="center center">
-      <md-button class="navbar-brand md-primary" href="/login"><i class="fa fa-check-square-o"></i> Crucio</md-button>
+      <md-button class="navbar-brand md-primary" href="/"><i class="fa fa-check-square-o"></i> Crucio</md-button>
 
       <span flex-gt-sm="50" flex-sm></span>
     </md-toolbar>
@@ -44,11 +43,6 @@
     <div class="gray-background" layout-align="center start" layout="row" flex style="min-height: 400px;">
       <md-content class="md-padding md-whiteframe-z2 white-content" flex="95" flex-gt-md="66">
         <div layout="column" layout-align="start center" layout-fill layout-padding>
-          <!--strong><%= fachschaft.fullName %></strong>
-          <strong><%= fachschaft.address.street %></strong>
-          <strong><%= fachschaft.address.zip %></strong>
-          <strong><%= fachschaft.address.city %></strong>
-          <div layout="row" layout-align="center center"-->
           <div layout="row" layout-align="center start" flex layout-fill style="margin: 14px;">
             <span flex="10"></span>
             <span flex="20" style="font-weight: 700;">Inhaber</span>
@@ -81,7 +75,7 @@
 
     <div class="footer md-default-theme md-primary" layout="row"  layout-align="space-around">
       <md-button href="<%= fachschaft.url %>"><%= fachschaft.name %></md-button>
-      
+
       <section>
         <md-button href="contact" target="_self">Kontakt</md-button> | <md-button href="/about" target="_self">Impressum</md-button>
       </section>
