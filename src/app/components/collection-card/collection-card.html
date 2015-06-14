@@ -23,7 +23,7 @@
         </span>
       </h3>
 
-      <md-button class="md-icon-button" ng-click="deleteCollection($index)" aria-label="Sammlung löschen">
+      <md-button class="md-icon-button" ng-click="deleteCollection(index)" aria-label="Sammlung löschen" ng-if="!exam">
         <i class="fa fa-trash-o"></i>
       </md-button>
     </div>
@@ -86,7 +86,7 @@
       <md-option value="question">Fragenansicht</md-option>
       <md-option value="exam">Klausuransicht</md-option>
       <md-option value="pdf">PDF Sammlung</md-option>
-      <md-option value="pdf-solution">PDF Sammlung & Lösungen</md-option>
+      <md-option value="pdf-solution">PDF Sammlung & L&ouml;sungen</md-option>
     </md-select>
     <md-button class="md-raised" ng-click="learnCollection(collectionID, method)">Lernen</md-button>
   </div>

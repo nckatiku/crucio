@@ -4,8 +4,8 @@ angular.module('crucio')
   .directive('crCollectionCard', function() {
     return {
       restrict: 'E',
-      scope: { collection: '=', collectionid: '=', exam: '=' },
-      controller: function($scope, $location, $mdToast, Collection) {
+      scope: { collection: '=', collectionid: '=', exam: '=', index: '=' },
+      controller: function($scope, $location, $window, $mdToast, Collection) {
         $scope.getUserDataLength = function(question_id_list, user_datas) {
           if (!user_datas) {
             return 0;
@@ -20,9 +20,23 @@ angular.module('crucio')
           return result;
         };
 
-        $scope.learnCollection = function(collectionID, method) {
-          var params = {};
-          Collection.learnCollection(method, '/collection/' + collectionID, params);
+        $scope.learnCollection = function(id, method) {
+          if ($scope.exam) {
+            if (method === 'original') {
+              $window.location.replace('http://www.crucio-leipzig.de/public/files/' + $scope.exam.file_name);
+            }
+
+            var params = {random: 1};
+            Collection.learnCollection(method, '/exam/' + id, params);
+
+
+          } else {
+            Collection.learnCollection(method, '/collection/' + id, {});
+          }
+        };
+
+        $scope.deleteCollection = function(index) {
+          $scope.$emit('removeCollection', index);
         };
 
         $scope.collectionID = $scope.collectionid;
@@ -36,6 +50,7 @@ angular.module('crucio')
           for (var i = 0; i < $scope.exam.question_count; i++) {
             $scope.collection.question_id_list.push(0);
           }
+          $scope.collectionID = $scope.exam.exam_id;
         }
       },
       templateUrl: 'app/components/collection-card/collection-card.html',

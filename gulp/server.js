@@ -32,7 +32,7 @@ module.exports = function(options) {
           '^/register$ /register.html [L]',
           '^/forgot-password$ /forgot-password.html [L]',
           '^/activate-account$ /activate-account.html [L]',
-          '!/api|/assets|\\.html|\\.js|\\.css|\\woff|\\ttf|\\swf$ /template.html'
+          '!/api|/assets|\\.html|\\.js|\\.css|\\.eot|\\.woff|\\.ttf|\\.swf$ /template.html'
         ])
       ],
       routes: routes

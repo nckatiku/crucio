@@ -1,15 +1,15 @@
 <div layout-align="center start" layout="row" class="gray-background" flex>
   <div class="md-padding" flex-gt-md="66">
-    <p class="md-body-1">Hier kannst du deine eigene Klausur nach Fächern zusammenstellen...</p>
+    <p class="md-body-1">Hier kannst du deine eigene Klausur nach F&auml;chern zusammenstellen...</p>
 
     <md-divider></md-divider>
 
     <div layout="column" class="md-padding">
       <md-subheader style="background-color: rgba(1,1,1,0);">
-        <span ng-if="!questionCountInCategories && !getSelectedCategoriesCount()">Keine Fragen ausgewählt</span>
+        <span ng-if="!questionCountInCategories && !getSelectedCategoriesCount()">Keine Fragen ausgew&auml;hlt</span>
         <span ng-if="!questionCountInCategories && getSelectedCategoriesCount()">Keine Fragen vorhanden</span>
-        <span ng-if="questionCountInCategories == 1">{{ questionCountInCategories }} mögliche Frage ausgewählt</span>
-        <span ng-if="1 < questionCountInCategories">{{ questionCountInCategories }} mögliche Fragen ausgewählt</span>
+        <span ng-if="questionCountInCategories == 1">{{ questionCountInCategories }} mögliche Frage ausgew&auml;hlt</span>
+        <span ng-if="1 < questionCountInCategories">{{ questionCountInCategories }} mögliche Fragen ausgew&auml;hlt</span>
       </md-subheader>
 
       <md-list-item ng-repeat="(subject_id, subject) in categories">
@@ -72,7 +72,7 @@
           <md-option value="question">Fragenansicht</md-option>
           <md-option value="exam">Klausuransicht</md-option>
           <md-option value="pdf">PDF Sammlung</md-option>
-          <md-option value="pdf-both">PDF Sammlung & Lösungen</md-option>
+          <md-option value="pdf-both">PDF Sammlung & L&ouml;sungen</md-option>
         </md-select>
 
         <md-button class="md-raised md-accent" ng-click="learnSubjects(method)" ng-disabled="!selectedQuestionCount">Lernen</md-button>

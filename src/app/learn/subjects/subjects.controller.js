@@ -5,10 +5,10 @@ angular.module('crucio')
 
     $scope.recalculateSelectedQuestionCount = function() {
       var defaultQuestionCount = 50;
-      if ($scope.selectedQuestionCount == 0) {
+      if ($scope.selectedQuestionCount === 0) {
         $scope.selectedQuestionCount = Math.min($scope.questionCountInCategories, defaultQuestionCount);
       }
-      if ($scope.questionCountInCategories == 0) {
+      if ($scope.questionCountInCategories === 0) {
         $scope.selectedQuestionCount = 0;
       }
 
@@ -88,7 +88,7 @@ angular.module('crucio')
 				user_id: $scope.user.user_id,
         random: 1
 			};
-      
+
       Collection.learnCollection(method, '/categories', params);
     };
 
@@ -104,6 +104,6 @@ angular.module('crucio')
     $scope.questionCountInCondition = 0;
 
     API.get('/subjects/categories').success(function(data) {
-			$scope.categories = data.categories;
+			$scope.categories = data.subjects;
 		});
   });
