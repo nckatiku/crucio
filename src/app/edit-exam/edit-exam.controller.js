@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('crucio')
-  .controller('EditExamCtrl', function ($scope, $stateParams, $location, $mdDialog, $mdSidenav, API, Auth) {
+  .controller('EditExamCtrl', function ($scope, $stateParams, $location, $mdToast, $mdDialog, $mdSidenav, API, Auth, Analytics) {
     $scope.showInfo = function() {
       $scope.active = 'tab';
       $scope.q = null;
@@ -29,6 +29,10 @@ angular.module('crucio')
 
 			$scope.exam.questions.push(question);
 			$scope.open_question_id = 0;
+
+      if (show) {
+        $scope.showQuestion($scope.exam.questions.length - 1);
+      }
 		};
 
 		$scope.deleteQuestion = function(index) {
@@ -53,7 +57,9 @@ angular.module('crucio')
         $scope.is_saving = 1;
 
 				var params = $scope.exam;
-				API.put('/exams/' + $scope.exam_id, params);
+				API.put('/exams/' + $scope.exam_id, params).success(function() {
+          $mdToast.show($mdToast.simple().content('Gespeichert!').position('top right').hideDelay(2000));
+        });
 
 				$scope.exam.questions.forEach(function(question) {
 					var validate_question = true;

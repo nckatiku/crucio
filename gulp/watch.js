@@ -8,9 +8,16 @@ function isOnlyChange(event) {
 }
 
 module.exports = function(options) {
+  gulp.task('copy-folder', function() {  
+    gulp.src(options.src + '/api/**/*')
+      .pipe(gulp.dest(options.dist + '/api'));
+  });
+  
   gulp.task('watch', ['inject'], function () {
 
     gulp.watch([options.src + '/*.html', 'bower.json'], ['inject']);
+    
+    gulp.watch([options.src + '/api/**/*'], ['copy-folder']);
 
     gulp.watch([
       options.src + '/app/**/*.css',

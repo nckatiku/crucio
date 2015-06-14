@@ -1,6 +1,7 @@
 {
   "crucio": {
-    "version": "0.9.0"
+    "version": "0.9.0",
+    "url": "http://dev.crucio-leipzig.de"
   },
   "fachschaft": {
     "name": "StuRaMed",

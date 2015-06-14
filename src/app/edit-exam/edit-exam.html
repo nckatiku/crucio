@@ -14,8 +14,8 @@
 				</md-button>
 
 				<div layout="row" layout-align="space-between center">
-					<md-button class="md-accent">Speichern</md-button>
-					<md-button class="md-accent"><i class="fa fa-fw fa-plus"></i> Frage</md-button>
+					<md-button class="md-accent" ng-click="saveExam()">Speichern</md-button>
+					<md-button class="md-accent" ng-click="addQuestion(true)"><i class="fa fa-fw fa-plus"></i> Frage</md-button>
 				</div>
 
 				<md-list>
@@ -32,7 +32,10 @@
 	        <md-subheader class="md-no-sticky">{{ exam.questions.length }} Fragen</md-subheader>
 
 	        <md-list-item ng-repeat-start="q in exam.questions" ng-click="showQuestion($index)" ng-class="{'active': active == $index}" aria-label="Frage anzeigen">
-	          <p ng-bind-html="q.question | limitTo:60" style="font-size: 14px; line-height: 18px;"></p>
+	          <p style="font-size: 14px; line-height: 18px;">
+							<span ng-bind-html="q.question | limitTo:60" ng-if="q.question"></span>
+							<span ng-if="!q.question"><i>Neue Frage...</i></span>
+						</p>
 	        </md-list-item>
 					<md-divider ng-if="!$last" ng-repeat-end></md-divider>
 	      </md-list>
@@ -68,7 +71,7 @@
 									<div ng-messages="examInfoForm.semester.$error" ng-if="examInfoForm.semester.$dirty">
 										<div ng-message="required">Bitte Semester angeben...</div>
 										<div ng-message="number">Bitte Zahl angeben</div>
-										<div ng-message="min">So früh schon?</div>
+										<div ng-message="min">So fr&uuml;h schon?</div>
 										<div ng-message="max">So hohes Semester?</div>
 									</div>
 								</md-input-container>
@@ -189,7 +192,7 @@
 					<div layout="row" layout-align="start start" layout-margin>
 						<span flex="15" style="text-align: right; font-weight: bold;"></span>
 						<div flex>
-							<md-button class="md-raised md-warn" ng-click="openDeleteExamDialog()">Klausur löschen</md-button>
+							<md-button class="md-raised md-warn" ng-click="openDeleteExamDialog()">Klausur l&ouml;schen</md-button>
 						</div>
 					</div>
 				</div>
@@ -248,19 +251,14 @@
 					<div layout="row" layout-align="start start" layout-margin>
 						<span flex="15" style="text-align: right; font-weight: bold;">Antworten</span>
 						<div flex>
-							<div class="col-sm-10" style="margin-bottom: -10px;">
-								<text-angular-toolbar name="toolbarf" ta-toolbar="[['subscript', 'superscript'], ['times', 'sdot', 'asymp', 'radic'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega']]"></text-angular-toolbar>
-							</div>
+							<text-angular-toolbar name="toolbarf" ta-toolbar="[['subscript', 'superscript'], ['times', 'sdot', 'asymp', 'radic'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega']]"></text-angular-toolbar>
+						</div>
+					</div>
 
-							<div ng-repeat="i in [1,2,3,4,5,6]" ng-show="i - 1 < q.type">
-								<p ng-class="{'answer success-answer': q.correct_answer == i}">
-									Antwort <span ng-show="q.type > 1">{{ i }}</span>
-								</p>
-
-								<div>
-									<text-angular ng-model="q.answers[i-1]" ta-disabled="false" ta-target-toolbars="toolbarf"></text-angular>
-								</div>
-							</div>
+					<div layout="row" layout-align="start start" layout-margin ng-repeat="i in [1,2,3,4,5,6]" ng-show="i - 1 < q.type">
+						<span flex="15" style="text-align: right; font-weight: bold;">Antwort <span ng-show="q.type > 1">{{ i }}</span></span>
+						<div flex>
+							<text-angular ng-model="q.answers[i-1]" ta-disabled="false" ta-target-toolbars="toolbarf"></text-angular>
 						</div>
 					</div>
 
@@ -277,7 +275,7 @@
 					<md-divider></md-divider>
 
 					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold;">Erklärung</span>
+						<span flex="15" style="text-align: right; font-weight: bold;">Erkl&auml;rung</span>
 						<div flex>
 							<text-angular ng-model="q.explanation" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
 						</div>
@@ -288,7 +286,7 @@
 					<div layout="row" layout-align="start start" layout-margin>
 						<span flex="15" style="text-align: right; font-weight: bold; padding: 16px;"></span>
 						<div flex>
-							<md-button class="md-warn md-raised" ng-click="deleteQuestion($index)"><i class="fa fa-trash-o"></i> Frage löschen</md-button>
+							<md-button class="md-warn md-raised" ng-click="deleteQuestion($index)"><i class="fa fa-trash-o"></i> Frage l&ouml;schen</md-button>
 						</div>
 					</div>
 	      </div>

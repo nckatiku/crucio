@@ -1,10 +1,11 @@
 <div class="gray-background" layout="row" layout-align="center" flex>
   <div flex-gt-md=66>
     <div class="md-padding">
+      <p class="md-body-1">Hier sind alle F&auml;cher und Kategorien aufgelistet, f&uuml;r die ihr Klausuren eintragen k&ouml;nnt... </p>
 
-      <div class="md-body-1" ng-repeat="(subject_id, subject) in categories">
+      <div ng-repeat="(subject_id, subject) in subjects">
         <h2 class="md-headline">{{ subject.name }}</h2>
-        <span ng-repeat="category in subject.categories">{{category.name}}<br></span>
+        <span class="md-body-1" ng-repeat="category in subject.categories">{{category.name}}<br></span>
       </div>
     </div>
   </div>
