@@ -40,12 +40,9 @@
 
 
   <md-card-content layout="column" ng-if="collection.info.type == 'exam'" flex>
-    <div>
-      <ul style="margin-top: 0px;">
-        <li ng-if="collection.info.semester">{{ collection.info.semester }}. Semester</li>
-        <li ng-if="collection.info.semester"><i class="fa fa-fw fa-calendar"></i> {{ collection.info.sort }}</li>
-        <li ng-if="collection.info.subject"><i class="fa fa-fw fa-question"></i> {{ collection.info.date }}</li>
-      </ul>
+    <div layout="row" layout-align="space-around center" style="margin-bottom: 20px;">
+        <span ng-if="collection.info.semester">{{ collection.info.semester }}. Semester</span>
+        <span ng-if="collection.info.subject"><i class="fa fa-fw fa-calendar"></i> {{ collection.info.date }}</span>
     </div>
 
     <div class="progress-linear-label">

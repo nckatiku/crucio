@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('crucio')
-  .controller('EditExamCtrl', function ($scope, $stateParams, $location, $mdToast, $mdDialog, $mdSidenav, API, Auth, Analytics) {
+  .controller('EditExamCtrl', function ($scope,	$rootScope, $stateParams, $location, $timeout, $mdToast, $mdDialog, $mdSidenav, API, Auth, Analytics) {
     $scope.showInfo = function() {
       $scope.active = 'tab';
       $scope.q = null;
@@ -10,6 +10,12 @@ angular.module('crucio')
     $scope.showQuestion = function(index) {
       $scope.active = index;
       $scope.q = $scope.exam.questions[index];
+
+      var questionDiv = document.getElementById('asdf');
+
+      $timeout(function () {
+        questionDiv.scrollTop(0); //.scrollTop = 0;
+      });
     };
 
 
@@ -53,21 +59,38 @@ angular.module('crucio')
 		};
 
 		$scope.saveExam = function() {
-      if ($scope.examInfoForm.$valid) {
+      var valid = true;
+      if (!$scope.exam.semester) { valid = false; }
+      if ($scope.exam.semester <= 0) { valid = false; }
+      if ($scope.exam.semester > 20) { valid = false; }
+      if (!$scope.exam.subject_id) { valid = false; }
+      if ($scope.exam.subject_id === '0') { valid = false; }
+      if (!$scope.exam.date) { valid = false; }
+
+      if (valid) {
         $scope.is_saving = 1;
 
-				var params = $scope.exam;
-				API.put('/exams/' + $scope.exam_id, params).success(function() {
+				API.put('/exams/' + $scope.exam_id, $scope.exam).success(function() {
           $mdToast.show($mdToast.simple().content('Gespeichert!').position('top right').hideDelay(2000));
         });
 
 				$scope.exam.questions.forEach(function(question) {
-					var validate_question = true;
-					if (!question.question.length) { validate_question = false; }
-					if (question.question_id) { validate_question = true; }
+					var validQuestion = true;
+					if (!question.question.length) { validQuestion = false; }
+					if (question.question_id) { validQuestion = true; }
 
-	    		if (validate_question) {
-	    			var question_params = {
+	    		if (validQuestion) {
+            if (!question.question_image_url) {
+              question.question_image_url = '';
+            }
+            if (!question.explanation) {
+              question.explanation = '';
+            }
+            if (!question.correct_answer) {
+              question.correct_answer = 0;
+            }
+
+	    			var params = {
 		    			question: question.question,
 		    			topic: question.topic,
 		    			type: question.type,
@@ -81,18 +104,22 @@ angular.module('crucio')
 
 	    			// Save new question
 	    			if (!question.question_id) {
-		    			API.post('/questions', question_params).success(function(data) {
+		    			API.post('/questions', params).success(function(data) {
 			    			question.question_id = data.question_id;
 		    			});
 
 						// Update question
 		    		} else {
-			    		API.put('/questions/' + question.question_id, question_params);
+			    		API.put('/questions/' + question.question_id, params);
 		    		}
 	    		}
 				});
-				$scope.has_changed = 0;
+
+        $scope.has_changed = 0;
 				$scope.is_saving = 0;
+
+      } else {
+        $mdToast.show($mdToast.simple().content('Nicht gespeichert! Infos fehlen...').position('top right').hideDelay(2000));
       }
 		};
 
@@ -113,15 +140,37 @@ angular.module('crucio')
       });
 		};
 
-    /* $scope.getCategoriesOfSubjectID = function(subjectID) {
-
+    $scope.getNameOfSubjectID = function(subjectID) {
       for(var key in $scope.subjects) {
-        console.log($scope.subjects[key].subject_id, subjectID);
-        if ($scope.subjects[key].subject_id == subjectID) {
+        if ($scope.subjects[key].subject_id === subjectID) {
+          return $scope.subjects[key].name;
+        }
+      }
+    };
+
+    $scope.getCategoriesOfSubjectID = function(subjectID) {
+      for(var key in $scope.subjects) {
+        if ($scope.subjects[key].subject_id === subjectID.toString()) {
           return $scope.subjects[key].categories;
         }
       }
-    }; */
+    };
+
+    $scope.$watch('exam', function(newValue, oldValue) {
+			if ($scope.number_changed > 1) {
+        $scope.has_changed = 1;
+      }
+			$scope.number_changed += 1;
+		}, true);
+
+		$scope.$on('$stateChangeStart', function(event) {
+      if ($scope.has_changed == 1) {
+				var confirmClose = confirm('Die Änderungen an deiner Klausur bleiben dann ungespeichert. Wirklich verlassen?');
+				if (!confirmClose) {
+          event.preventDefault();
+        }
+			}
+		});
 
 
 
@@ -150,7 +199,7 @@ angular.module('crucio')
 			}
 
 			if (!$scope.exam.questions.length) {
-				$scope.add_question(false, false);
+				$scope.addQuestion(false, false);
 			}
 		});
 

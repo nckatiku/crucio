@@ -39,7 +39,7 @@ $app->group('/exams', function () use ($app) {
 		}
 		
 		$response = get_all($mysql, 
-		  "SELECT e.*, u.username AS 'author', COUNT(*) AS 'question_count', s.name AS 'subject_name' 
+		  "SELECT e.*, u.username AS 'author', COUNT(*) AS 'question_count', s.name AS 'subject' 
 		  FROM exams e
 		  INNER JOIN users u ON e.user_id_added = u.user_id
 		  INNER JOIN subjects s ON e.subject_id = s.subject_id 
@@ -154,7 +154,7 @@ $app->group('/exams', function () use ($app) {
 		$data = json_decode($app->request()->getBody());
 
 		$mysql = start_mysql();
-		$response = execute_mysql($mysql, "INSERT INTO exams (subject, professor, semester, date, sort, date_added, date_updated, user_id_added, duration, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$data->subject, $data->professor, $data->semester, $data->date, $data->type, time(), time(), $data->user_id_added, $data->duration, $data->notes], function($stmt, $mysql) {
+		$response = execute_mysql($mysql, "INSERT INTO exams (subject_id, professor, semester, date, sort, date_added, date_updated, user_id_added, duration, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$data->subject_id, $data->professor, $data->semester, $data->date, $data->type, time(), time(), $data->user_id_added, $data->duration, $data->notes], function($stmt, $mysql) {
 			$response['exam_id'] = $mysql->lastInsertId();
 			return $response;
 		});
@@ -166,7 +166,7 @@ $app->group('/exams', function () use ($app) {
 		$data = json_decode($app->request()->getBody());
 
 		$mysql = start_mysql();
-		$response = execute_mysql($mysql, "UPDATE exams SET subject = ?, professor = ?, semester = ?, date = ?, sort = ?, duration = ?, notes = ?, file_name = ?, visibility = ?, date_updated = ? WHERE exam_id = ?", [$data->subject, $data->professor, $data->semester, $data->date, $data->sort, $data->duration, $data->notes, $data->file_name, $data->visibility, time(), $exam_id]);
+		$response = execute_mysql($mysql, "UPDATE exams SET subject_id = ?, professor = ?, semester = ?, date = ?, sort = ?, duration = ?, notes = ?, file_name = ?, visibility = ?, date_updated = ? WHERE exam_id = ?", [$data->subject_id, $data->professor, $data->semester, $data->date, $data->sort, $data->duration, $data->notes, $data->file_name, $data->visibility, time(), $exam_id]);
 		print_response($app, $response);
 	});
 

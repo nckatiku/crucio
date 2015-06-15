@@ -14,8 +14,11 @@
 				</md-button>
 
 				<div layout="row" layout-align="space-between center">
-					<md-button class="md-accent" ng-click="saveExam()">Speichern</md-button>
-					<md-button class="md-accent" ng-click="addQuestion(true)"><i class="fa fa-fw fa-plus"></i> Frage</md-button>
+					<md-button class="md-raised md-accent" ng-click="saveExam()" ng-disabled="!has_changed">
+						<span ng-if="has_changed">Speichern</span>
+						<span ng-if="!has_changed">Gespeichert</span>
+					</md-button>
+					<md-button ng-click="addQuestion(true)"><i class="fa fa-fw fa-plus"></i> Frage</md-button>
 				</div>
 
 				<md-list>
@@ -23,7 +26,7 @@
 						<div class="md-list-item-text">
 							<span class="md-title">Allgemeine Infos</span>
 							<p class="md-body-2" style="margin-top: -4px;">
-								<i class="fa fa-fw fa-flask"></i> {{ exam.subject }}
+								<i class="fa fa-fw fa-flask"></i> {{ getNameOfSubjectID(exam.subject_id) }}
 								<i class="fa fa-fw fa-calendar"></i> {{ exam.date }}
 							</p>
 						</div>
@@ -54,18 +57,13 @@
 
 				<div class="edit-exam-question" ng-if="active == 'tab'">
 					<form name="examInfoForm">
-						<div layout="row" layout-align="start start" layout-margin>
-							<span flex="15" style="text-align: right; font-weight: bold;">Allgemeine Informationen</span>
-							<div flex>
+						<div layout="row" layout-align="start start">
+							<span flex="15" class="form-left-label" style="padding-top: 32px;">Allgemeine Informationen</span>
+							<div layout="column" flex>
 								<md-select placeholder="Fach" ng-model="exam.subject_id" required name="subject_id">
 									<md-option ng-repeat="subject in subjects" value="{{ subject.subject_id }}">{{ subject.name }}</md-option>
 								</md-select>
-							</div>
-						</div>
 
-						<div layout="row" layout-align="start start" layout-margin>
-							<span flex="15" style="text-align: right; font-weight: bold;"></span>
-							<div flex>
 								<md-input-container>
 									<label>Semester</label>
 									<input type="number" ng-model="exam.semester" min="1" max="20" required name="semester">
@@ -76,12 +74,7 @@
 										<div ng-message="max">So hohes Semester?</div>
 									</div>
 								</md-input-container>
-							</div>
-						</div>
 
-						<div layout="row" layout-align="start start" layout-margin>
-							<span flex="15" style="text-align: right; font-weight: bold;"></span>
-							<div flex>
 								<md-input-container>
 									<label>Termin (z.B. WS 2010/11)</label>
 									<input type="text" ng-model="exam.date" required name="date">
@@ -89,12 +82,7 @@
 		                <div ng-message="required">Bitte Termin angeben...</div>
 		              </div>
 								</md-input-container>
-							</div>
-						</div>
 
-						<div layout="row" layout-align="start start" layout-margin>
-							<span flex="15" style="text-align: right; font-weight: bold;"></span>
-							<div flex>
 								<md-select placeholder="Art" ng-model="exam.sort" required>
 									<md-option value='Erstklausur'>Erstklausur</md-option>
 									<md-option value='Wiederholungsklausur'>Wiederholungsklausur</md-option>
@@ -106,19 +94,14 @@
 							</div>
 						</div>
 
-						<div layout="row" layout-align="start start" layout-margin>
-							<span flex="15" style="text-align: right; font-weight: bold;">Zus&auml;tzliche Informationen</span>
-							<div flex>
+						<div layout="row" layout-align="start start">
+							<span flex="15" class="form-left-label" style="padding-top: 28px;">Zus&auml;tzliche Informationen</span>
+							<div layout="column" flex>
 								<md-input-container>
 									<label>Professor_in</label>
 									<input type="text" ng-model="exam.professor">
 								</md-input-container>
-							</div>
-						</div>
 
-						<div layout="row" layout-align="start start" layout-margin>
-							<span flex="15" style="text-align: right; font-weight: bold;"></span>
-							<div flex>
 								<md-input-container>
 									<label>Bearbeitungszeit (Minuten)</label>
 									<input type="text" ng-model="exam.duration">
@@ -126,8 +109,8 @@
 							</div>
 						</div>
 
-						<div layout="row" layout-align="start start" layout-margin>
-							<span flex="15" style="text-align: right; font-weight: bold;">Anmerkungen</span>
+						<div layout="row" layout-align="start start">
+							<span flex="15" class="form-left-label" style="padding-top: 6px;">Anmerkungen</span>
 							<div flex>
 								<md-input-container>
 									<textarea rows="3"  ng-model="exam.notes"></textarea>
@@ -135,8 +118,8 @@
 							</div>
 						</div>
 
-						<div layout="row" layout-align="start start" layout-margin>
-							<span flex="15" style="text-align: right; font-weight: bold;">Dokument</span>
+						<div layout="row" layout-align="start start">
+							<span flex="15" class="form-left-label" style="padding-top: 2px;">Dokument</span>
 							<div flex>
 								<div style="margin-bottom: 10px;">
 									<input type="file" nv-file-select uploader="uploader" accept="application/pdf"/><br/>
@@ -153,8 +136,8 @@
 						</div>
 					</form>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold; padding: 16px;"></span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label"></span>
 						<div flex>
 							<md-switch ng-model="exam.visibility">
 								Sichtbar
@@ -162,36 +145,36 @@
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold;">Anzahl Fragen</span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label">Anzahl Fragen</span>
 						<div flex>
 							<div ng-bind="exam.questions.length"></div>
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold;">Autor</span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label">Autor</span>
 						<div flex>
 							<div>{{ ::exam.username }}</div>
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold;">Eingetragen</span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label">Eingetragen</span>
 						<div flex>
 							<div>{{ exam.date_added * 1000 | date:'dd.MM.yyyy' }}</div>
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold;">Aktualisiert</span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label">Aktualisiert</span>
 						<div flex>
 							<div>{{ exam.date_updated * 1000 | date:'dd.MM.yyyy, HH:mm' }}</div>
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold;"></span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label"></span>
 						<div flex>
 							<md-button class="md-raised md-warn" ng-click="openDeleteExamDialog()">Klausur l&ouml;schen</md-button>
 						</div>
@@ -200,9 +183,9 @@
 
 
 
-				<div class="edit-exam-question" ng-if="active != 'tab'">
-					<div layout="row" layout-align="start start" style="margin-top: 30px;" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold; padding: 16px;">Typ</span>
+				<div class="edit-exam-question" ng-if="active != 'tab'" id="asdf">
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label" style="padding-top: 16px;">Typ</span>
 						<div flex>
 							<md-radio-group ng-model="q.type" layout="row" layout-sm="column">
 					      <md-radio-button value="1">Freie Frage</md-radio-button>
@@ -217,8 +200,8 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold; padding: 16px;">Kategorie</span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label" style="padding-top: 32px;">Kategorie</span>
 						<div flex>
 							<md-select placeholder="Kategorie" ng-model="q.topic">
 								<option ng-if="q.topic != 'Sonstiges'" ng-value="Sonstiges">Sonstiges</option>
@@ -230,8 +213,8 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold;">Frage</span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label">Frage</span>
 						<div flex>
 							<text-angular ng-model="q.question" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
 
@@ -249,22 +232,22 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold;">Antworten</span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label">Antworten</span>
 						<div flex>
 							<text-angular-toolbar name="toolbarf" ta-toolbar="[['subscript', 'superscript'], ['times', 'sdot', 'asymp', 'radic'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega']]"></text-angular-toolbar>
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start" layout-margin ng-repeat="i in [1,2,3,4,5,6]" ng-show="i - 1 < q.type">
-						<span flex="15" style="text-align: right; font-weight: bold;">Antwort <span ng-show="q.type > 1">{{ i }}</span></span>
+					<div layout="row" layout-align="start start" ng-repeat="i in [1,2,3,4,5,6]" ng-show="i - 1 < q.type">
+						<span flex="15" class="form-left-label">Antwort <span ng-show="q.type > 1">{{ i }}</span></span>
 						<div flex>
 							<text-angular ng-model="q.answers[i-1]" ta-disabled="false" ta-target-toolbars="toolbarf"></text-angular>
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start" layout-margin ng-if="q.type > 1">
-						<span flex="15" style="text-align: right; font-weight: bold; padding: 16px;">L&ouml;sung</span>
+					<div layout="row" layout-align="start start" ng-if="q.type > 1">
+						<span flex="15" class="form-left-label" style="padding-top: 16px;">L&ouml;sung</span>
 						<div flex>
 							<md-radio-group ng-model="q.correct_answer" layout="row" layout-sm="column">
 								<md-radio-button value="0">Unbekannt</md-radio-button>
@@ -275,8 +258,8 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold;">Erkl&auml;rung</span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label" style="padding-top: 28px;">Erkl&auml;rung</span>
 						<div flex>
 							<text-angular ng-model="q.explanation" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
 						</div>
@@ -284,10 +267,10 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start" layout-margin>
-						<span flex="15" style="text-align: right; font-weight: bold; padding: 16px;"></span>
+					<div layout="row" layout-align="start start">
+						<span flex="15" class="form-left-label" style="padding-top: 16px;"></span>
 						<div flex>
-							<md-button class="md-warn md-raised" ng-click="deleteQuestion($index)"><i class="fa fa-trash-o"></i> Frage l&ouml;schen</md-button>
+							<md-button class="md-warn md-raised" ng-click="deleteQuestion(active)"><i class="fa fa-trash-o"></i> Frage l&ouml;schen</md-button>
 						</div>
 					</div>
 	      </div>

@@ -34,9 +34,10 @@ $app->group('/questions', function () use ($app) {
 
 
 		$response = get_all($mysql, 
-		  "SELECT q.*, e.subject, e.subject_id, e.semester 
+		  "SELECT q.*, s.name AS 'subject', e.subject_id, e.semester 
 		  FROM questions q 
-		  INNER JOIN exams e ON q.exam_id = e.exam_id 
+		  INNER JOIN exams e ON q.exam_id = e.exam_id
+		  INNER JOIN subjects s ON e.subject_id = s.subject_id
 		  WHERE 1 = 1 "
 		    ."AND CONCAT(q.question, q.answers, q.explanation) LIKE ? "
 		    .$visibility_sql_where
@@ -142,9 +143,11 @@ $app->group('/questions', function () use ($app) {
 		$mysql = start_mysql();
 		$response = execute_mysql($mysql, "INSERT INTO questions (question, answers, correct_answer, exam_id, date_added, user_id_added, explanation, question_image_url, type, topic) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$data->question, serialize($data->answers), $data->correct_answer, $data->exam_id, time(), $data->user_id_added, $data->explanation, $data->question_image_url, $data->type, $data->topic], function($stmt, $mysql) {
 			$response['question_id'] = $mysql->lastInsertId();
+			
 			return $response;
 		});
-
+		
+    $response['data'] = $data;
 		print_response($app, $response);
 	});
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('crucio')
-  .controller('AuthorExamsCtrl', function ($scope, $location, API, Auth) {
+  .controller('AuthorExamsCtrl', function ($scope, $location, API, Auth, Analytics) {
 
     $scope.reload = function() {
       var data = {
@@ -20,7 +20,7 @@ angular.module('crucio')
     };
 
     $scope.newExam = function() {
-      var post_data = {
+      var params = {
 				subject: '',
 				professor: '',
 				semester: '',
@@ -31,9 +31,10 @@ angular.module('crucio')
 				notes: ''
 			};
 
-			API.post('/exams', post_data, function(data) {
+			API.post('/exams', params).success(function(data) {
 		  	$location.path('/edit-exam').search('id', data.exam_id);
 		  });
+      Analytics.trackEvent('exam', 'new');
     };
 
 

@@ -8,7 +8,7 @@ angular.module('crucio')
         limit: $scope.limit,
         user_id: $scope.user.user_id,
         semester: $scope.semester,
-        visbility: 1,
+        visibility: 1,
         subject_id: $scope.subject_id
       };
       API.get('/exams', params).success(function(data) {
