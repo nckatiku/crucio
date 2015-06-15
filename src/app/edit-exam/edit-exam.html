@@ -3,12 +3,12 @@
 	sub { vertical-align: sub; }
 </style>
 
-<div layout="column" flex>
+<div layout="column" layout-fill flex>
 	<div ng-include="'app/components/navbar/navbar.html'"></div>
 
-	<section layout="row" flex layout-fill>
-    <md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')">
-      <md-content>
+	<div layout="row" flex style="height: 0; overflow: scroll;">
+		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" layout="column" style="position: relative;">
+			<md-content flex>
 				<md-button ng-click="close()" class="md-primary" hide-gt-md>
 					Fragenleiste Ausblenden
 				</md-button>
@@ -19,32 +19,33 @@
 				</div>
 
 				<md-list>
-	        <md-list-item ng-click="showInfo()" ng-class="{'active': active == 'tab'}" aria-label="Infos anzeigen">
-	          <div class="md-list-item-text">
-		          <span class="md-title">Allgemeine Infos</span>
-		          <p class="md-body-2" style="margin-top: -4px;">
+					<md-list-item ng-click="showInfo()" ng-class="{'active': active == 'tab'}" aria-label="Infos anzeigen">
+						<div class="md-list-item-text">
+							<span class="md-title">Allgemeine Infos</span>
+							<p class="md-body-2" style="margin-top: -4px;">
 								<i class="fa fa-fw fa-flask"></i> {{ exam.subject }}
 								<i class="fa fa-fw fa-calendar"></i> {{ exam.date }}
 							</p>
-	        	</div>
-	        </md-list-item>
+						</div>
+					</md-list-item>
 
-	        <md-subheader class="md-no-sticky">{{ exam.questions.length }} Fragen</md-subheader>
+					<md-subheader class="md-no-sticky">{{ exam.questions.length }} Fragen</md-subheader>
 
-	        <md-list-item ng-repeat-start="q in exam.questions" ng-click="showQuestion($index)" ng-class="{'active': active == $index}" aria-label="Frage anzeigen">
-	          <p style="font-size: 14px; line-height: 18px;">
+					<md-list-item ng-repeat-start="q in exam.questions" ng-click="showQuestion($index)" ng-class="{'active': active == $index}" aria-label="Frage anzeigen">
+						<p style="font-size: 14px; line-height: 18px;">
 							<span ng-bind-html="q.question | limitTo:60" ng-if="q.question"></span>
 							<span ng-if="!q.question"><i>Neue Frage...</i></span>
 						</p>
-	        </md-list-item>
+					</md-list-item>
 					<md-divider ng-if="!$last" ng-repeat-end></md-divider>
-	      </md-list>
-      </md-content>
-    </md-sidenav>
+				</md-list>
+			</md-content>
+		</md-sidenav>
 
-    <div class="gray-background" flex layout-padding>
-      <div layout="column" layout-fill layout-padding layout-align="top center">
-        <div>
+	  <div layout="column" class="gray-background" flex style="overflow: scroll;">
+	    <div layout="column"  style="min-height: 600px;" flex layout-padding>
+
+				<div>
           <md-button ng-click="toggleLeft()"
             class="md-primary" hide-gt-md>
             Fragenleiste einblenden
@@ -291,10 +292,8 @@
 					</div>
 	      </div>
 			</div>
-
-      <div flex></div>
-    </div>
-  </section>
+	  </div>
+	</div>
 
 	<div ng-include="'app/components/footer/footer.html'"></div>
 </div>
