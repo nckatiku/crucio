@@ -8,17 +8,15 @@
         <div flex="66">
           <h1 class="md-display-1">Analyse</h1>
           <h3 class="md-title">Zusammenfassung</h3>
-          <p ng-bind-html="analysisDescription"></p>
+          <p class="md-body-1" ng-bind-html="analysisDescription"></p>
 
           <div ng-if="answeredQuestionIDList.length > 0">
             <h3 class="md-title">Details</h3>
             <md-list>
-              <md-subheader class="md-no-sticky">Beantwortete Fragen</md-subheader>
-
               <md-list-item class="md-3-line" ng-repeat-start="questionID in answeredQuestionIDList">
                 <div class="md-list-item-text" layout="row">
                   <section flex="10">
-                    <span class="analyze-list-flag success-answer" ng-if="correct_answer(questionID) == 0">
+                    <span class="analyze-list-flag" ng-if="correct_answer(questionID) == 0">
                       Keine Antwort
                     </span>
 		    						<span class="analyze-list-flag success-answer" ng-if="correct_answer(questionID) == given_result(questionID) && given_result(questionID) > 0 && correct_answer(questionID) > 0">
@@ -31,19 +29,28 @@
                       Freie Frage
                     </span>
                   </section>
-                  <div flex layout="column" layout-align="center start">
-                    <p ng-bind-html="collection.questions[questionID].question"></p>
 
-                    <p ng-show="correct_answer(questionID) != given_result(questionID) && given_result(questionID) > 0 && correct_answer(id) > 0">
+                  <div flex layout="column" layout-align="center start">
+                    <p ng-bind-html="collection.questions[questionID].question" style="margin-bottom: 10px;"></p>
+
+                    <p ng-show="correct_answer(questionID) == 0">
+			    						<span class="answer" ng-bind-html="collection.questions[questionID].answers[given_result(questionID) - 1]"></span>
+			    					</p>
+
+                    <p ng-show="correct_answer(questionID) != given_result(questionID) && given_result(questionID) > 0 && correct_answer(questionID) > 0" style="margin-bottom: 10px;">
 			    						<span class="answer error-answer" ng-bind-html="collection.questions[questionID].answers[given_result(questionID) - 1]"></span>
 			    					</p>
 
-		    						<p ng-show="correct_answer(questionID) > 0 && show_correct_answer(questionID) == 1 || correct_answer(questionID) == given_result(questionID)">
+		    						<p ng-show="correct_answer(questionID) > 0 && show_correct_answer(questionID) == 1 || correct_answer(questionID) == given_result(questionID)" style="margin-bottom: 10px;">
 			    						<span class="answer success-answer"  ng-show="collection.user_datas[questionID].show_correct_answer == 1 || correct_answer(questionID) == given_result(questionID)" ng-bind-html="collection.questions[questionID].answers[correct_answer(questionID) - 1]"></span>
 			    					</p>
 
-			    					<md-button class="md-raised" ng-click="collection.user_datas[questionID].show_correct_answer = 1" ng-show="show_correct_answer(questionID) != 1 && correct_answer(questionID) != given_result(questionID) && correct_answer(questionID) > 0">L&ouml;sung anzeigen</md-button>
+
                   </div>
+
+                  <section ng-if="show_correct_answer(questionID) != 1 && correct_answer(questionID) != given_result(questionID) && correct_answer(questionID) > 0">
+                    <md-button ng-click="collection.user_datas[questionID].show_correct_answer = 1">L&ouml;sung anzeigen</md-button>
+                  </section>
                 </div>
               </md-list-item>
 

@@ -224,30 +224,30 @@ angular.module('crucio')
 								textHTML += 'war <strong class="text-info">eine freie Frage</strong>';
 
 							} else {
-								textHTML += 'waren <strong class="text-info">' + analysis.free_q_count + ' freie Fragen</strong>';
+								textHTML += 'waren <strong class="text-info">' + analysis.free_q_count + ' freie Fragen</strong> ';
 							}
 						}
 
 						if (analysis.free_q_count > 0 && analysis.no_answer_q_count > 0) {
-							textHTML += ' und ';
+							textHTML += 'und ';
 						}
 
 						if (analysis.free_q_count == 0) {
 							if (analysis.no_answer_q_count == 1) {
-								textHTML += 'war';
+								textHTML += 'war ';
 							} else {
-								textHTML += 'waren';
+								textHTML += 'waren ';
 							}
 						}
 
 						if (analysis.no_answer_q_count == 1) {
-							textHTML += '<strong class="text-warning">eine Frage ohne gespeicherte Antwort</strong>';
+							textHTML += '<strong class="text-warning">eine Frage ohne gespeicherte Antwort</strong> ';
 
 						} else if (analysis.no_answer_q_count > 1) {
-							textHTML += '<strong class="text-warning">' + analysis.no_answer_q_count + ' Fragen ohne gespeicherte Antwort</strong>';
+							textHTML += '<strong class="text-warning">' + analysis.no_answer_q_count + ' Fragen ohne gespeicherte Antwort</strong> ';
 						}
 
-					    textHTML += 'dabei, insgesamt hast du so ' + analysis.solved_q_count + ' Frage' + (analysis.solved_q_count > 1 ? 'n':'') + ' gelöst. ';
+					  textHTML += 'dabei, insgesamt hast du so ' + analysis.solved_q_count + ' Frage' + (analysis.solved_q_count > 1 ? 'n':'') + ' gelöst. ';
 					}
 
 					if (analysis.solved_q_count > 0) {
