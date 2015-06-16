@@ -1,5 +1,5 @@
 <div layout="column" layout-fill>
-  <md-content>
+  <div layout="column">
     <div ng-include="'app/components/navbar/navbar.html'"></div>
 
     <md-tabs class="md-primary" md-selected="getIndexOfCurrentState()">
@@ -16,7 +16,7 @@
         <md-tab-label><i class="fa fa-fw fa-bar-chart"></i> Statistik</md-tab-label>
       </md-tab>
     </md-tabs>
-  </md-content>
+  </div>
 
   <div ui-view flex layout="column" layout-fill></div>
 
