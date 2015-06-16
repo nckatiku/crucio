@@ -8,7 +8,7 @@ See README.md or https://github.com/fraywing/textAngular/wiki for requirements a
 */
 
 (function(){ // encapsulate all variables so they don't become global vars
-"use strict";
+'use strict';
 // IE version detection - http://stackoverflow.com/questions/4169160/javascript-ie-detection-why-not-use-simple-conditional-comments
 // We need this as IE sometimes plays funny tricks with the contenteditable.
 // ----------------------------------------------------------
@@ -118,7 +118,7 @@ if(_browserDetect.ie > 8 || _browserDetect.ie === undefined){
 		// this sheet is used for the placeholders later on.
 		sheet = (function() {
 			// Create the <style> tag
-			var style = document.createElement("style");
+			var style = document.createElement('style');
 			/* istanbul ignore else : WebKit hack :( */
 			if(_browserDetect.webkit) style.appendChild(document.createTextNode(""));
 
@@ -232,7 +232,7 @@ angular.module('textAngular.factories', [])
 				styleVal = styleVal.replace(/( |)font-family: inherit;|( |)line-height: 1.[0-9]{3,12};|( |)color: inherit;/ig, '');
 				newTag = '<' + match[1].trim();
 				if(styleVal.trim().length > 0) newTag += ' style=' + match[2].substring(0,1) + styleVal + match[2].substring(0,1);
-				newTag += match[5].trim() + ">";
+				newTag += match[5].trim() + '>';
 				finalHtml += html.substring(lastIndex, match.index) + newTag;
 				lastIndex = match.index + match[0].length;
 			}
@@ -530,7 +530,7 @@ angular.module('textAngular.DOM', ['textAngular.factories'])
 								if(_nodes[i].nodeType !== 3){
 									var $n = angular.element(_nodes[i]);
 									/* istanbul ignore if: browser check only, phantomjs doesn't return children nodes but chrome at least does */
-									if(_nodes[i].tagName.toLowerCase() === 'li') continue;
+									if(_nodes[i].tagName.toLowerCase() === 'li') { continue; }
 									else if(_nodes[i].tagName.toLowerCase() === 'ol' || _nodes[i].tagName.toLowerCase() === 'ul'){
 										html += $n[0].innerHTML; // if it's a list, add all it's children
 									}else if(_nodes[i].tagName.toLowerCase() === 'span' && (_nodes[i].childNodes[0].tagName.toLowerCase() === 'ol' || _nodes[i].childNodes[0].tagName.toLowerCase() === 'ul')){
@@ -765,7 +765,7 @@ function($window, $document, taDOM){
 		// topNode is the contenteditable normally, all manipulation MUST be inside this.
 		insertHtml: function(html, topNode){
 			var parent, secondParent, _childI, nodes, i, lastNode, _tempFrag;
-			var element = angular.element("<div>" + html + "</div>");
+			var element = angular.element('<div>' + html + '</div>');
 			var range = rangy.getSelection().getRangeAt(0);
 			var frag = _document.createDocumentFragment();
 			var children = element[0].childNodes;

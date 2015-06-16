@@ -6,6 +6,8 @@ Version 1.3.7
 
 See README.md or https://github.com/fraywing/textAngular/wiki for requirements and use.
 */
+'use strict';
+
 angular.module('textAngularSetup', [])
 
 // Here we set up the global display defaults, to set your own use a angular $provider#decorator.
@@ -17,17 +19,17 @@ angular.module('textAngularSetup', [])
 		['html', 'insertImage', 'insertLink', 'insertVideo', 'wordcount', 'charcount']
 	],
 	classes: {
-		focussed: "focussed",
-		toolbar: "btn-toolbar",
-		toolbarGroup: "btn-group",
-		toolbarButton: "btn btn-default",
-		toolbarButtonActive: "active",
-		disabled: "disabled",
+		focussed: 'focussed',
+		toolbar: 'btn-toolbar',
+		toolbarGroup: 'btn-group',
+		toolbarButton: 'btn btn-default',
+		toolbarButtonActive: 'active',
+		disabled: 'disabled',
 		textEditor: 'form-control',
 		htmlEditor: 'form-control'
 	},
 	defaultTagAttributes : {
-		a: {target:""}
+		a: {target:''}
 	},
 	setup: {
 		// wysiwyg mode
@@ -70,7 +72,7 @@ angular.module('textAngularSetup', [])
 		customAttribute: 'ta-insert-video',
 		renderLogic: function(element){
 			var iframe = angular.element('<iframe></iframe>');
-			var attributes = element.prop("attributes");
+			var attributes = element.prop('attributes');
 			// loop through element attributes and apply them on iframe
 			angular.forEach(attributes, function(attr) {
 				iframe.attr(attr.name, attr.value);
@@ -156,17 +158,17 @@ angular.module('textAngularSetup', [])
 	},
 	insertLink: {
 		tooltip: 'Insert / edit link',
-		dialogPrompt: "Please enter a URL to insert"
+		dialogPrompt: 'Please enter a URL to insert'
 	},
 	editLink: {
 		reLinkButton: {
-			tooltip: "Relink"
+			tooltip: 'Relink'
 		},
 		unLinkButton: {
-			tooltip: "Unlink"
+			tooltip: 'Unlink'
 		},
 		targetToggle: {
-			buttontext: "Open in New Window"
+			buttontext: 'Open in New Window'
 		}
 	},
 	wordcount: {
@@ -177,7 +179,7 @@ angular.module('textAngularSetup', [])
 	}
 })
 .run(['taRegisterTool', '$window', 'taTranslations', 'taSelection', function(taRegisterTool, $window, taTranslations, taSelection){
-	taRegisterTool("html", {
+	taRegisterTool('html', {
 		iconclass: 'fa fa-code',
 		tooltiptext: taTranslations.html.tooltip,
 		action: function(){
@@ -193,7 +195,7 @@ angular.module('textAngularSetup', [])
 		return function(){ return this.$editor().queryFormatBlockState(q); };
 	};
 	var headerAction = function(){
-		return this.$editor().wrapSelection("formatBlock", "<" + this.name.toUpperCase() +">");
+		return this.$editor().wrapSelection('formatBlock', '<' + this.name.toUpperCase() +'>');
 	};
 	angular.forEach(['h1','h2','h3','h4','h5','h6'], function(h){
 		taRegisterTool(h.toLowerCase(), {
@@ -207,56 +209,56 @@ angular.module('textAngularSetup', [])
 		buttontext: '&times;',
 		tooltiptext: 'times',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&times;");
+			return this.$editor().wrapSelection('inserthtml', '&times;');
 		}
 	});
 	taRegisterTool('arrow-left', {
 		buttontext: '&larr;',
 		tooltiptext: 'arrow-left',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&larr;");
+			return this.$editor().wrapSelection('inserthtml', '&larr;');
 		}
 	});
 	taRegisterTool('arrow-right', {
 		buttontext: '&rarr;',
 		tooltiptext: 'arrow-right',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&rarr;");
+			return this.$editor().wrapSelection('inserthtml', '&rarr;');
 		}
 	});
 	taRegisterTool('arrow-left-right', {
 		buttontext: '&harr;',
 		tooltiptext: 'arrow-left-right',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&harr;");
+			return this.$editor().wrapSelection('inserthtml', '&harr;');
 		}
 	});
 	taRegisterTool('sdot', {
 		buttontext: '&sdot;',
 		tooltiptext: 'sdot',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&sdot;");
+			return this.$editor().wrapSelection('inserthtml', '&sdot;');
 		}
 	});
 	taRegisterTool('asymp', {
 		buttontext: '&asymp;',
 		tooltiptext: 'asymp',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&asymp;");
+			return this.$editor().wrapSelection('inserthtml', '&asymp;');
 		}
 	});
 	taRegisterTool('radic', {
 		buttontext: '&radic;',
 		tooltiptext: 'radic',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&radic;");
+			return this.$editor().wrapSelection('inserthtml', '&radic;');
 		}
 	});
 	taRegisterTool('prop', {
 		buttontext: '&prop;',
 		tooltiptext: 'prop',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&prop;");
+			return this.$editor().wrapSelection('inserthtml', '&prop;');
 		}
 	});
 
@@ -264,70 +266,70 @@ angular.module('textAngularSetup', [])
 		buttontext: '&alpha;',
 		tooltiptext: 'alpha',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&alpha;");
+			return this.$editor().wrapSelection('inserthtml', '&alpha;');
 		}
 	});
 	taRegisterTool('beta', {
 		buttontext: '&beta;',
 		tooltiptext: 'beta',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&beta;");
+			return this.$editor().wrapSelection('inserthtml', '&beta;');
 		}
 	});
 	taRegisterTool('gamma', {
 		buttontext: '&gamma;',
 		tooltiptext: 'gamma',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&gamma;");
+			return this.$editor().wrapSelection('inserthtml', '&gamma;');
 		}
 	});
 	taRegisterTool('delta', {
 		buttontext: '&delta;',
 		tooltiptext: 'delta',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&delta;");
+			return this.$editor().wrapSelection('inserthtml', '&delta;');
 		}
 	});
 	taRegisterTool('lambda', {
 		buttontext: '&lambda;',
 		tooltiptext: 'lambda',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&lambda;");
+			return this.$editor().wrapSelection('inserthtml', '&lambda;');
 		}
 	});
 	taRegisterTool('mu', {
 		buttontext: '&mu;',
 		tooltiptext: 'mu',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&mu;");
+			return this.$editor().wrapSelection('inserthtml', '&mu;');
 		}
 	});
 	taRegisterTool('pi', {
 		buttontext: '&pi;',
 		tooltiptext: 'pi',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&pi;");
+			return this.$editor().wrapSelection('inserthtml', '&pi;');
 		}
 	});
 	taRegisterTool('rho', {
 		buttontext: '&rho;',
 		tooltiptext: 'rho',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&rho;");
+			return this.$editor().wrapSelection('inserthtml', '&rho;');
 		}
 	});
 	taRegisterTool('omega', {
 		buttontext: '&omega;',
 		tooltiptext: 'omega',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&omega;");
+			return this.$editor().wrapSelection('inserthtml', '&omega;');
 		}
 	});
 	taRegisterTool('Omega', {
 		buttontext: '&Omega;',
 		tooltiptext: 'Omega',
 		action: function(){
-			return this.$editor().wrapSelection("inserthtml", "&Omega;");
+			return this.$editor().wrapSelection('inserthtml', '&Omega;');
 		}
 	});
 
@@ -335,7 +337,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-subscript',
 		tooltiptext: 'Subscript',
 		action: function(){
-			return this.$editor().wrapSelection("subscript", null);
+			return this.$editor().wrapSelection('subscript', null);
 		},
 		activeState: function(){ return this.$editor().queryCommandState('subscript'); }
 	});
@@ -343,7 +345,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-superscript',
 		tooltiptext: 'Superscript',
 		action: function(){
-			return this.$editor().wrapSelection("superscript", null);
+			return this.$editor().wrapSelection('superscript', null);
 		},
 		activeState: function(){ return this.$editor().queryCommandState('superscript'); }
 	});
@@ -352,7 +354,7 @@ angular.module('textAngularSetup', [])
 		buttontext: 'P',
 		tooltiptext: taTranslations.p.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("formatBlock", "<P>");
+			return this.$editor().wrapSelection('formatBlock', '<P>');
 		},
 		activeState: function(){ return this.$editor().queryFormatBlockState('p'); }
 	});
@@ -361,7 +363,7 @@ angular.module('textAngularSetup', [])
 		buttontext: 'pre',
 		tooltiptext: taTranslations.pre.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("formatBlock", "<PRE>");
+			return this.$editor().wrapSelection('formatBlock', '<PRE>');
 		},
 		activeState: function(){ return this.$editor().queryFormatBlockState('pre'); }
 	});
@@ -369,7 +371,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-list-ul',
 		tooltiptext: taTranslations.ul.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("insertUnorderedList", null);
+			return this.$editor().wrapSelection('insertUnorderedList', null);
 		},
 		activeState: function(){ return this.$editor().queryCommandState('insertUnorderedList'); }
 	});
@@ -377,7 +379,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-list-ol',
 		tooltiptext: taTranslations.ol.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("insertOrderedList", null);
+			return this.$editor().wrapSelection('insertOrderedList', null);
 		},
 		activeState: function(){ return this.$editor().queryCommandState('insertOrderedList'); }
 	});
@@ -385,7 +387,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-quote-right',
 		tooltiptext: taTranslations.quote.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("formatBlock", "<BLOCKQUOTE>");
+			return this.$editor().wrapSelection('formatBlock', '<BLOCKQUOTE>');
 		},
 		activeState: function(){ return this.$editor().queryFormatBlockState('blockquote'); }
 	});
@@ -393,21 +395,21 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-undo',
 		tooltiptext: taTranslations.undo.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("undo", null);
+			return this.$editor().wrapSelection('undo', null);
 		}
 	});
 	taRegisterTool('redo', {
 		iconclass: 'fa fa-repeat',
 		tooltiptext: taTranslations.redo.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("redo", null);
+			return this.$editor().wrapSelection('redo', null);
 		}
 	});
 	taRegisterTool('bold', {
 		iconclass: 'fa fa-bold',
 		tooltiptext: taTranslations.bold.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("bold", null);
+			return this.$editor().wrapSelection('bold', null);
 		},
 		activeState: function(){
 			return this.$editor().queryCommandState('bold');
@@ -418,7 +420,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-align-left',
 		tooltiptext: taTranslations.justifyLeft.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("justifyLeft", null);
+			return this.$editor().wrapSelection('justifyLeft', null);
 		},
 		activeState: function(commonElement){
 			var result = false;
@@ -440,7 +442,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-align-right',
 		tooltiptext: taTranslations.justifyRight.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("justifyRight", null);
+			return this.$editor().wrapSelection('justifyRight', null);
 		},
 		activeState: function(commonElement){
 			var result = false;
@@ -453,7 +455,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-align-center',
 		tooltiptext: taTranslations.justifyCenter.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("justifyCenter", null);
+			return this.$editor().wrapSelection('justifyCenter', null);
 		},
 		activeState: function(commonElement){
 			var result = false;
@@ -466,7 +468,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-indent',
 		tooltiptext: taTranslations.indent.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("indent", null);
+			return this.$editor().wrapSelection('indent', null);
 		},
 		activeState: function(){
 			return this.$editor().queryFormatBlockState('blockquote');
@@ -476,7 +478,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-outdent',
 		tooltiptext: taTranslations.outdent.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("outdent", null);
+			return this.$editor().wrapSelection('outdent', null);
 		},
 		activeState: function(){
 			return false;
@@ -486,7 +488,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-italic',
 		tooltiptext: taTranslations.italic.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("italic", null);
+			return this.$editor().wrapSelection('italic', null);
 		},
 		activeState: function(){
 			return this.$editor().queryCommandState('italic');
@@ -497,7 +499,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-underline',
 		tooltiptext: taTranslations.underline.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("underline", null);
+			return this.$editor().wrapSelection('underline', null);
 		},
 		activeState: function(){
 			return this.$editor().queryCommandState('underline');
@@ -508,7 +510,7 @@ angular.module('textAngularSetup', [])
 		iconclass: 'fa fa-strikethrough',
 		tooltiptext: taTranslations.strikeThrough.tooltip,
 		action: function(){
-			return this.$editor().wrapSelection("strikeThrough", null);
+			return this.$editor().wrapSelection('strikeThrough', null);
 		},
 		activeState: function(){
 			return document.queryCommandState('strikeThrough');
@@ -519,7 +521,7 @@ angular.module('textAngularSetup', [])
 		tooltiptext: taTranslations.clear.tooltip,
 		action: function(deferred, restoreSelection){
 			var i;
-			this.$editor().wrapSelection("removeFormat", null);
+			this.$editor().wrapSelection('removeFormat', null);
 			var possibleNodes = angular.element(taSelection.getSelectionElement());
 			// remove lists
 			var removeListElements = function(list){
@@ -533,8 +535,8 @@ angular.module('textAngularSetup', [])
 				});
 				list.remove();
 			};
-			angular.forEach(possibleNodes.find("ul"), removeListElements);
-			angular.forEach(possibleNodes.find("ol"), removeListElements);
+			angular.forEach(possibleNodes.find('ul'), removeListElements);
+			angular.forEach(possibleNodes.find('ol'), removeListElements);
 			if(possibleNodes[0].tagName.toLowerCase() === 'li'){
 				var _list = possibleNodes[0].parentNode.childNodes;
 				var _preLis = [], _postLis = [], _found = false;
@@ -576,7 +578,7 @@ angular.module('textAngularSetup', [])
 			// check if in list. If not in list then use formatBlock option
 			if(possibleNodes[0].tagName.toLowerCase() !== 'li' &&
 				possibleNodes[0].tagName.toLowerCase() !== 'ol' &&
-				possibleNodes[0].tagName.toLowerCase() !== 'ul') this.$editor().wrapSelection("formatBlock", "default");
+				possibleNodes[0].tagName.toLowerCase() !== 'ul') this.$editor().wrapSelection('formatBlock', 'default');
 			restoreSelection();
 		}
 	});

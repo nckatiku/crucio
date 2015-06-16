@@ -44,8 +44,6 @@
 		    						<p ng-show="correct_answer(questionID) > 0 && show_correct_answer(questionID) == 1 || correct_answer(questionID) == given_result(questionID)" style="margin-bottom: 10px;">
 			    						<span class="answer success-answer"  ng-show="collection.user_datas[questionID].show_correct_answer == 1 || correct_answer(questionID) == given_result(questionID)" ng-bind-html="collection.questions[questionID].answers[correct_answer(questionID) - 1]"></span>
 			    					</p>
-
-
                   </div>
 
                   <section ng-if="show_correct_answer(questionID) != 1 && correct_answer(questionID) != given_result(questionID) && correct_answer(questionID) > 0">

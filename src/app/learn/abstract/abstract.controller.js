@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('crucio')
-  .controller('LearnAbstractCtrl', function ($scope, $location, $window, API, Auth, Collection) {
+  .controller('LearnAbstractCtrl', function ($scope, $location, $window, API, Auth) {
     var udpateFreshLogin = function() {
       if (!$scope.ready) {
         $scope.readyCount += 1;
