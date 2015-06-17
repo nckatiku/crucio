@@ -8,8 +8,8 @@
       <md-subheader style="background-color: rgba(1,1,1,0);">
         <span ng-if="!questionCountInCategories && !getSelectedCategoriesCount()">Keine Fragen ausgew&auml;hlt</span>
         <span ng-if="!questionCountInCategories && getSelectedCategoriesCount()">Keine Fragen vorhanden</span>
-        <span ng-if="questionCountInCategories == 1">{{ questionCountInCategories }} mögliche Frage ausgew&auml;hlt</span>
-        <span ng-if="1 < questionCountInCategories">{{ questionCountInCategories }} mögliche Fragen ausgew&auml;hlt</span>
+        <span ng-if="questionCountInCategories == 1">{{ questionCountInCategories }} m&ouml;gliche Frage ausgew&auml;hlt</span>
+        <span ng-if="1 < questionCountInCategories">{{ questionCountInCategories }} m&ouml;gliche Fragen ausgew&auml;hlt</span>
       </md-subheader>
 
       <md-list-item ng-repeat="(subject_id, subject) in categories">

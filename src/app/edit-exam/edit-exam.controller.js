@@ -5,17 +5,15 @@ angular.module('crucio')
     $scope.showInfo = function() {
       $scope.active = 'tab';
       $scope.q = null;
+
+      document.getElementById('edit-exam').scrollIntoView()
     };
 
     $scope.showQuestion = function(index) {
       $scope.active = index;
       $scope.q = $scope.exam.questions[index];
 
-      var questionDiv = document.getElementById('asdf');
-
-      $timeout(function () {
-        questionDiv.scrollTop(0); //.scrollTop = 0;
-      });
+      document.getElementById('edit-question').scrollIntoView()
     };
 
 

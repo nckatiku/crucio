@@ -55,7 +55,7 @@
           </md-button>
         </div>
 
-				<div class="edit-exam-question" ng-if="active == 'tab'">
+				<div class="edit-exam-question" ng-if="active == 'tab'" id="edit-exam">
 					<form name="examInfoForm">
 						<div layout="row" layout-align="start start">
 							<span flex="15" class="form-left-label" style="padding-top: 32px;">Allgemeine Informationen</span>
@@ -131,7 +131,7 @@
 								<md-button ng-disabled="uploader.queue.length == 0" ng-click="uploader.queue[uploader.queue.length-1].upload()">
 									<i class="fa fa-fw fa-upload"></i> Hochladen
 								</md-button>
-								<md-button ng-click="exam.file_name=''">Dokument löschen</md-button>
+								<md-button ng-click="exam.file_name=''">Dokument l&ouml;schen</md-button>
 							</div>
 						</div>
 					</form>
@@ -183,7 +183,7 @@
 
 
 
-				<div class="edit-exam-question" ng-if="active != 'tab'" id="asdf">
+				<div class="edit-exam-question" ng-if="active != 'tab'" id="edit-question">
 					<div layout="row" layout-align="start start">
 						<span flex="15" class="form-left-label" style="padding-top: 16px;">Typ</span>
 						<div flex>

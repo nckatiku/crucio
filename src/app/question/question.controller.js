@@ -161,6 +161,8 @@ angular.module('crucio')
       });
     }
 
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+
     API.get('/questions/' + $scope.questionId, {user_id: $scope.user.user_id}).success(function(data) {
       $scope.question = data.question;
     });
