@@ -133,7 +133,7 @@ angular.module('crucio')
 
       $mdDialog.show(deleteExamDialog).then(function() {
         API.delete('/exams/' + $scope.exam.exam_id).success(function() {
-          $location.url('/author');
+          $location.url('/author/exams');
         });
       }, function() {
 
