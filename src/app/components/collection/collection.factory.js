@@ -177,7 +177,7 @@ angular.module('crucio')
 					}
 
 					// Free Question (just one solution)
-					if (question.type == 1) {
+					if (question.type === 1) {
 						result.free_q_count++;
 
 					// Question is multiple choice
@@ -188,8 +188,8 @@ angular.module('crucio')
 
 							// Question has a saved correct answer
 							if (question.correct_answer > 0) {
-								if (question.correct_answer == user_data.given_result) { result.correct_q_count++; }
-								if (question.correct_answer != user_data.given_result) { result.wrong_q_count++; }
+								if (question.correct_answer === user_data.given_result) { result.correct_q_count++; }
+								if (question.correct_answer !== user_data.given_result) { result.wrong_q_count++; }
 
 							// Question has not a saved correct answer
 							} else {
@@ -220,7 +220,7 @@ angular.module('crucio')
 						textHTML += 'Es ';
 
 						if (analysis.free_q_count > 0) {
-							if (analysis.free_q_count == 1) {
+							if (analysis.free_q_count === 1) {
 								textHTML += 'war <strong class="text-info">eine freie Frage</strong>';
 
 							} else {
@@ -232,15 +232,15 @@ angular.module('crucio')
 							textHTML += 'und ';
 						}
 
-						if (analysis.free_q_count == 0) {
-							if (analysis.no_answer_q_count == 1) {
+						if (analysis.free_q_count === 0) {
+							if (analysis.no_answer_q_count === 1) {
 								textHTML += 'war ';
 							} else {
 								textHTML += 'waren ';
 							}
 						}
 
-						if (analysis.no_answer_q_count == 1) {
+						if (analysis.no_answer_q_count === 1) {
 							textHTML += '<strong class="text-warning">eine Frage ohne gespeicherte Antwort</strong> ';
 
 						} else if (analysis.no_answer_q_count > 1) {
@@ -251,10 +251,10 @@ angular.module('crucio')
 					}
 
 					if (analysis.solved_q_count > 0) {
-						if (analysis.correct_q_count == analysis.solved_q_count) {
+						if (analysis.correct_q_count === analysis.solved_q_count) {
 							textHTML += 'Du konntest <strong class="text-success">alle Fragen richtig beantworten</strong>. Wenn du so weiter machst, wirst du mal Chefarzt. ';
 
-            } else if (analysis.wrong_q_count != analysis.solved_q_count && analysis.no_answer_q_count != analysis.solved_q_count) {
+            } else if (analysis.wrong_q_count != analysis.solved_q_count && analysis.no_answer_q_count !== analysis.solved_q_count) {
 							textHTML += 'Du konntest ';
 							textHTML += '<strong class="text-success">' + analysis.correct_q_count + ' Frage' + (analysis.correct_q_count > 1 ? 'n':'') + ' richtig beantworten</strong>,';
 
@@ -286,11 +286,11 @@ angular.module('crucio')
 							}
 						}
 
-						if (analysis.wrong_q_count == analysis.solved_q_count) {
+						if (analysis.wrong_q_count === analysis.solved_q_count) {
 							textHTML += 'Du konntest <strong class="text-danger">keine Frage richtig beantworten</strong>. Komm schon, ein Arzt hat ja auch Vorbildfunktion.';
 						}
 
-						if (analysis.no_answer_q_count == analysis.solved_q_count) {
+						if (analysis.no_answer_q_count === analysis.solved_q_count) {
 							textHTML += 'Vielleicht kannst du uns mithelfen richtige Antworten herauszufinden?';
 						}
 					}

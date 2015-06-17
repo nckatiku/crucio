@@ -164,7 +164,7 @@ angular.module('crucio')
 		}, true);
 
 		$scope.$on('$stateChangeStart', function(event) {
-      if ($scope.has_changed == 1) {
+      if ($scope.has_changed === 1) {
 				var confirmClose = confirm('Die Änderungen an deiner Klausur bleiben dann ungespeichert. Wirklich verlassen?');
 				if (!confirmClose) {
           event.preventDefault();

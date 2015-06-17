@@ -44,6 +44,6 @@ angular.module('crucio')
 			}
 		}
 
-		var postData = {data_list: post_data_list, user_id: $scope.user_id };
+		// var params = {data_list: post_data_list, user_id: $scope.user_id };
     // API.post('/results', postData);
   });
