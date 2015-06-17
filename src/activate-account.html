@@ -81,11 +81,12 @@
       </md-content>
     </div>
 
-    <div class="footer md-default-theme md-primary" layout="row"  layout-align="space-around">
+    <div class="footer md-default-theme md-primary" layout="row"  layout-align="space-around start">
       <md-button href="<%= fachschaft.url %>"><%= fachschaft.name %></md-button>
 
-      <section>
-        <md-button href="contact" target="_self">Kontakt</md-button> | <md-button href="/about" target="_self">Impressum</md-button>
+      <section layout="row" layout-align="end">
+        <md-button href="contact" target="_self">Kontakt</md-button>
+        <md-button href="/about" target="_self">Impressum</md-button>
       </section>
     </div>
 
