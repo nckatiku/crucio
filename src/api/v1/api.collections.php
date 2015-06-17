@@ -78,6 +78,7 @@ $app->group('/collections', function () use ($app) {
   		// Create the rest...
   		$collection['questions'] = $questions;
   		$collection['user_datas'] = [];
+  		$collection['collection_id'] = $collection_id;
   		
   		$response['collection'] = $collection;
   		print_response($app, $response);

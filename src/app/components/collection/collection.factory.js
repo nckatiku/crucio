@@ -51,15 +51,16 @@ angular.module('crucio')
 			saveCollection: function() {
 				var save_collection = collection;
 				delete save_collection.questions;
-				var postData = {data: save_collection, user_id: Auth.getUser().user_id};
-				if (save_collection.collection_id) {
-					API.put('/collections/' + save_collection.collection_id, post_data).success(function() {
-            $mdToast.show($mdToast.simple().content('Sammlung gespeichert!').position('top right').hideDelay(2000));
+				var params = {data: save_collection, user_id: Auth.getUser().user_id};
+
+        if (save_collection.collection_id) {
+					API.put('/collections/' + save_collection.collection_id, params).success(function() {
+            $mdToast.show($mdToast.simple().content('Sammlung aktualisiert!').position('top right').hideDelay(2000));
           });
           Analytics.trackEvent('collection', 'update');
 
 				} else {
-					API.post('/collections', postData).success(function(data) {
+					API.post('/collections', params).success(function(data) {
 						collection.collection_id = data.collection_id;
             $mdToast.show($mdToast.simple().content('Sammlung gespeichert!').position('top right').hideDelay(2000));
 					});
@@ -75,6 +76,7 @@ angular.module('crucio')
         if (method === 'exam') { params.load_questions = true; }
 
         API.get('/collections/prepare' + type_url, params).success(function(data) {
+          console.log(data);
           functions.setCollection(data.collection);
 
           switch (method) {
@@ -88,13 +90,13 @@ angular.module('crucio')
 
             case 'pdf':
               var question_id_list = data.collection.question_id_list.join(',');
-              var collection_info = angular.toJson(data.collection.info);
+              var collection_info = encodeURIComponent(angular.toJson(data.collection.info));
               $window.location.assign('http://dev.crucio-leipzig.de/api/v1/pdf/collection?question_id_list='+question_id_list+'&collection_info='+collection_info);
               break;
 
             case 'pdf-both':
               var question_id_list = data.collection.question_id_list.join(',');
-              var collection_info = angular.toJson(data.collection.info);
+              var collection_info = encodeURIComponent(angular.toJson(data.collection.info));
               $window.location.assign('http://dev.crucio-leipzig.de/api/v1/pdf/both?question_id_list='+question_id_list+'&collection_info='+collection_info);
               break;
           }

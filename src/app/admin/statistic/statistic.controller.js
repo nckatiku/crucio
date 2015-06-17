@@ -9,6 +9,7 @@ angular.module('crucio')
     };
 
     $scope.checkAutoReload = function() {
+
       if ($scope.autoReload) {
         $scope.reload();
       }

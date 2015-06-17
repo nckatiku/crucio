@@ -87,10 +87,10 @@ angular.module('crucio', ['ui.router', 'ngMaterial', 'ngMessages', 'ngScrollSpy'
   	};
 
     // Groups: Admin 2, Standard 1, Autor 3
-  	if (routeInArray(route, routesForAuthor) && !(user.group_id === 2 || user.group_id === 3)) {
+  	if (routeInArray(route, routesForAuthor) && !(user.group_id == 2 || user.group_id == 3)) {
   	  $location.path('/learn/abstract');
   	}
-  	if (routeInArray(route, routesForAdmin) && user.group_id !== 2) {
+  	if (routeInArray(route, routesForAdmin) && user.group_id != 2) {
       $location.path('/learn/abstract');
   	}
   });

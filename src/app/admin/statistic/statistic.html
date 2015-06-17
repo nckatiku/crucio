@@ -11,28 +11,28 @@
           <div layout="row" layout-align="start center" layout-wrap flex="95" flex-gt-md="66">
             <md-card flex-sm="45" flex-md="40" flex-gt-md="30" class="stats-card">
               <md-card-content layout-align="center center" layout="column">
-                <h1 class="md-display-1" ng-bind="::statistic.user_count"></h1>
+                <h1 class="md-display-1" ng-bind="statistic.user_count"></h1>
                 <span class="md-subhead"><i class="fa fa-fw fa-users"></i> Benutzer</span>
               </md-card-content>
             </md-card>
 
             <md-card flex-sm="45" flex-md="40" flex-gt-md="30" class="stats-card">
               <md-card-content layout-align="center center" layout="column">
-                <h1 class="md-display-1" ng-bind="::statistic.visible_question_count"></h1>
+                <h1 class="md-display-1" ng-bind="statistic.visible_question_count"></h1>
                 <span class="md-subhead"><i class="fa fa-question-circle fa-fw"></i> Fragen</span>
               </md-card-content>
             </md-card>
 
             <md-card flex-sm="45" flex-md="40" flex-gt-md="30" class="stats-card">
               <md-card-content layout-align="center center" layout="column">
-                <h1 class="md-display-1" ng-bind="::statistic.visible_exam_count"></h1>
+                <h1 class="md-display-1" ng-bind="statistic.visible_exam_count"></h1>
                 <span class="md-subhead"><i class="fa fa-list fa-fw"></i> Klausuren</span>
               </md-card-content>
             </md-card>
 
             <md-card flex-sm="45" flex-md="40" flex-gt-md="30" class="stats-card">
               <md-card-content layout-align="center center" layout="column">
-                <h1 class="md-display-1" ng-bind="::statistic.result_count"></h1>
+                <h1 class="md-display-1" ng-bind="statistic.result_count"></h1>
                 <span class="md-subhead"><i class="fa fa-exclamation-triangle fa-fw"></i>
                 Antworten | {{ statistic.result_count / statistic.user_count | number:0  }} pro Nutzer</span>
               </md-card-content>
@@ -40,28 +40,28 @@
 
             <md-card flex-sm="45" flex-md="40" flex-gt-md="30" class="stats-card">
               <md-card-content layout-align="center center" layout="column">
-                <h1 class="md-display-1" ng-bind="::statistic.result_count_today"></h1>
+                <h1 class="md-display-1" ng-bind="statistic.result_count_today"></h1>
                 <span class="md-subhead"><i class="fa fa-exclamation-triangle fa-fw"></i> Antworten | 24 Stunden</span>
               </md-card-content>
             </md-card>
 
             <md-card flex-sm="45" flex-md="40" flex-gt-md="30" class="stats-card">
               <md-card-content layout-align="center center" layout="column">
-                <h1 class="md-display-1" ng-bind="::statistic.result_per_minute | number : 2"></h1>
+                <h1 class="md-display-1" ng-bind="statistic.result_per_minute | number : 2"></h1>
                 <span class="md-subhead"><i class="fa fa-exclamation-triangle fa-fw"></i> Antworten pro Minute</span>
               </md-card-content>
             </md-card>
 
             <md-card flex-sm="45" flex-md="40" flex-gt-md="30" class="stats-card">
               <md-card-content layout-align="center center" layout="column">
-                <h1 class="md-display-1" ng-bind="::statistic.comment_count"></h1>
+                <h1 class="md-display-1" ng-bind="statistic.comment_count"></h1>
                 <span class="md-subhead"><i class="fa fa-comments fa-fw"></i> Kommentare</span>
               </md-card-content>
             </md-card>
 
             <md-card flex-sm="45" flex-md="40" flex-gt-md="30" class="stats-card">
               <md-card-content layout-align="center center" layout="column">
-                <h1 class="md-display-1" ng-bind="::statistic.tag_count"></h1>
+                <h1 class="md-display-1" ng-bind="statistic.tag_count"></h1>
                 <span class="md-subhead"><i class="fa fa-tags fa-fw"></i> Markierungen</span>
               </md-card-content>
             </md-card>
