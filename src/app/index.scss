@@ -315,6 +315,30 @@ md-chips.md-default-theme {
   }
 }
 
+.edit-exam-sidenav {
+  position: relative;
+  background-color: #6d9bb5 !important;
+  color: white;
+
+  md-list-item:hover {
+    color: #6d9bb5;
+
+    button.md-button.md-default-theme {
+      background-color: #84aecb;
+      color: white;
+      border-radius: 0px;
+    }
+  }
+
+  md-list-item.active {
+    background-color: #84aecb;// #5887a1;
+
+    div {
+      font-weight: bold;
+    }
+  }
+}
+
 .exam-question {
   margin-top: 10px;
   margin-bottom: 50px;

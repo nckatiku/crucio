@@ -7,14 +7,14 @@
 	<div ng-include="'app/components/navbar/navbar.html'"></div>
 
 	<div layout="row" flex style="height: 0; overflow: scroll;">
-		<md-sidenav class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" layout="column" style="position: relative;">
-			<md-content flex>
+		<md-sidenav class="md-sidenav-left md-whiteframe-z2 edit-exam-sidenav" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" layout="column">
+			<div flex>
 				<md-button ng-click="close()" class="md-primary" hide-gt-md>
 					Fragenleiste Ausblenden
 				</md-button>
 
 				<div layout="row" layout-align="space-between center">
-					<md-button class="md-raised md-accent" ng-click="saveExam()" ng-disabled="!has_changed">
+					<md-button class="md-raised" ng-click="saveExam()" ng-disabled="!has_changed">
 						<span ng-if="has_changed">Speichern</span>
 						<span ng-if="!has_changed">Gespeichert</span>
 					</md-button>
@@ -22,17 +22,22 @@
 				</div>
 
 				<md-list>
+					<md-divider></md-divider>
+
 					<md-list-item ng-click="showInfo()" ng-class="{'active': active == 'tab'}" aria-label="Infos anzeigen">
-						<div class="md-list-item-text">
+						<div class="md-list-item-text" layout="column" layout-align="center start">
 							<span class="md-title">Allgemeine Infos</span>
-							<p class="md-body-2" style="margin-top: -4px;">
+
+							<section class="md-body-2" style="margin-top: -4px; padding-bottom: 4px;">
 								<i class="fa fa-fw fa-flask"></i> {{ getNameOfSubjectID(exam.subject_id) }}
 								<i class="fa fa-fw fa-calendar"></i> {{ exam.date }}
-							</p>
+							</section>
 						</div>
 					</md-list-item>
 
-					<md-subheader class="md-no-sticky">{{ exam.questions.length }} Fragen</md-subheader>
+					<md-divider></md-divider>
+
+					<!--md-subheader class="md-no-sticky">{{ exam.questions.length }} Fragen</md-subheader-->
 
 					<md-list-item ng-repeat-start="q in exam.questions" ng-click="showQuestion($index)" ng-class="{'active': active == $index}" aria-label="Frage anzeigen">
 						<p style="font-size: 14px; line-height: 18px;">
@@ -42,10 +47,10 @@
 					</md-list-item>
 					<md-divider ng-if="!$last" ng-repeat-end></md-divider>
 				</md-list>
-			</md-content>
+			</div>
 		</md-sidenav>
 
-	  <div layout="column" class="gray-background" flex style="overflow: scroll;">
+	  <div layout="column" flex style="overflow: scroll;">
 	    <div layout="column"  style="min-height: 600px;" flex layout-padding>
 
 				<div>
@@ -58,13 +63,9 @@
 				<div class="edit-exam-question" ng-if="active == 'tab'" id="edit-exam">
 					<form name="examInfoForm">
 						<div layout="row" layout-align="start start">
-							<span flex="15" class="form-left-label" style="padding-top: 32px;">Allgemeine Informationen</span>
-							<div layout="column" flex>
-								<md-select placeholder="Fach" ng-model="exam.subject_id" required name="subject_id">
-									<md-option ng-repeat="subject in subjects" value="{{ subject.subject_id }}">{{ subject.name }}</md-option>
-								</md-select>
-
-								<md-input-container>
+							<span flex="15" class="form-left-label" style="padding-top: 16px;">Allgemeine Informationen</span>
+							<div layout="row" flex layout-wrap>
+								<md-input-container  flex="50">
 									<label>Semester</label>
 									<input type="number" ng-model="exam.semester" min="1" max="20" required name="semester">
 									<div ng-messages="examInfoForm.semester.$error" ng-if="examInfoForm.semester.$dirty">
@@ -75,7 +76,11 @@
 									</div>
 								</md-input-container>
 
-								<md-input-container>
+								<md-select placeholder="Fach" ng-model="exam.subject_id" required name="subject_id" flex="50">
+									<md-option ng-repeat="subject in subjects" value="{{ subject.subject_id }}">{{ subject.name }}</md-option>
+								</md-select>
+
+								<md-input-container flex="50">
 									<label>Termin (z.B. WS 2010/11)</label>
 									<input type="text" ng-model="exam.date" required name="date">
 									<div ng-messages="examInfoForm.date.$error" ng-if="examInfoForm.date.$dirty">
@@ -83,7 +88,7 @@
 		              </div>
 								</md-input-container>
 
-								<md-select placeholder="Art" ng-model="exam.sort" required>
+								<md-select placeholder="Art" ng-model="exam.sort" required flex="50">
 									<md-option value='Erstklausur'>Erstklausur</md-option>
 									<md-option value='Wiederholungsklausur'>Wiederholungsklausur</md-option>
 									<md-option value='Leistungskontrolle'>Leistungskontrolle</md-option>
@@ -95,7 +100,7 @@
 						</div>
 
 						<div layout="row" layout-align="start start">
-							<span flex="15" class="form-left-label" style="padding-top: 28px;">Zus&auml;tzliche Informationen</span>
+							<span flex="15" class="form-left-label" style="padding-top: 16px;">Zus&auml;tzliche Informationen</span>
 							<div layout="column" flex>
 								<md-input-container>
 									<label>Professor_in</label>
@@ -117,26 +122,31 @@
 								</md-input-container>
 							</div>
 						</div>
-
-						<div layout="row" layout-align="start start">
-							<span flex="15" class="form-left-label" style="padding-top: 2px;">Dokument</span>
-							<div flex>
-								<div style="margin-bottom: 10px;">
-									<input type="file" nv-file-select uploader="uploader" accept="application/pdf"/><br/>
-									<a href="/public/files/{{ exam.file_name }}" target="_self" class="btn btn-primary" ng-show="exam.file_name">
-										<i class="fa fa-external-link fa-fw"></i> Originaldokument
-									</a>
-								</div>
-
-								<md-button ng-disabled="uploader.queue.length == 0" ng-click="uploader.queue[uploader.queue.length-1].upload()">
-									<i class="fa fa-fw fa-upload"></i> Hochladen
-								</md-button>
-								<md-button ng-click="exam.file_name=''">Dokument l&ouml;schen</md-button>
-							</div>
-						</div>
 					</form>
 
-					<div layout="row" layout-align="start start">
+					<md-divider></md-divider>
+
+					<div layout="row" layout-align="start start" style="margin-top: 20px;">
+						<span flex="15" class="form-left-label" style="padding-top: 2px;">Dokument</span>
+						<div flex>
+							<div style="margin-bottom: 10px;">
+								<input type="file" nv-file-select uploader="uploader" accept="application/pdf"/><br/>
+								<a href="/public/files/{{ exam.file_name }}" target="_self" class="btn btn-primary" ng-show="exam.file_name">
+									<i class="fa fa-external-link fa-fw"></i> Originaldokument
+								</a>
+							</div>
+
+							<md-button ng-disabled="uploader.queue.length == 0" ng-click="uploader.queue[uploader.queue.length-1].upload()">
+								<i class="fa fa-fw fa-upload"></i> Hochladen
+							</md-button>
+							<md-button ng-click="exam.file_name=''">Dokument l&ouml;schen</md-button>
+						</div>
+					</div>
+
+
+					<md-divider></md-divider>
+
+					<div layout="row" layout-align="start start" style="padding: 10px;">
 						<span flex="15" class="form-left-label"></span>
 						<div flex>
 							<md-switch ng-model="exam.visibility">
@@ -145,35 +155,37 @@
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start">
+					<div layout="row" layout-align="start start" style="padding: 10px;">
 						<span flex="15" class="form-left-label">Anzahl Fragen</span>
 						<div flex>
 							<div ng-bind="exam.questions.length"></div>
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start">
+					<div layout="row" layout-align="start start" style="padding: 10px;">
 						<span flex="15" class="form-left-label">Autor</span>
 						<div flex>
 							<div>{{ ::exam.username }}</div>
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start">
+					<div layout="row" layout-align="start start" style="padding: 10px;">
 						<span flex="15" class="form-left-label">Eingetragen</span>
 						<div flex>
-							<div>{{ exam.date_added * 1000 | date:'dd.MM.yyyy' }}</div>
+							<div>{{ ::exam.date_added * 1000 | date:'dd.MM.yyyy' }}</div>
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start">
+					<div layout="row" layout-align="start start" style="padding: 10px; margin-bottom: 20px;">
 						<span flex="15" class="form-left-label">Aktualisiert</span>
 						<div flex>
-							<div>{{ exam.date_updated * 1000 | date:'dd.MM.yyyy, HH:mm' }}</div>
+							<div>{{ exam.date_updated * 1000 | date:'dd.MM.yyyy, HH:mm' }} Uhr</div>
 						</div>
 					</div>
 
-					<div layout="row" layout-align="start start">
+					<md-divider></md-divider>
+
+					<div layout="row" layout-align="start start" style="padding-top: 20px; padding-bottom: 20px;">
 						<span flex="15" class="form-left-label"></span>
 						<div flex>
 							<md-button class="md-raised md-warn" ng-click="openDeleteExamDialog()">Klausur l&ouml;schen</md-button>
@@ -267,7 +279,7 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start">
+					<div layout="row" layout-align="start start" style="padding-top: 20px; padding-bottom: 20px;">
 						<span flex="15" class="form-left-label" style="padding-top: 16px;"></span>
 						<div flex>
 							<md-button class="md-warn md-raised" ng-click="deleteQuestion(active)"><i class="fa fa-trash-o"></i> Frage l&ouml;schen</md-button>

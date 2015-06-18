@@ -190,6 +190,10 @@ angular.module('crucio')
 			$scope.exam = data.exam;
       $scope.exam.semester = parseInt($scope.exam.semester);
 
+      if ($scope.exam.duration == 0) {
+        $scope.exam.duration = null;
+      }
+
 			for (var i = 0; i < $scope.exam.questions.length; i++) {
 				if ($scope.exam.questions[i].topic.length === 0) {
 					$scope.exam.questions[i].topic = 'Sonstiges';
