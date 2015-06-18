@@ -14,7 +14,7 @@
 				</md-button>
 
 				<div layout="row" layout-align="space-between center">
-					<md-button class="md-raised" ng-click="saveExam()" ng-disabled="!has_changed">
+					<md-button class="md-raised" ng-click="saveExam()" ng-disabled="!has_changed" aria-label="Speichern">
 						<span ng-if="has_changed">Speichern</span>
 						<span ng-if="!has_changed">Gespeichert</span>
 					</md-button>
@@ -63,7 +63,7 @@
 				<div class="edit-exam-question" ng-if="active == 'tab'" id="edit-exam">
 					<form name="examInfoForm">
 						<div layout="row" layout-align="start start">
-							<span flex="15" class="form-left-label" style="padding-top: 16px;">Allgemeine Informationen</span>
+							<span flex="20" class="form-left-label" style="padding-top: 16px;">Allgemeine Informationen</span>
 							<div layout="row" flex layout-wrap>
 								<md-input-container  flex="50">
 									<label>Semester</label>
@@ -100,7 +100,7 @@
 						</div>
 
 						<div layout="row" layout-align="start start">
-							<span flex="15" class="form-left-label" style="padding-top: 16px;">Zus&auml;tzliche Informationen</span>
+							<span flex="20" class="form-left-label" style="padding-top: 16px;">Zus&auml;tzliche Informationen</span>
 							<div layout="column" flex>
 								<md-input-container>
 									<label>Professor_in</label>
@@ -115,10 +115,10 @@
 						</div>
 
 						<div layout="row" layout-align="start start">
-							<span flex="15" class="form-left-label" style="padding-top: 6px;">Anmerkungen</span>
+							<span flex="20" class="form-left-label" style="padding-top: 6px;">Anmerkungen</span>
 							<div flex>
 								<md-input-container>
-									<textarea rows="3"  ng-model="exam.notes"></textarea>
+									<textarea rows="3"  ng-model="exam.notes" aria-label="Anmerkungen"></textarea>
 								</md-input-container>
 							</div>
 						</div>
@@ -127,11 +127,11 @@
 					<md-divider></md-divider>
 
 					<div layout="row" layout-align="start start" style="margin-top: 20px;">
-						<span flex="15" class="form-left-label" style="padding-top: 2px;">Dokument</span>
+						<span flex="20" class="form-left-label" style="padding-top: 2px;">Dokument</span>
 						<div flex>
 							<div style="margin-bottom: 10px;">
 								<input type="file" nv-file-select uploader="uploader" accept="application/pdf"/><br/>
-								<a href="/public/files/{{ exam.file_name }}" target="_self" class="btn btn-primary" ng-show="exam.file_name">
+								<a href="http://www.crucio-leipzig.de/public/files/{{ exam.file_name }}" target="_self" ng-show="exam.file_name">
 									<i class="fa fa-external-link fa-fw"></i> Originaldokument
 								</a>
 							</div>
@@ -147,7 +147,7 @@
 					<md-divider></md-divider>
 
 					<div layout="row" layout-align="start start" style="padding: 10px;">
-						<span flex="15" class="form-left-label"></span>
+						<span flex="20" class="form-left-label"></span>
 						<div flex>
 							<md-switch ng-model="exam.visibility">
 								Sichtbar
@@ -156,28 +156,28 @@
 					</div>
 
 					<div layout="row" layout-align="start start" style="padding: 10px;">
-						<span flex="15" class="form-left-label">Anzahl Fragen</span>
+						<span flex="20" class="form-left-label">Anzahl Fragen</span>
 						<div flex>
 							<div ng-bind="exam.questions.length"></div>
 						</div>
 					</div>
 
 					<div layout="row" layout-align="start start" style="padding: 10px;">
-						<span flex="15" class="form-left-label">Autor</span>
+						<span flex="20" class="form-left-label">Autor</span>
 						<div flex>
 							<div>{{ ::exam.username }}</div>
 						</div>
 					</div>
 
 					<div layout="row" layout-align="start start" style="padding: 10px;">
-						<span flex="15" class="form-left-label">Eingetragen</span>
+						<span flex="20" class="form-left-label">Eingetragen</span>
 						<div flex>
 							<div>{{ ::exam.date_added * 1000 | date:'dd.MM.yyyy' }}</div>
 						</div>
 					</div>
 
 					<div layout="row" layout-align="start start" style="padding: 10px; margin-bottom: 20px;">
-						<span flex="15" class="form-left-label">Aktualisiert</span>
+						<span flex="20" class="form-left-label">Aktualisiert</span>
 						<div flex>
 							<div>{{ exam.date_updated * 1000 | date:'dd.MM.yyyy, HH:mm' }} Uhr</div>
 						</div>
@@ -186,7 +186,7 @@
 					<md-divider></md-divider>
 
 					<div layout="row" layout-align="start start" style="padding-top: 20px; padding-bottom: 20px;">
-						<span flex="15" class="form-left-label"></span>
+						<span flex="20" class="form-left-label"></span>
 						<div flex>
 							<md-button class="md-raised md-warn" ng-click="openDeleteExamDialog()">Klausur l&ouml;schen</md-button>
 						</div>
@@ -196,8 +196,8 @@
 
 
 				<div class="edit-exam-question" ng-if="active != 'tab'" id="edit-question">
-					<div layout="row" layout-align="start start">
-						<span flex="15" class="form-left-label" style="padding-top: 16px;">Typ</span>
+					<div layout="row" layout-align="start start" style="padding-top: 20px; paddint-bottom: 20px;">
+						<span flex="20" class="form-left-label" style="padding-top: 16px;">Typ</span>
 						<div flex>
 							<md-radio-group ng-model="q.type" layout="row" layout-sm="column">
 					      <md-radio-button value="1">Freie Frage</md-radio-button>
@@ -212,21 +212,21 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start">
-						<span flex="15" class="form-left-label" style="padding-top: 32px;">Kategorie</span>
+					<div layout="row" layout-align="start start" style="padding-top: 20px; paddint-bottom: 20px;">
+						<span flex="20" class="form-left-label" style="padding-top: 32px;">Kategorie</span>
 						<div flex>
 							<md-select placeholder="Kategorie" ng-model="q.topic">
-								<option ng-if="q.topic != 'Sonstiges'" ng-value="Sonstiges">Sonstiges</option>
-								<option ng-if="subject_list[exam.subject].indexOf(q.topic) == -1" ng-value="q.topic">{{ q.topic }}</option>
-								<option ng-repeat="c in getCategoriesOfSubjectID(exam.subject_id)" ng-value="c">{{ c }}</option>
+								<md-option ng-if="q.topic != 'Sonstiges'" ng-value="Sonstiges">Sonstiges</md-option>
+								<md-option ng-if="subject_list[exam.subject].indexOf(q.topic) == -1" ng-value="q.topic">{{ q.topic }}</md-option>
+								<md-option ng-repeat="c in getCategoriesOfSubjectID(exam.subject_id)">{{ c.name }}</md-option>
 							</md-select>
 						</div>
 					</div>
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start">
-						<span flex="15" class="form-left-label">Frage</span>
+					<div layout="row" layout-align="start start" style="padding-top: 20px; paddint-bottom: 20px;">
+						<span flex="20" class="form-left-label">Frage</span>
 						<div flex>
 							<text-angular ng-model="q.question" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
 
@@ -244,22 +244,22 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start">
-						<span flex="15" class="form-left-label">Antworten</span>
+					<div layout="row" layout-align="start start" style="padding-top: 20px; paddint-bottom: 20px;">
+						<span flex="20" class="form-left-label">Antworten</span>
 						<div flex>
 							<text-angular-toolbar name="toolbarf" ta-toolbar="[['subscript', 'superscript'], ['times', 'sdot', 'asymp', 'radic'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega']]"></text-angular-toolbar>
 						</div>
 					</div>
 
 					<div layout="row" layout-align="start start" ng-repeat="i in [1,2,3,4,5,6]" ng-show="i - 1 < q.type">
-						<span flex="15" class="form-left-label">Antwort <span ng-show="q.type > 1">{{ i }}</span></span>
+						<span flex="20" class="form-left-label" style="padding-top: 16px;">Antwort <span ng-show="q.type > 1">{{ i }}</span></span>
 						<div flex>
 							<text-angular ng-model="q.answers[i-1]" ta-disabled="false" ta-target-toolbars="toolbarf"></text-angular>
 						</div>
 					</div>
 
 					<div layout="row" layout-align="start start" ng-if="q.type > 1">
-						<span flex="15" class="form-left-label" style="padding-top: 16px;">L&ouml;sung</span>
+						<span flex="20" class="form-left-label" style="padding-top: 16px;">L&ouml;sung</span>
 						<div flex>
 							<md-radio-group ng-model="q.correct_answer" layout="row" layout-sm="column">
 								<md-radio-button value="0">Unbekannt</md-radio-button>
@@ -270,8 +270,8 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start">
-						<span flex="15" class="form-left-label" style="padding-top: 28px;">Erkl&auml;rung</span>
+					<div layout="row" layout-align="start start" style="padding-top: 20px; paddint-bottom: 20px;">
+						<span flex="20" class="form-left-label" style="padding-top: 6px;">Erkl&auml;rung</span>
 						<div flex>
 							<text-angular ng-model="q.explanation" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
 						</div>
@@ -280,7 +280,7 @@
 					<md-divider></md-divider>
 
 					<div layout="row" layout-align="start start" style="padding-top: 20px; padding-bottom: 20px;">
-						<span flex="15" class="form-left-label" style="padding-top: 16px;"></span>
+						<span flex="20" class="form-left-label" style="padding-top: 16px;"></span>
 						<div flex>
 							<md-button class="md-warn md-raised" ng-click="deleteQuestion(active)"><i class="fa fa-trash-o"></i> Frage l&ouml;schen</md-button>
 						</div>

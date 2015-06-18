@@ -39,10 +39,12 @@ angular.module('crucio', ['ui.router', 'ngMaterial', 'ngMessages', 'ngScrollSpy'
     // In production
     // $compileProvider.debugInfoEnabled(false);
 
+    // Color theme
     $mdThemingProvider.theme('default')
       .primaryPalette('deep-orange')
       .accentPalette('indigo');
 
+    // Setings for Google Analytics
     AnalyticsProvider.setAccount('UA-47836301-1');
     AnalyticsProvider.trackPages(true);
     AnalyticsProvider.trackUrlParams(true);

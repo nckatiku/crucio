@@ -147,8 +147,11 @@ angular.module('crucio')
     };
 
     $scope.getCategoriesOfSubjectID = function(subjectID) {
+
+      // console.log(subjectID, $scope.subjects[subjectID].categories);
+
       for(var key in $scope.subjects) {
-        if ($scope.subjects[key].subject_id === subjectID.toString()) {
+        if ($scope.subjects[key].subject_id == subjectID) {
           return $scope.subjects[key].categories;
         }
       }
