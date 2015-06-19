@@ -77,7 +77,6 @@ $app->group('/collections', function () use ($app) {
   		
   		// Create the rest...
   		$collection['questions'] = $questions;
-  		$collection['user_datas'] = [];
   		$collection['collection_id'] = $collection_id;
   		
   		$response['collection'] = $collection;
@@ -337,7 +336,9 @@ $app->group('/collections', function () use ($app) {
 		$data = json_decode($app->request()->getBody());
 
 		$mysql = start_mysql();
-		$response = execute_mysql($mysql, "UPDATE collections SET data = ?, save_data = ? WHERE collection_id = ?", [serialize($data->data), time(), $collection_id]);
+		$response = execute_mysql($mysql, "UPDATE collections SET data = ?, save_date = ? WHERE collection_id = ?", [serialize($data->data), time(), $collection_id]);
+		
+		$response['asdf'] = $data->data;
 		print_response($app, $response);
 	});
 

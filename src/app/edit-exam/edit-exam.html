@@ -9,10 +9,6 @@
 	<div layout="row" flex style="height: 0; overflow: scroll;">
 		<md-sidenav class="md-sidenav-left md-whiteframe-z2 edit-exam-sidenav" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" layout="column">
 			<div flex>
-				<md-button ng-click="close()" class="md-primary" hide-gt-md>
-					Fragenleiste Ausblenden
-				</md-button>
-
 				<div layout="row" layout-align="space-between center">
 					<md-button class="md-raised" ng-click="saveExam()" ng-disabled="!has_changed" aria-label="Speichern">
 						<span ng-if="has_changed">Speichern</span>

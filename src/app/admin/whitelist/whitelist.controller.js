@@ -9,6 +9,7 @@ angular.module('crucio')
 				var postData = {mail_address: $scope.mail.replace('@','(@)')};
 				API.post('/whitelist', postData);
         Analytics.trackEvent('whitelist', 'add');
+        $scope.mail = null;
 			}
 		};
 

@@ -51,10 +51,10 @@ angular.module('crucio')
 			saveCollection: function() {
 				var save_collection = collection;
 				delete save_collection.questions;
-				var params = {data: save_collection, user_id: Auth.getUser().user_id};
+				var params = {data: save_collection};
 
         if (save_collection.collection_id) {
-					API.put('/collections/' + save_collection.collection_id, params).success(function() {
+					API.put('/collections/' + save_collection.collection_id, params).success(function(data) {
             $mdToast.show($mdToast.simple().content('Sammlung aktualisiert!').position('top right').hideDelay(2000));
           });
           Analytics.trackEvent('collection', 'update');
@@ -76,12 +76,23 @@ angular.module('crucio')
         if (method === 'exam') { params.load_questions = true; }
 
         API.get('/collections/prepare' + type_url, params).success(function(data) {
-          console.log(data);
           functions.setCollection(data.collection);
 
           switch (method) {
             case 'question':
-              $location.path('/question').search('id', data.collection.question_id_list[0]);
+              var goToQuestionID = data.collection.question_id_list[0];
+              
+              // Go to first question which is not answered yet
+              if (true) {
+                for (var i = 0; i < data.collection.question_id_list.length; i++) {
+                  if (!data.collection.user_datas[data.collection.question_id_list[i]]) {
+                    goToQuestionID = data.collection.question_id_list[i];
+                    break;
+                  }
+                }
+              }
+
+              $location.path('/question').search('id', goToQuestionID);
               break;
 
             case 'exam':
