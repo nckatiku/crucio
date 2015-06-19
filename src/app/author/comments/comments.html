@@ -14,7 +14,11 @@
 
 <div class="gray-background" layout-align="center start" layout="row" flex>
   <md-content class="md-padding md-whiteframe-z2 white-content" flex="66">
-    <md-list>
+    <div ng-if="!comments" style="padding: 80px;">
+      <md-progress-linear class="md-accent" md-mode="indeterminate"></md-progress-linear>
+    </div>
+
+    <md-list ng-if="comments">
       <md-subheader class="md-no-sticky">
         <span ng-if="!comments.length">Keine Kommentare</span>
         <span ng-if="comments.length == 1">{{ comments.length }} Kommentar</span>

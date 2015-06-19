@@ -19,7 +19,11 @@
 
 <div class="gray-background" layout-align="center start" layout="row" flex>
   <md-content class="md-padding md-whiteframe-z2 white-content" flex="95" flex-gt-md="66">
-    <md-list>
+    <div ng-if="!users" style="padding: 80px;">
+      <md-progress-linear class="md-accent" md-mode="indeterminate"></md-progress-linear>
+    </div>
+
+    <md-list ng-if="users">
       <md-subheader class="md-no-sticky">
         <span ng-if="!users.length">Keine Benutzer</span>
         <span ng-if="0 < users.length && users.length < limit">{{ users.length }} Benutzer</span>

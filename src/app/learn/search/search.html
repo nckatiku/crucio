@@ -33,9 +33,14 @@
 
 <div class="gray-background" layout-align="center start" layout="row" flex>
   <md-content class="md-padding md-whiteframe-z2 white-content" flex="95" flex-gt-md="66">
-    <md-list>
+    <div ng-if="isSearching" style="padding: 80px;">
+      <md-progress-linear class="md-accent" md-mode="indeterminate"></md-progress-linear>
+    </div>
+
+    <md-list ng-if="!isSearching">
       <md-subheader class="md-no-sticky">
-        <span ng-if="!results.length">Kein Ergebnis</span>
+        <span ng-if="!results">Nach Fragen suchen...</span>
+        <span ng-if="results.length == 0">Kein Ergebnis</span>
         <span ng-if="results.length == 1">{{ results.length }} Ergebnis</span>
         <span ng-if="1 < results.length && results.length < limit">{{ results.length }} Ergebnisse</span>
         <span ng-if="results.length == limit">Beste Ergebnisse</span>

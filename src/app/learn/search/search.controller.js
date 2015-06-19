@@ -4,6 +4,8 @@ angular.module('crucio')
   .controller('LearnSearchCtrl', function ($scope, $mdDialog, $location, $window, API, Auth, Collection, Analytics) {
     $scope.search = function() {
 			if ($scope.query.length > 2) {
+        $scope.isSearching = true;
+
         var params = {
           query: encodeURIComponent($scope.query),
           limit: $scope.limit,
@@ -13,12 +15,13 @@ angular.module('crucio')
           subject_id: $scope.subject_id
         };
 				API.get('/questions', params).success(function(data) {
+          $scope.isSearching = false;
     	    $scope.results = data.result;
 				});
         Analytics.trackEvent('search', encodeURIComponent($scope.query));
 
 		  } else {
-        $scope.results = [];
+        $scope.results = null;
       }
 		};
 
