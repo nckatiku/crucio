@@ -51,7 +51,7 @@ angular.module('crucio')
 			saveCollection: function() {
 				var save_collection = collection;
 				delete save_collection.questions;
-				var params = {data: save_collection};
+				var params = {data: save_collection, user_id: Auth.getUser().user_id};
 
         if (save_collection.collection_id) {
 					API.put('/collections/' + save_collection.collection_id, params).success(function(data) {
@@ -81,7 +81,7 @@ angular.module('crucio')
           switch (method) {
             case 'question':
               var goToQuestionID = data.collection.question_id_list[0];
-              
+
               // Go to first question which is not answered yet
               if (true) {
                 for (var i = 0; i < data.collection.question_id_list.length; i++) {

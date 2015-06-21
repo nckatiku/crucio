@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('crucio')
-  .controller('EditExamCtrl', function ($scope,	$rootScope, $stateParams, $location, $timeout, $mdToast, $mdDialog, $mdSidenav, API, Auth, Analytics) {
+  .controller('EditExamCtrl', function ($scope,	$rootScope, $stateParams, $location, $timeout, $mdToast, $mdDialog, $mdSidenav, API, Auth, Analytics, Upload) {
     $scope.showInfo = function() {
       $scope.active = 'tab';
       $scope.q = null;
@@ -146,10 +146,56 @@ angular.module('crucio')
       }
     };
 
+    $scope.uploadPDF = function (files) {
+      if (files && files.length) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          Upload.upload({
+            url: 'http://dev.crucio-leipzig.de/api/upload/pdf',
+            fields: {},
+            file: file
+
+          }).progress(function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+
+          }).success(function (data) {
+            console.log(data);
+            $scope.exam.filename = data.filename;
+            $mdToast.show($mdToast.simple().content('PDF hochgeladen!').position('top right').hideDelay(2000));
+
+          }).error(function(data) {
+            $mdToast.show($mdToast.simple().content('Fehler beim Hochladen!').position('top right').hideDelay(2000));
+          });
+        }
+      }
+    };
+
+    $scope.uploadImage = function (files) {
+      if (files && files.length) {
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          Upload.upload({
+            url: 'http://dev.crucio-leipzig.de/api/upload/image',
+            fields: {question_id: $scope.q.question_id},
+            file: file
+
+          }).progress(function (evt) {
+            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
+
+          }).success(function (data) {
+            $scope.q.question_image_url = data.question_image_url;
+            $mdToast.show($mdToast.simple().content('Bild hochgeladen!').position('top right').hideDelay(2000));
+
+          }).error(function(data) {
+            $mdToast.show($mdToast.simple().content('Fehler beim Hochladen!').position('top right').hideDelay(2000));
+          });
+        }
+      }
+    };
+
     $scope.getCategoriesOfSubjectID = function(subjectID) {
-
-      // console.log(subjectID, $scope.subjects[subjectID].categories);
-
       for(var key in $scope.subjects) {
         if ($scope.subjects[key].subject_id == subjectID) {
           return $scope.subjects[key].categories;

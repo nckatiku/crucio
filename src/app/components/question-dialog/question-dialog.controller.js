@@ -35,6 +35,10 @@ angular.module('crucio')
       });
     };
 
+    $scope.editExam = function() {
+      $mdDialog.cancel();
+    };
+
     $scope.showExplanation = function() {
       $mdDialog.show(
         $mdDialog.alert()

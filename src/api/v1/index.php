@@ -30,6 +30,7 @@ require_once('api.pdf.php');
 require_once('api.admin.php');
 require_once('api.statistic.php');
 require_once('api.quality.php');
+require_once('api.upload.php');
 
 
 $app->run();

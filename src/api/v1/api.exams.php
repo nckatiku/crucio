@@ -91,14 +91,6 @@ $app->group('/exams', function () use ($app) {
 		, [], $distinct);
 		print_response($app, $response);
 	});
-
-
-	/* $app->get('/user_id/:user_id', function($user_id) use ($app) {
-		$mysql = start_mysql();
-		$response = get_all($mysql, "SELECT e.*, IFNULL(r.answered_questions, 0) as answered_questions, IFNULL(qc.question_count, 0) as question_count FROM exams e LEFT JOIN (SELECT q.exam_id, COUNT(*) as answered_questions FROM questions q, results r WHERE q.question_id = r.question_id AND r.user_id = ? AND r.resetted = 0 AND r.attempt = 1 GROUP BY q.exam_id) r ON r.exam_id = e.exam_id LEFT JOIN (SELECT q.exam_id, COUNT(*) as question_count FROM questions q GROUP BY q.exam_id ) qc ON qc.exam_id = e.exam_id WHERE e.semester > 0 ORDER BY e.semester, e.subject", [$user_id], 'exams');
-
-		print_response($app, $response);
-	}); */
 	
 	
 	$app->get('/recommended', function() use ($app) {

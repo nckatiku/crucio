@@ -123,9 +123,9 @@
 					<md-divider></md-divider>
 
 					<div layout="row" layout-align="start start" style="margin-top: 20px;">
-						<span flex="20" class="form-left-label" style="padding-top: 2px;">Dokument</span>
+						<span flex="20" class="form-left-label" style="padding-top: 2px;">Originaldokument</span>
 						<div flex>
-							<div style="margin-bottom: 10px;">
+							<!--div style="margin-bottom: 10px;">
 								<input type="file" nv-file-select uploader="uploader" accept="application/pdf"/><br/>
 								<a href="http://www.crucio-leipzig.de/public/files/{{ exam.file_name }}" target="_self" ng-show="exam.file_name">
 									<i class="fa fa-external-link fa-fw"></i> Originaldokument
@@ -134,8 +134,13 @@
 
 							<md-button ng-disabled="uploader.queue.length == 0" ng-click="uploader.queue[uploader.queue.length-1].upload()">
 								<i class="fa fa-fw fa-upload"></i> Hochladen
+							</md-button-->
+
+							<md-button class="button" ngf-select ngf-change="uploadPDF($files)" ngf-accept="'application/pdf'">
+								<i class="fa fa-fw fa-upload"></i> Datei hochladen
 							</md-button>
-							<md-button ng-click="exam.file_name=''">Dokument l&ouml;schen</md-button>
+
+							<md-button ng-click="exam.file_name=''">Datei l&ouml;schen</md-button>
 						</div>
 					</div>
 
@@ -161,14 +166,14 @@
 					<div layout="row" layout-align="start start" style="padding: 10px;">
 						<span flex="20" class="form-left-label">Autor</span>
 						<div flex>
-							<div>{{ ::exam.username }}</div>
+							<div>{{ exam.username }}</div>
 						</div>
 					</div>
 
 					<div layout="row" layout-align="start start" style="padding: 10px;">
 						<span flex="20" class="form-left-label">Eingetragen</span>
 						<div flex>
-							<div>{{ ::exam.date_added * 1000 | date:'dd.MM.yyyy' }}</div>
+							<div>{{ exam.date_added * 1000 | date:'dd.MM.yyyy' }}</div>
 						</div>
 					</div>
 
@@ -227,10 +232,16 @@
 							<text-angular ng-model="q.question" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
 
 							<div style="margin-bottom: 10px;">
-									<input type="file" nv-file-select uploader="uploader_array[$index]" accept="image/jpeg, image/png"/><br/>
+									<!--input type="file" nv-file-select uploader="uploader_array[$index]" accept="image/jpeg, image/png"/><br/>
 									<md-button ng-disabled="uploader_array[$index].queue.length == 0" ng-click="uploader_array[$index].queue[0].upload()">
 										<i class="fa fa-fw fa-upload"></i> Hochladen
 									</md-button>
+									<md-button ng-click="q.question_image_url=''">Bild l&ouml;schen</md-button-->
+
+									<md-button class="button" ngf-select ngf-change="uploadImage($files)" ngf-accept="'image/*'">
+										<i class="fa fa-fw fa-upload"></i> Bild hochladen
+									</md-button>
+
 									<md-button ng-click="q.question_image_url=''">Bild l&ouml;schen</md-button>
 							</div>
 
