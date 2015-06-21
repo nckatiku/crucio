@@ -117,6 +117,8 @@ angular.module('crucio')
       $scope.checkedAnswer = checkedAnswer;
       $scope.markAnswerBool = true;
     }
+    
+    $scope.showComments = $scope.user.show_comments;
 
     API.get('/questions/' + questionID, {user_id: $scope.user.user_id}).success(function(data) {
       $scope.question = data.question;

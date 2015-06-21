@@ -56,7 +56,11 @@
           </md-chips>
         </md-content>
 
-        <md-content class="md-padding md-whiteframe-z2 white-content" style="margin-top: 0px;">
+        <div layout-gt-sm="row" layout-sm="column" layout-align="center center" ng-if="!showComments">
+          <md-button ng-click="showComments = true">Kommentare anzeigen</md-button>
+        </div>
+
+        <md-content class="md-padding md-whiteframe-z2 white-content" style="margin-top: 0px;" ng-if="showComments">
           <div layout="row">
             <md-subheader class="md-no-sticky">
               <span ng-if="!question.comments.length">Keine Kommentare</span>
@@ -81,7 +85,7 @@
               </md-input-container>
             </div>
 
-            <md-divider></md-divider>
+            <md-divider ng-if="question.comments"></md-divider>
 
             <md-list-item class="md-3-line" ng-repeat-start="comment in question.comments" layout="row" layout-align="space-between center" layout-fill>
               <div class="md-list-item-text" flex layout="row" layout-align="space-between center">

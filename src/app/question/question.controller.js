@@ -150,6 +150,7 @@ angular.module('crucio')
 
     $scope.current_index = Collection.getIndexOfQuestionID($scope.questionId);
     $scope.question = Collection.getQuestion($scope.questionId);
+    $scope.showComments = $scope.user.show_comments;
 
     if ($scope.question) {
       $scope.initQuestion();
