@@ -2744,7 +2744,7 @@ textAngular.directive('textAngularToolbar', [
 					if(toolDefinition && toolDefinition.display){
 						toolElement = angular.element(toolDefinition.display);
 					}
-					else toolElement = angular.element("<button type='button'>");
+					else toolElement = angular.element("<md-button type='button'>");
 
 					if(toolDefinition && toolDefinition["class"]) toolElement.addClass(toolDefinition["class"]);
 					else toolElement.addClass(scope.classes.toolbarButton);

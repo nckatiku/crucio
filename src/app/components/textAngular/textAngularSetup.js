@@ -20,10 +20,10 @@ angular.module('textAngularSetup', [])
 	],
 	classes: {
 		focussed: 'focussed',
-		toolbar: 'btn-toolbar',
+		toolbar: 'text-angular-toolbar',
 		toolbarGroup: 'btn-group',
-		toolbarButton: 'btn btn-default',
-		toolbarButtonActive: 'active',
+		toolbarButton: 'text-angular-toolbar-button',
+		toolbarButtonActive: 'md-accent md-raised',
 		disabled: 'disabled',
 		textEditor: 'form-control',
 		htmlEditor: 'form-control'

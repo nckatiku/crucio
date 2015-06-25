@@ -226,10 +226,10 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start" style="padding-top: 20px; paddint-bottom: 20px;">
-						<span flex="20" class="form-left-label">Frage</span>
+					<div layout="row" layout-align="start start">
+						<span flex="20" class="form-left-label" style="padding-top: 16px;">Frage</span>
 						<div flex>
-							<text-angular ng-model="q.question" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
+							<text-angular ng-model="q.question" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large" placeholder="..."></text-angular>
 
 							<div style="margin-bottom: 10px;">
 									<!--input type="file" nv-file-select uploader="uploader_array[$index]" accept="image/jpeg, image/png"/><br/>
@@ -263,7 +263,7 @@
 							<span class="answer" ng-class="{'success-answer': i == q.correct_answer}">Antwort <span ng-show="q.type > 1">{{ i }}</span></span>
 						</span>
 						<div flex>
-							<text-angular ng-model="q.answers[i-1]" ta-disabled="false" ta-target-toolbars="toolbarf"></text-angular>
+							<text-angular ng-model="q.answers[i-1]" ta-disabled="false" ta-target-toolbars="toolbarf" placeholder="..."></text-angular>
 						</div>
 					</div>
 
@@ -282,7 +282,7 @@
 					<div layout="row" layout-align="start start" style="padding-top: 20px; paddint-bottom: 20px;">
 						<span flex="20" class="form-left-label" style="padding-top: 6px;">Erkl&auml;rung</span>
 						<div flex>
-							<text-angular ng-model="q.explanation" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large"></text-angular>
+							<text-angular ng-model="q.explanation" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large" placeholder="..."></text-angular>
 						</div>
 					</div>
 

@@ -68,17 +68,16 @@
 
         <md-list flex="95" flex-gt-md="60">
           <div layout="row">
-            <div layout="column">
-              <md-subheader>{{ user.username }}</md-subheader>
+            <md-input-container flex>
+              <label><i class="fa fa-fw fa-comment"></i> Neuer Kommentar</label>
+              <textarea ng-model="text" required rows="2" name="commentText"></textarea>
+            </md-input-container>
 
+            <div layout="column" layout-align="center">
               <md-button class="md-accent md-raised" ng-click="addComment()">
                 Kommentieren
               </md-button>
             </div>
-            <md-input-container flex>
-              <label><i class="fa fa-fw fa-comment"></i> Neuer Kommentar</label>
-              <textarea ng-model="qwer" required rows="3"></textarea>
-            </md-input-container>
           </div>
 
           <md-divider ng-if="question.comments"></md-divider>

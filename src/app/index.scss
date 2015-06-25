@@ -672,6 +672,17 @@ See README.md or https://github.com/fraywing/textAngular/wiki for requirements a
 	border-bottom-color: #fff;
 }
 
+.text-angular-toolbar-button {
+  margin: 0px;
+}
+
+button.text-angular-toolbar-button.md-button {
+  min-width: 30px;
+  margin: 4px;
+  padding: 4px 0px;
+  line-height: 2px;
+}
+
 
 /* Do not remove this comments bellow. It's the markers used by gulp-inject to inject
    all your sass files automatically */
