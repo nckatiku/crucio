@@ -160,7 +160,6 @@ angular.module('crucio')
             console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 
           }).success(function (data) {
-            console.log(data);
             $scope.exam.filename = data.filename;
             $mdToast.show($mdToast.simple().content('PDF hochgeladen!').position('top right').hideDelay(2000));
 
@@ -185,6 +184,7 @@ angular.module('crucio')
             console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
 
           }).success(function (data) {
+            console.log(data);
             $scope.q.question_image_url = data.question_image_url;
             $mdToast.show($mdToast.simple().content('Bild hochgeladen!').position('top right').hideDelay(2000));
 

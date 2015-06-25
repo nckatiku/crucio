@@ -82,13 +82,15 @@ angular.module('crucio')
 		};
 
     $scope.saveTags = function() {
-      var tags_string = '';
-      if ($scope.question.tags) {
-        tags_string = $scope.question.tags.join(',');
+      if ($scope.question) {
+        var tags_string = '';
+        if ($scope.question.tags) {
+          tags_string = $scope.question.tags.join(',');
+        }
+        var params = {tags: tags_string, question_id: $scope.question.question_id, user_id: $scope.user.user_id};
+        API.post('/tags', params);
+        Analytics.trackEvent('tag', 'change');
       }
-      var params = {tags: tags_string, question_id: $scope.question.question_id, user_id: $scope.user.user_id};
-      API.post('/tags', params);
-      Analytics.trackEvent('tag', 'change');
     };
 
     // Temporary fix, should use a function on ng-change!
@@ -97,12 +99,19 @@ angular.module('crucio')
     }, true);
 
     $scope.querySearch = function(query) {
-      // var results = query ? self.vegetables.filter(createFilterFor(query)) : [];
-      var results = [];
+      var suggestions = ['Komisch', 'Schwer', 'Wiederholen'];
       for (var index in $scope.distinct_tags) {
-        var tag = $scope.distinct_tags[index];
-        if (tag.substring(0, query.length) === query) {
-          results.unshift(tag);
+        suggestions.push($scope.distinct_tags[index]);
+      }
+
+      var results = [];
+      for (var index = 0; index < suggestions.length; index++) {
+        var suggestion = suggestions[index];
+        if (suggestion.substring(0, query.length) === query) {
+          results.unshift(suggestion);
+
+        } else if (query.length === 1) {
+          results.push(suggestion);
         }
       }
       return results;
@@ -117,8 +126,8 @@ angular.module('crucio')
       $scope.checkedAnswer = checkedAnswer;
       $scope.markAnswerBool = true;
     }
-    
-    $scope.showComments = $scope.user.show_comments;
+
+    $scope.view = {showComments: $scope.user.show_comments};
 
     API.get('/questions/' + questionID, {user_id: $scope.user.user_id}).success(function(data) {
       $scope.question = data.question;

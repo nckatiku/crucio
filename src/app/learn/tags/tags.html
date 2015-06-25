@@ -1,12 +1,12 @@
-<md-content class="md-accent md-hue-1 md-padding colored-content" layout="row" layout-align="center center">
+<md-content class="md-accent md-hue-1 md-padding colored-content" layout="row" layout-sm="column" layout-align="center center">
   <form ng-submit="reload()" layout="row" layout-align="center">
     <md-select placeholder="Markierungen" ng-model="selectedTag" ng-change="reload()">
       <md-option value=""><b>Alle Markierungen</b></md-option>
       <md-option ng-repeat="t in distinct_tags" value="{{ t }}">{{ t }}</md-option>
     </md-select>
-  </form>
 
-  <md-button class="md-warn" ng-click="deleteTag()" ng-disabled="!selectedTag">Entfernen</md-button>
+    <md-button class="md-warn" ng-click="deleteTag()" ng-disabled="!selectedTag">Entfernen</md-button>
+  </form>
 
   <span flex="5"></span>
 

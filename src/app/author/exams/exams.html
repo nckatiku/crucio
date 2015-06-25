@@ -32,6 +32,17 @@
 
       <md-list-item class="md-3-line" layout="row" layout-align="center center" ng-repeat-start="exam in exams">
         <div class="md-list-item-text" layout="row" layout-align="center center">
+          <section flex-gt-sm="10" flex-sm="20">
+            <center>
+              <span class="analyze-list-flag success-answer" ng-if="exam.visibility == 1">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="analyze-list-flag error-answer" ng-if="exam.visibility == 0">
+                <i class="fa fa-eye-slash"></i>
+              </span>
+            </center>
+          </section>
+
           <section flex="30">
             <h3 style="line-height: 19px;"><i class="fa fa-fw fa-flask"></i> {{ exam.subject }}</h3>
             <h4><i class="fa fa-fw"></i> {{ exam.semester }}. Semester</h4>

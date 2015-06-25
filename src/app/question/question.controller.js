@@ -129,12 +129,19 @@ angular.module('crucio')
     }, true);
 
     $scope.querySearch = function(query) {
-      // var results = query ? self.vegetables.filter(createFilterFor(query)) : [];
-      var results = [];
+      var suggestions = ['Komisch', 'Schwer', 'Wiederholen'];
       for (var index in $scope.distinct_tags) {
-        var tag = $scope.distinct_tags[index];
-        if (tag.substring(0, query.length) === query) {
-          results.unshift(tag);
+        suggestions.push($scope.distinct_tags[index]);
+      }
+
+      var results = [];
+      for (var index = 0; index < suggestions.length; index++) {
+        var suggestion = suggestions[index];
+        if (suggestion.substring(0, query.length) === query) {
+          results.unshift(suggestion);
+
+        } else if (query.length === 1) {
+          results.push(suggestion);
         }
       }
       return results;
@@ -150,7 +157,7 @@ angular.module('crucio')
 
     $scope.current_index = Collection.getIndexOfQuestionID($scope.questionId);
     $scope.question = Collection.getQuestion($scope.questionId);
-    $scope.showComments = $scope.user.show_comments;
+    $scope.view = {showComments: $scope.user.show_comments};
 
     if ($scope.question) {
       $scope.initQuestion();

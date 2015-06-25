@@ -140,7 +140,7 @@
 								<i class="fa fa-fw fa-upload"></i> Datei hochladen
 							</md-button>
 
-							<md-button ng-click="exam.file_name=''">Datei l&ouml;schen</md-button>
+							<md-button ng-click="exam.file_name=''" ng-disabled="!exam.file_name">Datei l&ouml;schen</md-button>
 						</div>
 					</div>
 
@@ -197,7 +197,7 @@
 
 
 				<div class="edit-exam-question" ng-if="active != 'tab'" id="edit-question">
-					<div layout="row" layout-align="start start" style="padding-top: 20px; paddint-bottom: 20px;">
+					<div layout="row" layout-align="start start" style="padding-bottom: 10px;">
 						<span flex="20" class="form-left-label" style="padding-top: 16px;">Typ</span>
 						<div flex>
 							<md-radio-group ng-model="q.type" layout="row" layout-sm="column">
@@ -213,7 +213,7 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start" style="padding-top: 20px; paddint-bottom: 20px;">
+					<div layout="row" layout-align="start start">
 						<span flex="20" class="form-left-label" style="padding-top: 32px;">Kategorie</span>
 						<div flex>
 							<md-select placeholder="Kategorie" ng-model="q.topic">
@@ -242,7 +242,7 @@
 										<i class="fa fa-fw fa-upload"></i> Bild hochladen
 									</md-button>
 
-									<md-button ng-click="q.question_image_url=''">Bild l&ouml;schen</md-button>
+									<md-button ng-click="q.question_image_url=''" ng-disabled="!q.question_image_url">Bild l&ouml;schen</md-button>
 							</div>
 
 							<img ng-if="q.question_image_url" class="img-thumbnail questionImagePreview" src="/public/files/{{ q.question_image_url }}" />
@@ -259,7 +259,9 @@
 					</div>
 
 					<div layout="row" layout-align="start start" ng-repeat="i in [1,2,3,4,5,6]" ng-show="i - 1 < q.type">
-						<span flex="20" class="form-left-label" style="padding-top: 16px;">Antwort <span ng-show="q.type > 1">{{ i }}</span></span>
+						<span flex="20" class="form-left-label" style="padding-top: 16px;">
+							<span class="answer" ng-class="{'success-answer': i == q.correct_answer}">Antwort <span ng-show="q.type > 1">{{ i }}</span></span>
+						</span>
 						<div flex>
 							<text-angular ng-model="q.answers[i-1]" ta-disabled="false" ta-target-toolbars="toolbarf"></text-angular>
 						</div>
