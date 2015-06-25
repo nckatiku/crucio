@@ -16,7 +16,7 @@ angular.module('textAngularSetup', [])
 		['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'quote'],
 		['bold', 'italics', 'underline', 'strikeThrough', 'ul', 'ol', 'redo', 'undo', 'clear'],
 		['justifyLeft','justifyCenter','justifyRight','indent','outdent'],
-		['html', 'insertImage', 'insertLink', 'insertVideo', 'wordcount', 'charcount']
+		['html', 'insertImage', 'insertLink', 'wordcount', 'charcount']
 	],
 	classes: {
 		focussed: 'focussed',
@@ -702,34 +702,6 @@ angular.module('textAngularSetup', [])
 		},
 		onElementSelect: {
 			element: 'img',
-			action: imgOnSelectAction
-		}
-	});
-	taRegisterTool('insertVideo', {
-		iconclass: 'fa fa-youtube-play',
-		tooltiptext: taTranslations.insertVideo.tooltip,
-		action: function(){
-			var urlPrompt;
-			urlPrompt = $window.prompt(taTranslations.insertVideo.dialogPrompt, 'https://');
-			if (urlPrompt && urlPrompt !== '' && urlPrompt !== 'https://') {
-				// get the video ID
-				var ids = urlPrompt.match(/(\?|&)v=[^&]*/);
-				/* istanbul ignore else: if it's invalid don't worry - though probably should show some kind of error message */
-				if(ids && ids.length > 0){
-					// create the embed link
-					var urlLink = "https://www.youtube.com/embed/" + ids[0].substring(3);
-					// create the HTML
-					// for all options see: http://stackoverflow.com/questions/2068344/how-do-i-get-a-youtube-video-thumbnail-from-the-youtube-api
-					// maxresdefault.jpg seems to be undefined on some.
-					var embed = '<img class="ta-insert-video" src="https://img.youtube.com/vi/' + ids[0].substring(3) + '/hqdefault.jpg" ta-insert-video="' + urlLink + '" contenteditable="false" allowfullscreen="true" frameborder="0" />';
-					// insert
-					return this.$editor().wrapSelection('insertHTML', embed, true);
-				}
-			}
-		},
-		onElementSelect: {
-			element: 'img',
-			onlyWithAttrs: ['ta-insert-video'],
 			action: imgOnSelectAction
 		}
 	});
