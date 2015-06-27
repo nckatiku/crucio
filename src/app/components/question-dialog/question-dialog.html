@@ -43,7 +43,7 @@
         <md-button ng-click="showSolutionButtonClicked()" ng-if="question.type > 1" ng-disabled="markAnswerBool">L&ouml;sung anzeigen</md-button>
         <md-button ng-click="showExplanation()" ng-if="question.explanation">Erkl&auml;rung anzeigen</md-button>
         <md-button ng-click="reportQuestion()">Melden</md-button>
-        <md-button href="edit-exam?id={{ question.exam_id }}&question_id={{ question.question_id }}" ng-if="user.group_id > 1">Bearbeiten</md-button>
+        <md-button ng-click="editQuestion()" ng-if="user.group_id > 1">Bearbeiten</md-button>
       </div>
     </div>
 

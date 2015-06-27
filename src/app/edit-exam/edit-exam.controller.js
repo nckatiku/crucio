@@ -222,17 +222,13 @@ angular.module('crucio')
 
 
     $scope.user = Auth.getUser();
-    $scope.exam_id = $stateParams.id;
-    $scope.question_id = $stateParams.question_id;
+    $scope.exam_id = $stateParams.exam;
 
     $scope.has_changed = 0;
     $scope.number_changed = 0;
   	$scope.is_saving = 0;
 
     $scope.active = 'tab';
-    if ($scope.question_id) {
-      $scope.active = $scope.question_id;
-    }
 
 
     API.get('/exams/' + $scope.exam_id).success(function(data) {
@@ -252,6 +248,18 @@ angular.module('crucio')
 			if (!$scope.exam.questions.length) {
 				$scope.addQuestion(false, false);
 			}
+
+      if ($stateParams.question) {
+        var question_index = 0;
+        for (var i = 0; i < $scope.exam.questions.length; i++) {
+  				if ($scope.exam.questions[i].question_id === $stateParams.question) {
+  					question_index = i;
+            break;
+  				}
+  			}
+
+        $scope.showQuestion(question_index);
+      }
 		});
 
     API.get('/subjects/categories').success(function(data) {

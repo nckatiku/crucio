@@ -52,6 +52,10 @@ angular.module('crucio')
       });
     };
 
+    $scope.editQuestion = function() {
+      $location.path('/edit-exam').search({exam: $scope.question.info.exam_id, question: $scope.questionId});
+    };
+
     $scope.showExplanation = function() {
       $mdDialog.show(
         $mdDialog.alert()

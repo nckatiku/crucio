@@ -15,8 +15,8 @@ angular.module('crucio')
       });
     };
 
-    $scope.editExam = function(examId) {
-      $location.path('/edit-exam').search('id', examId);
+    $scope.editExam = function(examID) {
+      $location.path('/edit-exam').search('exam', examID);
     };
 
     $scope.newExam = function() {

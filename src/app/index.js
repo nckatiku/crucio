@@ -30,7 +30,7 @@ angular.module('crucio', ['ui.router', 'ngMaterial', 'ngMessages', 'ngScrollSpy'
       .state('question', {url: '/question?id', templateUrl: 'app/question/question.html', controller: 'QuestionCtrl'})
       .state('exam', {url: '/exam', templateUrl: 'app/exam/exam.html', controller: 'ExamCtrl'})
       .state('analyze', {url: '/analyze', templateUrl: 'app/analyze/analyze.html', controller: 'AnalyzeCtrl'})
-      .state('edit-exam', {url: '/edit-exam?id', templateUrl: 'app/edit-exam/edit-exam.html', controller: 'EditExamCtrl'});
+      .state('edit-exam', {url: '/edit-exam?exam?question', templateUrl: 'app/edit-exam/edit-exam.html', controller: 'EditExamCtrl'});
 
     $urlRouterProvider.otherwise('/learn/abstract');
 
