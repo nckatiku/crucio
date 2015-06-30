@@ -1,19 +1,19 @@
 'use strict';
 
 angular.module('crucio')
-  .controller('EditExamCtrl', function ($scope,	$rootScope, $stateParams, $location, $timeout, $mdToast, $mdDialog, $mdSidenav, API, Auth, Analytics, Upload) {
+  .controller('EditExamCtrl', function ($scope,	$rootScope, $stateParams, $location, $timeout, $mdToast, $mdDialog, $mdSidenav, API, Auth, Analytics, FileUploader) {
     $scope.showInfo = function() {
-      $scope.active = 'tab';
+      $scope.active = 'exam';
       $scope.q = null;
 
-      document.getElementById('edit-exam').scrollIntoView()
+      document.getElementById('edit-exam').scrollIntoView();
     };
 
     $scope.showQuestion = function(index) {
       $scope.active = index;
       $scope.q = $scope.exam.questions[index];
 
-      document.getElementById('edit-question').scrollIntoView()
+      document.getElementById('edit-question').scrollIntoView();
     };
 
 
@@ -146,63 +146,15 @@ angular.module('crucio')
       }
     };
 
-    $scope.uploadPDF = function (files) {
-      if (files && files.length) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          Upload.upload({
-            url: 'http://dev.crucio-leipzig.de/api/upload/pdf',
-            fields: {},
-            file: file
-
-          }).progress(function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-
-          }).success(function (data) {
-            $scope.exam.filename = data.filename;
-            $mdToast.show($mdToast.simple().content('PDF hochgeladen!').position('top right').hideDelay(2000));
-
-          }).error(function(data) {
-            $mdToast.show($mdToast.simple().content('Fehler beim Hochladen!').position('top right').hideDelay(2000));
-          });
-        }
-      }
-    };
-
-    $scope.uploadImage = function (files) {
-      if (files && files.length) {
-        for (var i = 0; i < files.length; i++) {
-          var file = files[i];
-          Upload.upload({
-            url: 'http://dev.crucio-leipzig.de/api/upload/image',
-            fields: {question_id: $scope.q.question_id},
-            file: file
-
-          }).progress(function (evt) {
-            var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-            console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-
-          }).success(function (data) {
-            console.log(data);
-            $scope.q.question_image_url = data.question_image_url;
-            $mdToast.show($mdToast.simple().content('Bild hochgeladen!').position('top right').hideDelay(2000));
-
-          }).error(function(data) {
-            $mdToast.show($mdToast.simple().content('Fehler beim Hochladen!').position('top right').hideDelay(2000));
-          });
-        }
-      }
-    };
-
     $scope.getCategoriesOfSubjectID = function(subjectID) {
       for(var key in $scope.subjects) {
-        if ($scope.subjects[key].subject_id == subjectID) {
+        if ($scope.subjects[key].subject_id === subjectID) {
           return $scope.subjects[key].categories;
         }
       }
     };
 
+    // Watch changes in exam, to know if the current state is saved
     $scope.$watch('exam', function(newValue, oldValue) {
 			if ($scope.number_changed > 1) {
         $scope.has_changed = 1;
@@ -224,18 +176,51 @@ angular.module('crucio')
     $scope.user = Auth.getUser();
     $scope.exam_id = $stateParams.exam;
 
+    // For alert on exit if there are unsaved changes
     $scope.has_changed = 0;
     $scope.number_changed = 0;
   	$scope.is_saving = 0;
 
-    $scope.active = 'tab';
+    // Show general exam info on startup
+    $scope.active = 'exam';
+
+    // Uploader for exam and question documents/images
+    $scope.uploaderPDF = new FileUploader({
+      url: 'http://dev.crucio-leipzig.de/api/v1/upload',
+      formData: 2,
+      autoUpload: true,
+      removeAfterUpload: true
+    });
+
+    $scope.uploaderImage = new FileUploader({
+      url: 'http://dev.crucio-leipzig.de/api/v1/upload',
+      formData: 2,
+      autoUpload: true,
+      removeAfterUpload: true
+    });
+
+    $scope.uploaderPDF.onSuccessItem = function(fileItem, response) {
+      $scope.exam.file_name = response.filename;
+      $mdToast.show($mdToast.simple().content('Dokument hochgeladen!').position('top right').hideDelay(2000));
+		};
+    $scope.uploaderPDF.onErrorItem = function() {
+      $mdToast.show($mdToast.simple().content('Fehler beim Hochladen!').position('top right').hideDelay(2000));
+		};
+
+    $scope.uploaderImage.onSuccessItem = function(fileItem, response) {
+      $scope.q.question_image_url = response.filename;
+      $mdToast.show($mdToast.simple().content('Bild hochgeladen!').position('top right').hideDelay(2000));
+		};
+    $scope.uploaderImage.onErrorItem = function() {
+      $mdToast.show($mdToast.simple().content('Fehler beim Hochladen!').position('top right').hideDelay(2000));
+		};
 
 
     API.get('/exams/' + $scope.exam_id).success(function(data) {
 			$scope.exam = data.exam;
       $scope.exam.semester = parseInt($scope.exam.semester);
 
-      if ($scope.exam.duration == 0) {
+      if ($scope.exam.duration === 0) {
         $scope.exam.duration = null;
       }
 
@@ -249,8 +234,11 @@ angular.module('crucio')
 				$scope.addQuestion(false, false);
 			}
 
+      // Show question, if URL parameter is given
       if ($stateParams.question) {
         var question_index = 0;
+
+        // Search index of specific questionID
         for (var i = 0; i < $scope.exam.questions.length; i++) {
   				if ($scope.exam.questions[i].question_id === $stateParams.question) {
   					question_index = i;

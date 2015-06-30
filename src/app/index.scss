@@ -340,7 +340,7 @@ md-chips.md-default-theme {
 }
 
 .edit-exam-question {
-  padding: 30px;
+  padding: 15px;
 }
 
 .exam-question {
@@ -676,12 +676,19 @@ See README.md or https://github.com/fraywing/textAngular/wiki for requirements a
   margin: 0px;
 }
 
+div.btn-group {
+  position: relative;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 button.text-angular-toolbar-button.md-button {
   min-width: 30px;
   margin: 4px;
   padding: 4px 0px;
   line-height: 2px;
   text-transform: none;
+  float: left;
 }
 
 

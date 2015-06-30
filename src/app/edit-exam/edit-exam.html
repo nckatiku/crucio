@@ -20,7 +20,7 @@
 				<md-list>
 					<md-divider></md-divider>
 
-					<md-list-item ng-click="showInfo()" ng-class="{'active': active == 'tab'}" aria-label="Infos anzeigen">
+					<md-list-item ng-click="showInfo()" ng-class="{'active': active == 'exam'}" aria-label="Infos anzeigen">
 						<div class="md-list-item-text" layout="column" layout-align="center start">
 							<span class="md-title">Allgemeine Infos</span>
 
@@ -56,7 +56,7 @@
           </md-button>
         </div>
 
-				<div class="edit-exam-question" ng-if="active == 'tab'" id="edit-exam">
+				<div class="edit-exam-question" ng-if="active == 'exam'" id="edit-exam">
 					<form name="examInfoForm">
 						<div layout="row" layout-align="start start">
 							<span flex="20" class="form-left-label" style="padding-top: 16px;">Allgemeine Informationen</span>
@@ -122,23 +122,20 @@
 
 					<md-divider></md-divider>
 
-					<div layout="row" layout-align="start start" style="margin-top: 20px;">
-						<span flex="20" class="form-left-label" style="padding-top: 2px;">Originaldokument</span>
+					<div layout="row" layout-align="start start">
+						<span flex="20" class="form-left-label" style="padding-top: 14px;">Originaldokument</span>
 						<div flex>
-							<!--div style="margin-bottom: 10px;">
-								<input type="file" nv-file-select uploader="uploader" accept="application/pdf"/><br/>
-								<a href="http://www.crucio-leipzig.de/public/files/{{ exam.file_name }}" target="_self" ng-show="exam.file_name">
-									<i class="fa fa-external-link fa-fw"></i> Originaldokument
-								</a>
-							</div>
+							<label for="file-input">
+								<md-button>
+									<i class="fa fa-fw fa-upload"></i> Hochladen
+								</md-button>
+							</label>
 
-							<md-button ng-disabled="uploader.queue.length == 0" ng-click="uploader.queue[uploader.queue.length-1].upload()">
-								<i class="fa fa-fw fa-upload"></i> Hochladen
-							</md-button-->
+							<input id="file-input" type="file" nv-file-select uploader="uploaderPDF" accept="application/pdf" ng-show="false">
 
-							<md-button class="button" ngf-select ngf-change="uploadPDF($files)" ngf-accept="'application/pdf'">
-								<i class="fa fa-fw fa-upload"></i> Datei hochladen
-							</md-button>
+							<a href="http://www.crucio-leipzig.de/public/files/{{ exam.file_name }}" target="_self" ng-show="exam.file_name">
+								<i class="fa fa-external-link fa-fw"></i> Originaldokument
+							</a>
 
 							<md-button ng-click="exam.file_name=''" ng-disabled="!exam.file_name">Datei l&ouml;schen</md-button>
 						</div>
@@ -196,7 +193,7 @@
 
 
 
-				<div class="edit-exam-question" ng-if="active != 'tab'" id="edit-question">
+				<div class="edit-exam-question" ng-if="active != 'exam'" id="edit-question">
 					<div layout="row" layout-align="start start" style="padding-bottom: 10px;">
 						<span flex="20" class="form-left-label" style="padding-top: 16px;">Typ</span>
 						<div flex>
@@ -216,10 +213,10 @@
 					<div layout="row" layout-align="start start">
 						<span flex="20" class="form-left-label" style="padding-top: 32px;">Kategorie</span>
 						<div flex>
-							<md-select placeholder="Kategorie" ng-model="q.topic">
-								<md-option ng-if="q.topic != 'Sonstiges'" ng-value="Sonstiges">Sonstiges</md-option>
-								<md-option ng-if="subject_list[exam.subject].indexOf(q.topic) == -1" ng-value="q.topic">{{ q.topic }}</md-option>
+							<md-select placeholder="Kategorie" ng-model="q.topic" ng-disabled="getCategoriesOfSubjectID(exam.subject_id).length == 0">
+								<!--md-option ng-if="getCategoriesOfSubjectID(exam.subject_id).indexOf(q.topic) == -1" ng-value="q.topic">{{ q.topic }}</md-option-->
 								<md-option ng-repeat="c in getCategoriesOfSubjectID(exam.subject_id)">{{ c.name }}</md-option>
+								<md-option ng-if="q.topic != 'Sonstiges'" ng-value="Sonstiges">Sonstiges</md-option>
 							</md-select>
 						</div>
 					</div>
@@ -232,17 +229,17 @@
 							<text-angular ng-model="q.question" ta-disabled="false" ta-toolbar="[['bold','italics', 'subscript', 'superscript'], ['ul', 'ol'], ['times', 'sdot', 'asymp', 'radic'], ['arrow-left', 'arrow-right', 'arrow-left-right'], ['alpha', 'beta', 'gamma', 'delta', 'lambda', 'mu', 'pi', 'rho', 'omega', 'Omega'], ['undo', 'redo']]" class="text-angular-large" placeholder="..."></text-angular>
 
 							<div style="margin-bottom: 10px;">
-									<!--input type="file" nv-file-select uploader="uploader_array[$index]" accept="image/jpeg, image/png"/><br/>
-									<md-button ng-disabled="uploader_array[$index].queue.length == 0" ng-click="uploader_array[$index].queue[0].upload()">
-										<i class="fa fa-fw fa-upload"></i> Hochladen
-									</md-button>
-									<md-button ng-click="q.question_image_url=''">Bild l&ouml;schen</md-button-->
-
-									<md-button class="button" ngf-select ngf-change="uploadImage($files)" ngf-accept="'image/*'">
+								<label for="file-input-question">
+									<md-button>
 										<i class="fa fa-fw fa-upload"></i> Bild hochladen
 									</md-button>
+								</label>
 
-									<md-button ng-click="q.question_image_url=''" ng-disabled="!q.question_image_url">Bild l&ouml;schen</md-button>
+								<input id="file-input-question" type="file" nv-file-select uploader="uploaderImage" accept="image/jpeg, image/png" ng-show="false">
+
+								<img src="http://www.crucio-leipzig.de/public/files/{{ q.question_image_url }}" target="_self" ng-show="q.file_name">
+
+								<md-button ng-click="q.question_image_url=''" ng-disabled="!q.question_image_url">Bild l&ouml;schen</md-button>
 							</div>
 
 							<img ng-if="q.question_image_url" class="img-thumbnail questionImagePreview" src="/public/files/{{ q.question_image_url }}" />
