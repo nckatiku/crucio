@@ -1,27 +1,30 @@
 'use strict';
 
 angular.module('crucio')
-  .controller('QuestionDialogController', function($scope, $mdDialog, questionID, checkedAnswer, API, Auth, Analytics) {
+  .controller('QuestionDialogController', function($scope, $mdDialog, $location, questionID, checkedAnswer, API, Auth, Analytics) {
     // Colors the given answers and shows the correct solution
-		$scope.markAnswer = function() {
+  	$scope.markAnswer = function() {
       $scope.markAnswerBool = true;
-		};
+  	};
 
     $scope.showSolutionButtonClicked = function() {
+      if ($scope.question.type > 1) {
+        
+      }
       var correct = ($scope.question.correct_answer === $scope.given_result) ? true : false;
 
     	if ($scope.question.correct_answer === 0) { correct = -1; }
     	if ($scope.question.type === 1) { correct = -1; }
 
     	var postData = {
-	    	data_list: [{
-					question_id: $scope.question.questionId,
-					correct: correct,
-					given_result: $scope.given_result
-				}],
-	    	user_id: $scope.user.user_id,
-	    };
-	    API.post('/results', postData);
+        data_list: [{
+    		  question_id: $scope.question.questionId,
+    		  correct: correct,
+    		  given_result: $scope.given_result
+        }],
+        user_id: $scope.user.user_id,
+      };
+      API.post('/results', postData);
 
       $scope.markAnswer();
       Analytics.trackEvent('question', 'solution', 'show');
@@ -53,34 +56,36 @@ angular.module('crucio')
     };
 
     $scope.addComment = function() {
-      if (!$scope.commentText) {
-        return;
-      }
+      console.log($scope.commentText);
+
+      if (!$scope.commentText) { return; }
+
+      console.log($scope.commentText);
 
       var postData = {
-				comment: $scope.commentText,
-				question_id: questionID,
-				reply_to: 0,
-				username: $scope.user.username,
-				date: new Date() / 1000
-			};
+    		comment: $scope.commentText,
+    		question_id: questionID,
+    		reply_to: 0,
+    		username: $scope.user.username,
+    		date: new Date() / 1000
+  	  };
 
-			API.post('/comments/' + $scope.user.user_id, postData).success(function(data) {
-        postData.voting = 0;
-        postData.user_voting = 0;
-        postData.comment_id = data.comment_id;
-    		$scope.question.comments.push(postData);
-    		$scope.commentText = '';
-			});
+  	  API.post('/comments/' + $scope.user.user_id, postData).success(function(data) {
+          postData.voting = 0;
+          postData.user_voting = 0;
+          postData.comment_id = data.comment_id;
+      	$scope.question.comments.push(postData);
+      	$scope.commentText = '';
+  	  });
       Analytics.trackEvent('comment', 'add');
     };
 
     $scope.deleteComment = function(index) {
-			var comment_id = $scope.question.comments[index].comment_id;
-			API.delete('/comments/' + comment_id);
-			$scope.question.comments.splice(index, 1);
+  	  var comment_id = $scope.question.comments[index].comment_id;
+  	  API.delete('/comments/' + comment_id);
+  	  $scope.question.comments.splice(index, 1);
       Analytics.trackEvent('comment', 'delete');
-		};
+  	};
 
     $scope.saveTags = function() {
       if ($scope.question) {
@@ -128,11 +133,12 @@ angular.module('crucio')
       $scope.markAnswerBool = true;
     }
 
+    $scope.commentText = '';
     $scope.view = {showComments: $scope.user.show_comments};
 
     API.get('/questions/' + questionID, {user_id: $scope.user.user_id}).success(function(data) {
       $scope.question = data.question;
-		});
+	  });
     API.get('/tags/distinct', {user_id: $scope.user.user_id}).success(function(data) {
       $scope.distinct_tags = data.tags;
     });

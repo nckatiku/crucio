@@ -2,6 +2,9 @@
 
 angular.module('crucio', ['ui.router', 'ngMaterial', 'ngMessages', 'ngScrollSpy', 'angular-google-analytics', 'textAngular', 'angularFileUpload'])
   .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider, $locationProvider, AnalyticsProvider) {
+
+
+    // Config of all states of the web app, sorted by content
     $stateProvider
       .state('learn', {url: '/learn', templateUrl: 'app/learn/learn.html', controller: 'LearnCtrl'})
       .state('learn.abstract', {url: '/abstract', templateUrl: 'app/learn/abstract/abstract.html', controller: 'LearnAbstractCtrl'})
@@ -34,12 +37,13 @@ angular.module('crucio', ['ui.router', 'ngMaterial', 'ngMessages', 'ngScrollSpy'
 
     $urlRouterProvider.otherwise('/learn/abstract');
 
+    // use html 5 mode of angularJS
     $locationProvider.html5Mode(true);
 
     // In production
     // $compileProvider.debugInfoEnabled(false);
 
-    // Color theme
+    // Set color theme of angular material
     $mdThemingProvider.theme('default')
       .primaryPalette('deep-orange')
       .accentPalette('indigo');
@@ -55,9 +59,9 @@ angular.module('crucio', ['ui.router', 'ngMaterial', 'ngMessages', 'ngScrollSpy'
     Array.prototype.unique = function(key) {
       var flags = [], output = [];
       for ( var i = 0; i < this.length; i++) {
-          if ( flags[this[i][key]]) { continue; }
-          flags[this[i][key]] = true;
-          output.push(this[i][key]);
+        if ( flags[this[i][key]]) { continue; }
+        flags[this[i][key]] = true;
+        output.push(this[i][key]);
       }
       return output;
     };
@@ -71,28 +75,25 @@ angular.module('crucio', ['ui.router', 'ngMaterial', 'ngMessages', 'ngScrollSpy'
 
     // Routes that need specific authentication
     var route = $location.url();
-  	var routesForAuthor = ['/author', '/edit-exam']; // Also for admins...
-  	var routesForAdmin = ['/admin'];
+    var routesForAuthor = ['/author', '/edit-exam']; // Also for admins...
+	var routesForAdmin = ['/admin'];
 
-  	var routeInArray = function (route, array) {
-  		var route_c = route;
-  		if (route.indexOf('?') > -1) {
-  			route_c = route.substr(0, route.indexOf('?'));
-  		}
-      var result = false;
+    var routeInArray = function (route, array) {
+      var route_c = route;
+	  if (route.indexOf('?') > -1) {
+		route_c = route.substr(0, route.indexOf('?'));
+	  }
       for (var i = 0; i < array.length; i++) {
-        if (route_c.indexOf(array[i]) === 0) {
-          result = true;
-        }
+        if (route_c.indexOf(array[i]) === 0) { return true; }
       }
-  		return result;
-  	};
+	  return false;
+	};
 
     // Groups: Admin 2, Standard 1, Autor 3
-  	if (routeInArray(route, routesForAuthor) && !(user.group_id == 2 || user.group_id == 3)) {
-  	  $location.path('/learn/abstract');
-  	}
-  	if (routeInArray(route, routesForAdmin) && user.group_id != 2) {
+	if (routeInArray(route, routesForAuthor) && !(user.group_id == 2 || user.group_id == 3)) {
+	  $location.path('/learn/abstract');
+	}
+	if (routeInArray(route, routesForAdmin) && user.group_id != 2) {
       $location.path('/learn/abstract');
-  	}
+	}
   });

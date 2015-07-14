@@ -118,7 +118,8 @@ $app->group('/exams', function () use ($app) {
 		  ."GROUP BY q.exam_id 
 		  ORDER BY e.semester ASC, e.subject ASC, e.date DESC "
 		    .$limit_sql_limit
-		, [$user_id], 'exams');
+		, [], 'exams');
+		
 		print_response($app, $response);
 	});
 	

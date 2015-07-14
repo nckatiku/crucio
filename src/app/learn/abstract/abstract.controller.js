@@ -38,7 +38,7 @@ angular.module('crucio')
     });
 
     API.get('/collections', {user_id: $scope.user.user_id, limit: 18}).success(function(data) {
-			$scope.collections = data.collections;
+	  $scope.collections = data.collections;
       udpateFreshLogin();
-		});
+	});
   });

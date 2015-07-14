@@ -42,8 +42,8 @@ angular.module('crucio')
 			setID: function(newID) {
 				collection.collection_id = newID;
 			},
-			loadCollection: function(collection_id) {
-				API.get('/collections/' + collection_id).success(function(data) {
+			loadCollection: function(collectionID) {
+				API.get('/collections/' + collectionID).success(function(data) {
 					collection = data.collection.data;
           functions.setCollection(collection);
 				});
@@ -136,29 +136,39 @@ angular.module('crucio')
 		    }
 				return result;
 			},
-			getIndexOfQuestionID: function(id) {
-				return collection.question_id_list.indexOf(id);
+			getIndexOfQuestionID: function(questionID) {
+				return collection.question_id_list.indexOf(questionID);
 			},
-			getQuestion: function(id) {
-				if (collection.questions[id]) {
-					return collection.questions[id];
+			getQuestion: function(questionID) {
+				if (collection.questions[questionID]) {
+					return collection.questions[questionID];
 				}
 				return null;
 			},
-			loadQuestion: function(id, userID) {
-        return API.get('/questions/' + id, {user_id: userID}).success(function(data) {
-					collection.questions[id] = data.question;
+			loadQuestion: function(questionID, userID) {
+        return API.get('/questions/' + questionID, {user_id: userID}).success(function(data) {
+					collection.questions[questionID] = data.question;
 				});
 			},
-			getNextQuestionID: function(current_index) {
-				if (current_index < collection.question_id_list.length - 1) {
-					return collection.question_id_list[current_index + 1];
+      loadQuestions: function(questionIDList, userID) {
+        var params = {user_id: userID, question_id_list: questionIDList.join(',')};
+        return API.get('/questions/list', params).success(function(data) {
+          for (var i in data.questions) {
+            var question = data.questions[i];
+            if (!question.question_id) { continue; }
+            collection.questions[question.question_id] = question;
+          }
+				});
+			},
+			getNextQuestionID: function(currentIndex) {
+				if (currentIndex < collection.question_id_list.length - 1) {
+					return collection.question_id_list[currentIndex + 1];
 				}
 				return null;
 			},
-			getPrevQuestionID: function(current_index) {
-				if (current_index > 0) {
-					return collection.question_id_list[current_index - 1];
+			getPrevQuestionID: function(currentIndex) {
+				if (currentIndex > 0) {
+					return collection.question_id_list[currentIndex - 1];
 				}
 				return null;
 			},
@@ -166,11 +176,11 @@ angular.module('crucio')
 				return {strike: [], marked: null, given_result: null};
 			},
 			getAnalysis: function() {
-				var answered_question_id_list = this.getAnsweredQuestionIDList();
+				var answeredQuestionIDList = this.getAnsweredQuestionIDList();
 
 				var result = {
 					all_question_count: collection.question_id_list.length,
-					worked_question_count: answered_question_id_list.length,
+					worked_question_count: answeredQuestionIDList.length,
 					correct_q_count: 0,
 					wrong_q_count: 0,
 					seen_q_count: 0,
@@ -179,8 +189,11 @@ angular.module('crucio')
 					no_answer_q_count: 0
 				};
 
-				for (var i = 0; i < answered_question_id_list.length; i++) {
-					var question_id = answered_question_id_list[i];
+				for (var i in answeredQuestionIDList) {
+          // Where does the unique come from?
+          if (i === "unique") { continue; }
+
+					var question_id = answeredQuestionIDList[i];
 					var question = collection.questions[question_id];
 					var user_data = collection.user_datas[question_id];
 
