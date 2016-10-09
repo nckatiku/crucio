@@ -1,10 +1,10 @@
 {
-  "name": "crucioproject.github.io",
+  "name": "crucio",
   "author": "lbersch",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "repository": {
     "type": "git",
-    "url": "git://github.com/crucioproject/crucioproject.github.io"
+    "url": "git://github.com/pantor/crucio"
   },
   "license": "GPL-2.0",
   "devDependencies": {
